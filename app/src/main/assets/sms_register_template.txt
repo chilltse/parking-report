@@ -1,0 +1,12 @@
+Good day ${name}!
+
+Welcome to food order! Your verification code is ${code}. Please enter this code on our application to complete your registration process.
+
+This code is valid for 2 minutes and should be used promptly.
+
+If you did not initiate this request, please disregard this message.
+
+Thank you for choosing us!
+
+Best regards,
+The food order Team

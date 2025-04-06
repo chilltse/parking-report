@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#E37E2A" />
+    <!-- 设置圆角半径为按钮高度的一半，可以产生类似椭圆的效果 -->
+    <corners android:radius="30dp"/>
+</shape>
