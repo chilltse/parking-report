@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Parking Report</string>
+    <string name="not_user">Not a user? Sign up!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">New feature will be releasing!</string>
+
+</resources>
