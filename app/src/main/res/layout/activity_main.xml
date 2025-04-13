@@ -1,94 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
-    android:padding="16dp"
-    android:background="@drawable/gradient_background"> <!-- 添加渐变背景 -->
+    android:background="@color/white"
+    android:padding="16dp">
 
     <ImageView
-        android:layout_marginTop="20dp"
         android:id="@+id/imageViewProfile"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:src="@drawable/logo" />
-
-    <TextView
-        android:layout_marginTop="20dp"
-        android:id="@+id/tmpt_db"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:text="tempt" />
-
+        android:layout_width="199dp"
+        android:layout_height="204dp"
+        android:layout_marginTop="45dp"
+        android:src="@drawable/parkwise"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextUsername"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Username"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="75dp"
         android:background="@drawable/edit_text_background"
-        android:padding="12dp" />
+        android:hint="Username"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewProfile" />
 
     <EditText
         android:id="@+id/editTextPassword"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_background"
         android:hint="Password"
         android:inputType="textPassword"
-        android:background="@drawable/edit_text_background"
-        android:padding="12dp" />
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextUsername" />
 
     <RadioGroup
         android:id="@+id/radioGroupLoginAs"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword">
 
         <RadioButton
             android:id="@+id/radioButtonUser"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:minHeight="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
+            android:minHeight="48dp"
+            android:text="Login as User"
             android:textColor="@color/black"
-            android:text="Login as User" />
+            android:textColorLink="#FFFFFF" />
 
         <RadioButton
             android:id="@+id/radioButtonAdmin"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:minHeight="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
-            android:text="Login as Admin" />
-
+            android:minHeight="48dp"
+            android:text="Login as Admin"
+            android:textColor="@color/black" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/textViewSignUp"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/not_user"
-        android:textColor="@color/purple"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:textSize="16sp" />
+        android:text="@string/not_user"
+        android:textColor="#FF914D"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupLoginAs" />
 
     <Button
         android:id="@+id/buttonLogin"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#FF914D"
         android:text="Login"
         android:textAllCaps="false"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_button"
         android:textColor="#FFFFFF"
-        android:textSize="18sp" />
-</LinearLayout>
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewSignUp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

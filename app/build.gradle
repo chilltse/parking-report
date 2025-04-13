@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -12,6 +13,9 @@ android {
         pickFirst 'lib/armeabi-v7a/libfoo.so'
         pickFirst 'lib/x86/libfoo.so'
         pickFirst 'META-INF/NOTICE.md'
+    }
+    viewBinding {
+        enabled = true
     }
     configurations.all {
         resolutionStrategy {
@@ -60,6 +64,7 @@ android {
 
     buildFeatures {
         buildConfig true
+        viewBinding true
     }
 
     buildTypes {
@@ -95,6 +100,10 @@ dependencies {
 
     // ROOM for DB
     implementation "androidx.room:room-runtime:2.4.0"
+    implementation libs.play.services.maps
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    implementation libs.legacy.support.v4
     annotationProcessor "androidx.room:room-compiler:2.4.0"
     implementation "androidx.room:room-ktx:2.4.0" // optional - Kotlin Extensions
 
@@ -105,4 +114,10 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+
+    def fragment_version = "1.8.3"
+
+    // Java language implementation
+    implementation "androidx.fragment:fragment:$fragment_version"
+
 }
