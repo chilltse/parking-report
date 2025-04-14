@@ -21,7 +21,7 @@ public class UserActivity extends AppCompatActivity {
                 .findFragmentById(R.id.fragmentContainerView);
         NavController navController = navHostFragment.getNavController();
 
-        // 绑定 BottomNavigationView 与 NavController
+        // Binding BottomNavigationView and NavController
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
     }

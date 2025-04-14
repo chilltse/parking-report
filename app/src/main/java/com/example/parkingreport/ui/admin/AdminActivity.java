@@ -20,7 +20,7 @@ public class AdminActivity extends AppCompatActivity {
                 .findFragmentById(R.id.fragmentContainerView5);
         NavController navController = navHostFragment.getNavController();
 
-        // 绑定 BottomNavigationView 与 NavController
+        // Binding BottomNavigationView and NavController
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
