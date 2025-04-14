@@ -7,7 +7,7 @@ This following is a very simple team meeting template. You should expand it base
 **Lead/scribe:**
 
 ## Agreed Procedure
-Stand up Procedure: 
+Stand up Procedure:
 - {e.g. Each team member briefly shares their progress and any roadblocks.}
 
 
