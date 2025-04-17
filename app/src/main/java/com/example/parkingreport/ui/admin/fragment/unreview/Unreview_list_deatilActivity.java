@@ -25,7 +25,7 @@ public class Unreview_list_deatilActivity extends AppCompatActivity {
         });
         String title = getIntent().getStringExtra("title");
 
-        TextView detailText = findViewById(R.id.detailText);
+        TextView detailText = findViewById(R.id.detailText2);
         detailText.setText("you click " + title);
     }
 }

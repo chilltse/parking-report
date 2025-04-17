@@ -20,8 +20,6 @@ import java.util.List;
 
 public class ReviewListFragment extends Fragment {
     private RecyclerView recyclerView;
-
-
     private ItemAdapter adapter;
 
     public ReviewListFragment() {
