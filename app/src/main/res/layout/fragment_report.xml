@@ -108,7 +108,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp"/>
 
-        <!-- Plate Number 1 -->
+        <!-- Plate Number  -->
         <EditText
             android:id="@+id/carPlateInput1"
             android:layout_width="0dp"
@@ -121,7 +121,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp"/>
 
-        <!-- Plate Number 2 -->
+        <!-- Confirm Plate Number  -->
         <EditText
             android:id="@+id/carPlateInput2"
             android:layout_width="0dp"
