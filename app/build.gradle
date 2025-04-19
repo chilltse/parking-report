@@ -120,4 +120,7 @@ dependencies {
     // Java language implementation
     implementation "androidx.fragment:fragment:$fragment_version"
 
+    //Google map dependence
+    implementation("com.google.android.gms:play-services-maps:18.0.1")
+
 }
