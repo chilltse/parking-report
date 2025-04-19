@@ -5,3 +5,9 @@
 .DS_Store
 
 out/
+
+# Ignore local gradle & IDE config
+.gradle/
+.idea/
+local.properties
+*.iml
