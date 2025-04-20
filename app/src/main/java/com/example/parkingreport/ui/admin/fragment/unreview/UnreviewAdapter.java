@@ -33,7 +33,7 @@ public class UnreviewAdapter extends RecyclerView.Adapter<UnreviewAdapter.ItemVi
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_unreview, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_unreview, parent, false);
         return new ItemViewHolder(v);
     }
 
@@ -42,7 +42,7 @@ public class UnreviewAdapter extends RecyclerView.Adapter<UnreviewAdapter.ItemVi
         ItemForUnre currentItem = itemList.get(position);
         holder.title.setText(currentItem.getItem());
 
-        // 点击事件：跳转到 DetailActivity
+        // Click event, jump to DetailActivity
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, Unreview_list_deatilActivity.class);
             intent.putExtra("title", currentItem.getItem());

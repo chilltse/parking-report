@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // 登录选择监听器
+        // Login option -- user/admin
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroupLoginAs);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -61,11 +61,9 @@ public class MainActivity extends AppCompatActivity {
                 if (checkedId == R.id.radioButtonUser) {
                     loginAs = User.USER;
                     textViewSignUp.setVisibility(View.VISIBLE);
-                    Toast.makeText(getApplicationContext(), "Login as user", Toast.LENGTH_SHORT).show();
                 } else if (checkedId == R.id.radioButtonAdmin) {
                     loginAs = User.ADMIN;
                     textViewSignUp.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), "Login as admin", Toast.LENGTH_SHORT).show();
                 }
             }
         });

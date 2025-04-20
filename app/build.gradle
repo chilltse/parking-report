@@ -121,7 +121,6 @@ dependencies {
     androidTestImplementation libs.espresso.core
 
     def fragment_version = "1.8.3"
-
     // Java language implementation
     implementation "androidx.fragment:fragment:$fragment_version"
 
