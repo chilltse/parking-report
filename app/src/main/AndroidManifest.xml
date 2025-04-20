@@ -15,6 +15,12 @@
         android:theme="@style/Theme.ParkingReport"
         tools:targetApi="31">
         <activity
+            android:name=".ui.admin.fragment.unreview.Unreview_list_deatilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.admin.fragment.review.Review_list_detailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.user.UserActivity"
             android:exported="false" />
         <!--
