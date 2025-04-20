@@ -1,12 +1,13 @@
 ## Summary
 
-<!-- What is the purpose of this MR -->
+<!-- The purpose of this MR -->
+e.g. Add Google Maps to MapFragment, fix login bug, refactor database layer, etc.
 
 ---
 
 ## Changes
 
-<!-- What files you changed, why -->
+<!-- Changed what files? why? -->
 - ...
 - ...
 - ...
@@ -23,7 +24,7 @@
 
 ## Notes
 
-<!-- Option：API key、notes、dependencies... -->
+<!-- Option：API key、notes, dependencies -->
 - ...
 
 ---
