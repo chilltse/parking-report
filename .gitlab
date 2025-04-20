@@ -1,0 +1,34 @@
+## Summary
+
+<!-- What is the purpose of this MR -->
+
+---
+
+## Changes
+
+<!-- What files you changed, why -->
+- ...
+- ...
+- ...
+
+---
+
+## Test
+
+- [ ] App builds successfully
+- [ ] Feature works as expected
+- [ ] No crashes or major issues
+
+---
+
+## Notes
+
+<!-- Option：API key、notes、dependencies... -->
+- ...
+
+---
+
+## Related Issues
+
+Closes #...
+
