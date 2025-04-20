@@ -56,6 +56,11 @@ android {
         buildConfigField "String", "EMAIL_SMTP_HOST", "\"${EMAIL_SMTP_HOST}\""
         buildConfigField "String", "EMAIL_SMTP_PORT", "\"${EMAIL_SMTP_PORT}\""
 
+        // Google Map
+        manifestPlaceholders = [
+                MAPS_API_KEY: MAPS_API_KEY
+        ]
+
         // SMS info
         buildConfigField "String", "SMS_SID", "\"${SMS_SID}\""
         buildConfigField "String", "SMS_TOKEN", "\"${SMS_TOKEN}\""
@@ -118,5 +123,8 @@ dependencies {
     def fragment_version = "1.8.3"
     // Java language implementation
     implementation "androidx.fragment:fragment:$fragment_version"
+
+    //Google map dependence
+    implementation("com.google.android.gms:play-services-maps:18.0.1")
 
 }
