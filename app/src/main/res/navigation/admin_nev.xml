@@ -24,5 +24,5 @@
         android:id="@+id/unreviewListFragment"
         android:name="com.example.parkingreport.ui.admin.fragment.unreFragment"
         android:label="fragment_unre"
-        tools:layout="@layout/fragment_unre" />
+        tools:layout="@layout/fragment_unreview_list" />
 </navigation>
