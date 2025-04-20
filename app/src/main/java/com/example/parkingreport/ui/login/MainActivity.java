@@ -24,8 +24,6 @@ import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.admin.AdminActivity;
 import com.example.parkingreport.ui.user.UserActivity;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 public class MainActivity extends AppCompatActivity {
     EditText editTextUsername, editTextPassword;
     Button buttonLogin;
@@ -52,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewSignUp = findViewById(R.id.textViewSignUp);
 
-        temptInitUserDb();
 
-        // 登录选择监听器
+
+        // Login option -- user/admin
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroupLoginAs);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -63,11 +61,9 @@ public class MainActivity extends AppCompatActivity {
                 if (checkedId == R.id.radioButtonUser) {
                     loginAs = User.USER;
                     textViewSignUp.setVisibility(View.VISIBLE);
-                    Toast.makeText(getApplicationContext(), "Login as user", Toast.LENGTH_SHORT).show();
                 } else if (checkedId == R.id.radioButtonAdmin) {
                     loginAs = User.ADMIN;
                     textViewSignUp.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), "Login as admin", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -116,31 +112,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void temptInitUserDb(){
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_1, BuildConfig.DEFAULT_USER_EMAIL_1, BuildConfig.DEFAULT_USER_PASSWORD_1, User.USER));
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_2, BuildConfig.DEFAULT_USER_EMAIL_2, BuildConfig.DEFAULT_USER_PASSWORD_2, User.USER));
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_ADMIN_NAME, BuildConfig.DEFAULT_ADMIN_EMAIL, BuildConfig.DEFAULT_ADMIN_PASSWORD, User.ADMIN));
-        setupObservers();
-    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
 
-    private void setupObservers() {
-        viewModel.getAllUserLive().observe(this, users -> {
-            StringBuilder text = new StringBuilder();
-            for (User user : users) {
-                text.append(user.getID())
-                        .append(":")
-                        .append(user.getName())
-                        .append("=")
-                        .append(user.getPassword())
-                        .append("\n");
-            }
-            ((TextView)findViewById(R.id.tmpt_db)).setText(text.toString());
-        });
-    }
 }
 

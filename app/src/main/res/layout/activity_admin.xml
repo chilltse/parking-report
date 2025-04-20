@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
-    android:padding="16dp">
+             android:layout_height="match_parent">
 
-    <!-- 菜品名称 -->
-    <EditText
-        android:layout_marginTop="20dp"
-        android:id="@+id/editTextDishName"
-        android:layout_width="match_parent"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Enter Dish Name" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/admin_menu" />
 
-    <!-- 选择图片 -->
-    <Button
-        android:id="@+id/buttonSelectImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Image"
-        android:layout_marginTop="8dp" />
-
-    <!-- 预览所选图片 -->
-    <ImageView
-        android:id="@+id/imageViewDish"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:contentDescription="TODO"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        android:layout_marginTop="8dp" />
-
-    <!-- 添加菜品 -->
-    <Button
-        android:id="@+id/buttonAddDish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Dish"
-        android:layout_marginTop="8dp" />
-
-</LinearLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView5"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="409dp"
+        android:layout_height="673dp"
+        android:layout_marginBottom="60dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/admin_nev" />
+</androidx.constraintlayout.widget.ConstraintLayout>

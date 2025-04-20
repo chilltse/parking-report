@@ -14,9 +14,9 @@ public class NotificationFactory {
     public static INotificationService createService(String type, Context context, NotificationType notificationType, Map<String, String> replacements ) {
         switch (type) {
             case "email":
-                return new EmailService(context, notificationType, replacements);  // 假设存在这样一个实现
+                return new EmailService(context, notificationType, replacements);
             case "sms":
-                return new SmsService(context, notificationType, replacements);    // 假设存在这样一个实现
+                return new SmsService(context, notificationType, replacements);
             default:
                 throw new IllegalArgumentException("Unknown service type: " + type);
         }
