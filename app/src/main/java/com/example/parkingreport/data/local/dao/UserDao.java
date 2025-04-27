@@ -2,24 +2,17 @@ package com.example.parkingreport.data.local.dao;
 import com.example.parkingreport.data.local.entities.User;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.Query;
 
 import java.util.List;
 
-@Dao
 public interface UserDao {
-    @Insert
-    Long insertUser(User user);
-
-    @Query("DELETE FROM User")
+    void insertUser(User user);
     void clearUser();
-
-    @Query("SELECT * FROM User ORDER BY ID DESC")
+    void deleteUser(int userId);
+    void modifyUserName(int userId, String name);
+    void modifyUserPassword(int userId, String password);
     LiveData<List<User>> getAllUsersLive();
-
-    @Query("SELECT COUNT(*) FROM User WHERE name = :username OR email = :email")
+    int checkIdExists(int userId);
     int checkUserExists(String username, String email);
 
 }

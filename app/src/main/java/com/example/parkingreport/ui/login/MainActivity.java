@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         textViewSignUp = findViewById(R.id.textViewSignUp);
 
 
-
         // Login option -- user/admin
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroupLoginAs);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -111,8 +110,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     @Override
     protected void onDestroy() {
