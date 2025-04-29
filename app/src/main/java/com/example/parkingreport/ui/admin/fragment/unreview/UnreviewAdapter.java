@@ -27,7 +27,7 @@ public class UnreviewAdapter extends RecyclerView.Adapter<UnreviewAdapter.ItemVi
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.itemTitle);
+            title = itemView.findViewById(R.id.textReportId);
         }
     }
 
