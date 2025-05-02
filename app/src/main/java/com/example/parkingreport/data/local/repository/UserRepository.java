@@ -47,6 +47,24 @@ public class UserRepository {
         userDao.clearUser();
     }
 
+    public boolean changeUserPassword(int ID, String pwd){
+        User user = userDao.findUser(ID);
+        if(user!=null){
+            User newUser = userDao.copyUser(user);
+            newUser.setPassword(pwd);
+
+            userDao.updateUser(newUser);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public User findUser(int ID) {
+        return userDao.findUser(ID);
+    }
+
+
     /**
      *  generated id | insert new user | insert userLog
      * @param user
@@ -60,12 +78,13 @@ public class UserRepository {
             if (list == null) {
                 list = new ArrayList<>();
             }
-            int newId = generateNextAvailableID(list);
+//            int newId = generateNextAvailableID(list);
+            int newId = list.size();
             user.setID(newId);
 
             //insert
             try{
-//                Log.d("userDao", userDao.toString());
+                Log.d("userDao inserting" , user.getName() + userDao.toString());
                 userDao.insertUser(user);
             } catch (Exception e) {
                 Log.e("UserInsertError", "userDao not finish!",e);

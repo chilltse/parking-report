@@ -1,9 +1,11 @@
 package com.example.parkingreport.data.local.entities;
 
+import com.example.parkingreport.data.local.api.HasID;
+
 import java.util.Date;
 
-public class Report {
-    private int reportId;
+public class Report implements Comparable<Report>, HasID {
+    private int ID;
     private int userId;
     private Date timestamp;
     private String carPlate;
@@ -27,12 +29,19 @@ public class Report {
 
     public Report() {}
 
-    public int getReportId() {
-        return reportId;
+
+
+    @Override
+    public int compareTo(Report other) {
+        return Integer.compare(this.ID, other.ID);
     }
 
-    public void setReportId(int reportId) {
-        this.reportId = reportId;
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public int getUserId() {
@@ -74,7 +83,7 @@ public class Report {
     @Override
     public String toString() {
         return "Report{" +
-                "report_ID=" + reportId +
+                "report_ID=" + ID +
                 ", user_ID='" + userId + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 ", carPlate='" + carPlate + '\'' +

@@ -8,7 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.parkingreport.data.local.api.Callback;
 import com.example.parkingreport.data.local.entities.Report;
+import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.repository.ReportRepository;
 
 import java.util.ArrayList;
@@ -44,17 +46,29 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
-    public void deleteReport(int reportId){
-        executeAsync(() -> {
-            reportRepository.deleteReport(reportId);
-        });
-    }
+//    public void deleteReport(int reportId){
+//        executeAsync(() -> {
+//            reportRepository.deleteReport(reportId);
+//        });
+//    }
 
     public void handleReport(int reportId, int userId, int status){
         executeAsync(() -> {
             reportRepository.handleReport(reportId, userId, status);
         });
     }
+
+    public boolean replyReport(int ID, boolean isApproved, String feedBack){
+        return reportRepository.replyReport(ID, isApproved, feedBack);
+    }
+
+    public void findReport(int ID, boolean isWaitStatus, Callback<Report> callback) {
+        executeAsync(() -> {
+            Report report = reportRepository.findReport(ID, isWaitStatus);
+            callback.onResult(report);
+        });
+    }
+
 
     // 通用异步执行方法
     private void executeAsync(Runnable task) {

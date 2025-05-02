@@ -61,6 +61,7 @@ public class ReportLogRepository {
      */
     private int generateNextAvailableID(List<ReportLog> currentReportLog){
         Set<Integer> ids = new HashSet<>();
+        //TODO 低效循环
         for (ReportLog rl : currentReportLog) {
             ids.add(rl.getLogId());
         }

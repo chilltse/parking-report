@@ -1,6 +1,8 @@
 package com.example.parkingreport.data.local.entities;
 
-public class User {
+import com.example.parkingreport.data.local.api.HasID;
+
+public class User implements Comparable<User>, HasID {
 
     private int ID;
     private String name;
@@ -10,16 +12,31 @@ public class User {
     private String password;
 
     private int role;
+    private boolean alive;
 
     public static final int USER = 1;
     public static final int ADMIN = 0;
 
-    public User(String name, String email, String password, int role){
+    public User(String name, String email, String password, int role, boolean alive){
         this.name = name;
         this.email = email;
 //        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.password = password;
         this.role = role;
+        this.alive = alive;
+    }
+
+    @Override
+    public int compareTo(User other) {
+        return Integer.compare(this.ID, other.ID);
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     public User(){
@@ -68,6 +85,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", alive=" + alive +
                 '}';
     }
 
