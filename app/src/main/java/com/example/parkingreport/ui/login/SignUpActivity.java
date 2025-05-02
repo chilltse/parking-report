@@ -103,7 +103,6 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResult(boolean exists) {
                         if (exists) {
-                            Toast.makeText(getApplicationContext(), "用户或邮箱已存在", Toast.LENGTH_SHORT).show();
                             editTextUsername.setError("Username or email has been registered!");
                             Toast.makeText(getApplicationContext(), "Username or email has been registered!", Toast.LENGTH_LONG).show();
                         }else{
@@ -111,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 if(verifyCode()){
                                     // Save new user to DB
                                     Log.d(TAG, "Succeed save user data!");
-                                    viewModel.insertUser(new User(emailAdress, username, password, User.USER));
+                                    viewModel.insertUser(new User(emailAdress, username, password, User.USER, true));
                                     Toast.makeText(getApplicationContext(), "Succeed save user data!", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }else{

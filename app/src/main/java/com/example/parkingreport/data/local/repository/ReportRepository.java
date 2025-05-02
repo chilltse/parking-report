@@ -8,6 +8,7 @@ import com.example.parkingreport.data.local.dao.JsonReportDao;
 import com.example.parkingreport.data.local.dao.ReportDao;
 import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.ReportLog;
+import com.example.parkingreport.data.local.entities.User;
 
 
 import java.io.File;
@@ -50,14 +51,15 @@ public class ReportRepository {
         // generated id
         List<Report> list = allReportLive.getValue();
         if (list == null) list = new ArrayList<>();
-        int newId = generateNextAvailableID(list);
-        report.setReportId(newId);
+
+        int newId = list.size();
+        report.setID(newId);
 
         // insert report
         reportDao.insertReport(report);
 
         // insert reportLog
-        reportLogRepository.insertLog(new ReportLog(report.getReportId(), report.getUserId(), ReportLog.SUBMIT));
+        reportLogRepository.insertLog(new ReportLog(report.getID(), report.getUserId(), ReportLog.SUBMIT));
     }
 
     /**
@@ -67,7 +69,7 @@ public class ReportRepository {
     private int generateNextAvailableID(List<Report> currentReports) {
         Set<Integer> ids = new HashSet<>();
         for (Report r : currentReports) {
-            ids.add(r.getReportId());
+            ids.add(r.getID());
         }
         int id = 1;
         while (ids.contains(id)) {
@@ -77,11 +79,11 @@ public class ReportRepository {
     }
 
 
-    public void deleteReport(int reportId){
-        if(reportDao.checkReportExists(reportId) == 0)
-            return;
-        reportDao.deleteReport(reportId);
-    }
+//    public void deleteReport(int reportId){
+//        if(reportDao.checkReportExists(reportId) == 0)
+//            return;
+//        reportDao.deleteReport(reportId);
+//    }
 
     /**
      *  Handle report,
@@ -104,5 +106,25 @@ public class ReportRepository {
         // insert reportLog
         reportLogRepository.insertLog(new ReportLog(reportId, userId, ReportLog.HANDLE));
     }
+
+
+    public boolean replyReport(int ID, boolean isApproved, String feedBack){
+        Report report = reportDao.findReport(ID, true);
+        // 只有当报告存在且状态是待处理的才OK
+        if(report!=null && report.getStatus() == Report.WAIT_FOR_REVIEW){
+            Report newReport = reportDao.copyReport(report);
+            newReport.setStatus(isApproved ? Report.APPROVED : Report.DECLINED);
+            newReport.setFeedback(feedBack);
+            reportDao.updateReport(newReport);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public Report findReport(int ID, boolean isWaitStatus) {
+        return reportDao.findReport(ID,isWaitStatus);
+    }
+
 
 }

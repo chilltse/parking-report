@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import com.example.parkingreport.data.local.api.Callback;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.repository.UserRepository;
 
@@ -34,9 +35,9 @@ public class UserViewModel extends AndroidViewModel {
         allUserLive = userRepository.getAllUserLive();
     }
 
-    public LiveData<List<User>> getAllUserLive() {
-        return allUserLive;
-    }
+//    public LiveData<List<User>> getAllUserLive() {
+//        return allUserLive;
+//    }
 
     public void clearUser(){
         executeAsync(() -> {
@@ -54,6 +55,19 @@ public class UserViewModel extends AndroidViewModel {
             userRepository.deleteUser(userId);
         });
     }
+
+    public boolean changeUserPassword(int ID, String pwd){
+        return userRepository.changeUserPassword(ID, pwd);
+    }
+
+    public void findUser(int userId, Callback<User> callback) {
+        executeAsync(() -> {
+            User user = userRepository.findUser(userId);
+            callback.onResult(user);
+        });
+    }
+
+
 
     public void modifyUserName(int userId, String name) {
         executeAsync(() -> {

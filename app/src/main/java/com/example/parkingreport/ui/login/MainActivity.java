@@ -19,7 +19,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.parkingreport.BuildConfig;
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.Report;
+import com.example.parkingreport.data.local.entities.ReportLog;
 import com.example.parkingreport.data.local.entities.User;
+import com.example.parkingreport.data.local.entities.UserLog;
+import com.example.parkingreport.data.local.viewModel.ReportLogViewModel;
+import com.example.parkingreport.data.local.viewModel.ReportViewModel;
+import com.example.parkingreport.data.local.viewModel.UserLogViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.admin.AdminActivity;
 import com.example.parkingreport.ui.user.UserActivity;
@@ -32,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewSignUp;
 
     private UserViewModel viewModel;
+    private ReportViewModel reportViewModel; //test
+    private UserLogViewModel userLogViewModel; //test
+    private ReportLogViewModel reportLogViewModel; //test
 
     private int loginAs;
 
@@ -44,12 +53,24 @@ public class MainActivity extends AppCompatActivity {
 
         // default value for loginAs
         loginAs = User.USER;
-        viewModel =  new ViewModelProvider(this).get(UserViewModel.class);
+        viewModel =  new ViewModelProvider(this)
+                .get(UserViewModel.class);
+
+        // TEST
+        reportViewModel = new ViewModelProvider(this)
+                .get(ReportViewModel.class);
+        userLogViewModel = new ViewModelProvider(this)
+                .get(UserLogViewModel.class);
+        reportLogViewModel = new ViewModelProvider(this)
+                .get(ReportLogViewModel.class);
+
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewSignUp = findViewById(R.id.textViewSignUp);
 
+        //for debug
+        tempInitUserInfo();
 
         // Login option -- user/admin
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroupLoginAs);
@@ -80,7 +101,22 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login();
+                //TODO 暂时测试，删除用户
+                viewModel.changeUserPassword(2,"gan ni niang");
+//                viewModel.findUser(2, user -> {
+//                    // 这里拿到了 user
+//                    editTextUsername.setText("找到用户2: " + user.getName());
+//                });
+                reportViewModel.findReport(2, false, report -> {
+                    if(report==null){
+                        editTextUsername.setText("没找到report2: ");
+                    }else{
+                        // 这里拿到了 user
+                        editTextUsername.setText("找到report2: " + report.getID()+ ";status: "  +report.getStatus());
+                    }
+                });
+//                login();
+
             }
         });
 
@@ -110,6 +146,83 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void tempInitUserInfo(){
+//        usertest
+//        viewModel.clearUser();
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_1, BuildConfig.DEFAULT_USER_EMAIL_1, BuildConfig.DEFAULT_USER_PASSWORD_1, User.USER, true));
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_2, BuildConfig.DEFAULT_USER_EMAIL_2, BuildConfig.DEFAULT_USER_PASSWORD_2, User.USER, true));
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_ADMIN_NAME, BuildConfig.DEFAULT_ADMIN_EMAIL, BuildConfig.DEFAULT_ADMIN_PASSWORD, User.ADMIN, true));
+        viewModel.insertUser(new User("swm", "swm_2019@163.com", "swm", User.USER, true));
+//        viewModel.clearUser();
+//        viewModel.deleteUser(1);
+//        viewModel.modifyUserName(1, "newComp2100");
+//        viewModel.modifyUserPassword(1, "newPassword");
+//        viewModel.getAllUserLive().observe(this, users -> {
+//            // 当数据真正准备好后，这里一定不为 null
+//            for (User u : users) {
+//                Log.d("LiveUser", u.toString());
+//            }
+//        });
+
+//        report test
+//        reportViewModel.clearReport();
+        reportViewModel.insertReport(new Report(1,"车牌1","地点1",Report.WAIT_FOR_REVIEW));
+        reportViewModel.insertReport(new Report(2,"车牌2","地点2", Report.WAIT_FOR_REVIEW));
+        reportViewModel.insertReport(new Report(1,"车牌3","地点1", Report.WAIT_FOR_REVIEW));
+//        reportViewModel.deleteReport(1);
+        reportViewModel.replyReport(1, false, "拒绝！！！");
+        reportViewModel.replyReport(2, true, "approved！！！");
+//        reportViewModel.handleReport(1, 1, Report.APPROVED);
+//        reportViewModel.handleReport(1, 1, Report.DECLINED);
+
+//        reportViewModel.getAllReportLive().observe(this, reports -> {
+//            // 当数据真正准备好后，这里一定不为 null
+//            for (Report r : reports) {
+//                Log.d("LiveReports", r.toString());
+//            }
+//        });
+
+//        userLog test
+//        userLogViewModel.clearLog();
+//        userLogViewModel.insertLog(new UserLog(5, UserLog.SIGN_UP));
+//        userLogViewModel.insertLog(new UserLog(6, UserLog.CANCEL_ACCOUNT));
+//        userLogViewModel.insertLog(new UserLog(7, UserLog.MODIFY_NAME));
+//        userLogViewModel.insertLog(new UserLog(8, UserLog.MODIFY_PASSWORD));
+//        viewModel.insertUser(new User("testLog", "1@163.com", "test", User.USER));
+//        viewModel.modifyUserName(5, "NewTestLog");
+//        viewModel.modifyUserPassword(5, "NewTest");
+//        viewModel.deleteUser(5);
+//        viewModel.getAllUserLive().observe(this, users -> {
+//            // 当数据真正准备好后，这里一定不为 null
+//            for (User u : users) {
+//                Log.d("LiveUser", u.toString());
+//            }
+//        });
+//        userLogViewModel.getAllUserLogLive().observe(this, userLogs -> {
+//            // 当数据真正准备好后，这里一定不为 null
+//            for (UserLog ul : userLogs) {
+//                Log.d("LiveUserLogs", ul.toString());
+//            }
+//        });
+
+
+//        reportLog test
+//        reportLogViewModel.clearLog();
+//        reportLogViewModel.insertLog(new ReportLog(1,1,ReportLog.SUBMIT));
+//        reportLogViewModel.insertLog(new ReportLog(1,1,ReportLog.HANDLE));
+//        reportLogViewModel.insertLog(new ReportLog(2,2,ReportLog.SUBMIT));
+//        reportLogViewModel.insertLog(new ReportLog(2,2,ReportLog.HANDLE));
+//        reportViewModel.insertReport(new Report(1,"车牌1","地点1",Report.WAIT_FOR_REVIEW));
+//        reportViewModel.insertReport(new Report(2,"车牌2","地点2", Report.WAIT_FOR_REVIEW));
+//        reportViewModel.insertReport(new Report(1,"车牌3","地点1", Report.WAIT_FOR_REVIEW));
+//        reportViewModel.handleReport(1, 1, Report.APPROVED);
+//        reportViewModel.handleReport(2, 2, Report.DECLINED);
+//        reportViewModel.handleReport(3, 1, Report.DECLINED);
+
+    }
+
+
 
     @Override
     protected void onDestroy() {
