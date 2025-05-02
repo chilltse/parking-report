@@ -100,27 +100,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Login
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO 暂时测试，删除用户
-//                viewModel.changeUserPassword(2,"gan ni niang");
-////                viewModel.findUser(2, user -> {
-////                    // 这里拿到了 user
-////                    editTextUsername.setText("找到用户2: " + user.getName());
-////                });
-//                reportViewModel.findReport(2, false, report -> {
-//                    if(report==null){
-//                        editTextUsername.setText("没找到report2: ");
-//                    }else{
-//                        // 这里拿到了 user
-//                        editTextUsername.setText("找到report2: " + report.getID()+ ";status: "  +report.getStatus());
-//                    }
-//                });
-                login();
-
-            }
-        });
+        buttonLogin.setOnClickListener(v -> login());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -162,6 +142,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        editTextUsername.setText("");
+        editTextPassword.setText("");
+        // 不用再次 setOnClickListener(loginBtn...)
     }
 
 }

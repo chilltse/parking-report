@@ -40,11 +40,6 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
-    public void clearReport(){
-        executeAsync(() -> {
-            reportRepository.clearReport();
-        });
-    }
 
 //    public void deleteReport(int reportId){
 //        executeAsync(() -> {
@@ -56,6 +51,14 @@ public class ReportViewModel extends AndroidViewModel {
         executeAsync(() -> {
             reportRepository.handleReport(reportId, userId, status);
         });
+    }
+
+    public List<Integer> getIdsByUser(int userId) {
+        return reportRepository.getIdsByUser(userId);
+    }
+
+    public List<Integer> getIdsByPlate(String plate) {
+        return reportRepository.getIdsByPlate(plate);
     }
 
     public boolean replyReport(int ID, boolean isApproved, String feedBack){

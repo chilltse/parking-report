@@ -29,10 +29,18 @@ public class UserViewModel extends AndroidViewModel {
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    private final MutableLiveData<Integer> userIdLive = new MutableLiveData<>();
-    public void setUserId(int id) { userIdLive.setValue(id); }
-    public LiveData<Integer> getUserIdLive() { return userIdLive; }
-    public int getUserId() { return userIdLive.getValue() != null ? userIdLive.getValue() : -1; }
+    // User
+    private final MutableLiveData<User> userLive = new MutableLiveData<>();
+    // 主线程
+    public void setUser(User user) {
+        userLive.setValue(user);
+    }
+    // 任意线程
+    public void postUser(User user) {
+        userLive.postValue(user);
+    }
+    public LiveData<User> getUserLive() { return userLive; }
+    public User getUser() { return userLive.getValue(); }
 
 
     public UserViewModel(@NonNull Application application) {

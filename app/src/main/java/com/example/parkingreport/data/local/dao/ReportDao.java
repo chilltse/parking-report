@@ -10,8 +10,6 @@ import java.util.List;
 public interface ReportDao {
     void insertReport(Report report);
 
-    void clearReport();
-
 //    void deleteReport(int reportId);
     void updateReport(Report report);
     Report findReport(int ID, boolean isWaitStatus);
@@ -24,5 +22,8 @@ public interface ReportDao {
     int checkReportExists(int reportId);
 
     int checkReportStatus(int reportId);
+
+    List<Integer> getIdsByUser(int userId);
+    List<Integer> getIdsByPlate(String plate);
 
 }
