@@ -17,8 +17,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.example.parkingreport.utils.structures.AVLTree;
@@ -33,6 +35,16 @@ public class JsonUserDao implements UserDao{
 
     private final AVLTree<User> userTree = new AVLTree<>();
 
+    private final Map<String, Integer> nameMap = new HashMap<>();
+
+    public int findIdByName(String name)
+    {
+        if(nameMap.get(name)!=null){
+            return nameMap.get(name);
+        }else{
+            throw new RuntimeException("No such user for "+ name);
+        }
+    }
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     public JsonUserDao(File file) {
         this.file = file;
@@ -72,8 +84,9 @@ public class JsonUserDao implements UserDao{
 
         // 创建AVL树,仅仅添加alive的User
         // 直接从list来，id保证正确
-        for (User user : list) {
-            if(user.isAlive()) userTree.insert(user);
+        for (User u : list) {
+            if (u.isAlive()) userTree.insert(u);
+            nameMap.put(u.getName(), u.getID());
         }
 //        mainHandler.post(() -> liveData.setValue(initial));
 
@@ -167,6 +180,9 @@ public class JsonUserDao implements UserDao{
             userTree.delete(foundedUser); // 删除旧的
             userTree.insert(user); // 插入新的
 
+            // Replace
+            nameMap.put(user.getName(), user.getID());
+
             // 3️⃣ 保存回文件
             saveToFile(list);
         }
@@ -188,21 +204,22 @@ public class JsonUserDao implements UserDao{
     }
 
     /**
-     * @param userId the id of user that we want to delete
+     * @param user the user that we want to delete
      */
     // 变更：只改原数据的状态
     @Override
-    public synchronized void deleteUser(int userId) {
+    public synchronized void deleteUser(User user) {
         synchronized (this){
             List<User> list = liveData.getValue();
             User userInstance = new User();
             if (list != null){
                 // find the instance in livedata, or remove won't work.
                 for (User u : list) {
-                    if(userId == u.getID()){
+                    if(user.getID() == u.getID()){
 //                        userInstance = u;
                         u.setAlive(false);
                         userTree.delete(u);
+                        nameMap.remove(user.getName());
                     }
                 }
 //                list.remove(userInstance);

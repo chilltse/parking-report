@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.parkingreport.data.local.api.Callback;
@@ -27,6 +28,11 @@ public class UserViewModel extends AndroidViewModel {
     // 线程管理工具
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+    private final MutableLiveData<Integer> userIdLive = new MutableLiveData<>();
+    public void setUserId(int id) { userIdLive.setValue(id); }
+    public LiveData<Integer> getUserIdLive() { return userIdLive; }
+    public int getUserId() { return userIdLive.getValue() != null ? userIdLive.getValue() : -1; }
 
 
     public UserViewModel(@NonNull Application application) {
@@ -50,21 +56,28 @@ public class UserViewModel extends AndroidViewModel {
             userRepository.insertUser(user);
         });
     }
-    public void deleteUser(int userId) {
+    public void deleteUser(User user) {
         executeAsync(() -> {
-            userRepository.deleteUser(userId);
+            userRepository.deleteUser(user);
         });
+    }
+
+    public int findIdByName(String name)
+    {
+        return userRepository.findIdByName(name);
     }
 
     public boolean changeUserPassword(int ID, String pwd){
         return userRepository.changeUserPassword(ID, pwd);
     }
 
-    public void findUser(int userId, Callback<User> callback) {
-        executeAsync(() -> {
+//    public User findUser(int userId, Callback<User> callback) {
+    public User findUser(int userId) {
+//        executeAsync(() -> {
             User user = userRepository.findUser(userId);
-            callback.onResult(user);
-        });
+//            callback.onResult(user);
+//        });
+        return user;
     }
 
 

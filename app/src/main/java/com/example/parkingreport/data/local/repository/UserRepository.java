@@ -112,12 +112,18 @@ public class UserRepository {
         return id;
     }
 
+    public int findIdByName(String name)
+    {
+        return userDao.findIdByName(name);
+    }
 
-    public void deleteUser(int userId){
+
+    public void deleteUser(User user){
+        int userId = user.getID();
         if(userDao.checkIdExists(userId) == 0){
             return;
         }
-        userDao.deleteUser(userId);
+        userDao.deleteUser(user);
         // generated user log : CANCEL_ACCOUNT
         userLogRepository.insertLog(new UserLog(userId,UserLog.CANCEL_ACCOUNT));
     }
