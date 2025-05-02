@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.user.ReportFragment">
+    android:fillViewport="true"
+    tools:context=".ui.user.fragment.Myreport.ReportPageActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="16dp">
 
         <!-- Title -->
@@ -23,15 +25,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- File Upload -->
+        <!-- Select File Layout -->
         <LinearLayout
             android:id="@+id/selectFileLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-
             android:padding="16dp"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintTop_toBottomOf="@id/titleText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/takePhotoLayout"
@@ -43,6 +46,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/submit1" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,18 +56,19 @@
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
 
-        <!-- Camera -->
+        <!-- Take Photo Layout -->
         <LinearLayout
             android:id="@+id/takePhotoLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-
             android:padding="16dp"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintTop_toBottomOf="@id/titleText"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/selectFileLayout"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintWidth_percent="0.45"
             android:layout_marginTop="24dp"
             android:layout_marginStart="8dp">
@@ -72,6 +77,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/takephoto" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,10 +92,10 @@
             android:id="@+id/locationInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
             android:hint="Location [Auto GPS address]"
-
             android:padding="12dp"
-            android:textColorHint="#000"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@id/selectFileLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,35 +106,38 @@
             android:id="@+id/dateInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
             android:hint="Date: dd/mm/yyyy"
-
             android:padding="12dp"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@id/locationInput"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp"/>
 
-        <!-- Plate Number  -->
+        <!-- Plate Number -->
         <EditText
             android:id="@+id/carPlateInput1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
             android:hint="Text: Car Plate Number"
-
             android:padding="12dp"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@id/dateInput"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp"/>
 
-        <!-- Confirm Plate Number  -->
+        <!-- Confirm Plate Number -->
         <EditText
             android:id="@+id/carPlateInput2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Text:  Confirm Car Plate Number"
-
+            android:background="@drawable/edit_text_background"
+            android:hint="Text: Confirm Car Plate Number"
             android:padding="12dp"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@id/carPlateInput1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,6 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="I confirm the information is true and accurate."
+            android:textColor="#000000"
             app:layout_constraintTop_toBottomOf="@id/carPlateInput2"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp"/>
@@ -148,20 +158,19 @@
         <Button
             android:id="@+id/submitButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/orange_button"
+            android:layout_height="50dp"
             android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            android:background="@drawable/button_login_background"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/confirmCheckbox"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-
-        <!-- Home Button -->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
 
-</FrameLayout>

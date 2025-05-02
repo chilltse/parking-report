@@ -40,6 +40,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}"/>
+        <activity android:name=".ui.user.fragment.Myreport.ReportPageActivity" />
+        <activity android:name=".ui.user.fragment.Myreport.ReportDetailActivity" />
+
 
         <activity
             android:name=".ui.login.SignUpActivity"

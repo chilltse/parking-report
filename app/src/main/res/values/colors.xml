@@ -11,4 +11,5 @@
     <color name="bottom_nav_background_color">#A53C9D86</color>
     <color name="bottom_nav_color_selector">#15AC34</color>
     <color name="orange_button">#F28C48</color>
+    <color name="primaryYellow">#FFC107</color>
 </resources>

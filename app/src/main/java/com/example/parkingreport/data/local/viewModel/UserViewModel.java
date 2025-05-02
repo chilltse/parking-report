@@ -49,7 +49,23 @@ public class UserViewModel extends AndroidViewModel {
             userRepository.insertUser(user);
         });
     }
+    public void deleteUser(int userId) {
+        executeAsync(() -> {
+            userRepository.deleteUser(userId);
+        });
+    }
 
+    public void modifyUserName(int userId, String name) {
+        executeAsync(() -> {
+            userRepository.modifyUserName(userId, name);
+        });
+    }
+
+    public void modifyUserPassword(int userId, String password) {
+        executeAsync(() -> {
+            userRepository.modifyUserPassword(userId, password);
+        });
+    }
     // 通用异步执行方法
     private void executeAsync(Runnable task) {
         executor.execute(() -> {

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.parkingreport.R;
 import com.example.parkingreport.ui.admin.fragment.review.Item;
 import com.example.parkingreport.ui.admin.fragment.review.ItemAdapter;
+import com.example.parkingreport.ui.admin.fragment.unreview.ItemForUnre;
+import com.example.parkingreport.ui.admin.fragment.unreview.UnreviewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ public class unreFragment extends Fragment {
     private RecyclerView recyclerView;
 
 
-    private ItemAdapter adapter;
+    private UnreviewAdapter adapter;
 
     public unreFragment() {
         // Required empty public constructor
@@ -40,12 +42,12 @@ public class unreFragment extends Fragment {
         // 初始化 RecyclerView
         recyclerView = view.findViewById(R.id.recycle2);
 
-        List<Item> itemList = new ArrayList<>();
-        itemList.add(new Item("Test 4"));
-        itemList.add(new Item("Test 5"));
-        itemList.add(new Item("Test 6"));
+        List<ItemForUnre> itemList = new ArrayList<>();
+        itemList.add(new ItemForUnre("Test 4"));
+        itemList.add(new ItemForUnre("Test 5"));
+        itemList.add(new ItemForUnre("Test 6"));
 
-        adapter = new ItemAdapter(itemList, getContext());
+        adapter = new UnreviewAdapter(itemList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

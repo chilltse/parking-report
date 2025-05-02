@@ -25,7 +25,7 @@ public class Review_list_detailActivity extends AppCompatActivity {
         });
         String title = getIntent().getStringExtra("title");
 
-        TextView detailText = findViewById(R.id.detailText);
+        TextView detailText = findViewById(R.id.title);
         detailText.setText("you click " + title);
     }
 }
