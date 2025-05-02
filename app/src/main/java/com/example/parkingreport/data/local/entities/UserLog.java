@@ -6,13 +6,12 @@ public class UserLog {
     private int logId;
     private Date timestamp;
     private int userId;
-    private int description;
-    public static final int SIGN_UP = 1;
-    public static final int CANCEL_ACCOUNT = 2;
-    public static final int MODIFY_NAME = 3;
-    public static final int MODIFY_PASSWORD = 4;
+    private String description;
+    public static final String SIGN_UP = "New user registration.";
+    public static final String CANCEL_ACCOUNT = "User cancels accounts.";
+    public static final String MODIFY_PASSWORD = "User modify account password.";
 
-    public UserLog(int userId, int description) {
+    public UserLog(int userId, String description) {
         this.timestamp = new Date();
         this.userId = userId;
         this.description = description;
@@ -39,11 +38,11 @@ public class UserLog {
         this.userId = userId;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(int description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

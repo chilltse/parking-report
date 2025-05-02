@@ -7,11 +7,12 @@ public class ReportLog {
     private Date timestamp;
     private int reportId;
     private int userId;
-    private int description;
-    public static final int SUBMIT = 1;
-    public static final int HANDLE = 2;
+    private String description;
+    public static final String SUBMIT = "User submits a new report.";
+    public static final String APPROVE = "The administrator user passed a report.";
+    public static final String DECLINE = "The administrator user declined a report.";
 
-    public ReportLog(int reportId, int userId, int description) {
+    public ReportLog(int reportId, int userId, String description) {
         this.timestamp = new Date();
         this.reportId = reportId;
         this.userId = userId;
@@ -46,11 +47,11 @@ public class ReportLog {
         this.userId = userId;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(int description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 }
