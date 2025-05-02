@@ -1,67 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.user.fragment.MyReportFragment">
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:fitsSystemWindows="true"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp">
 
-        <!-- Search Box -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!-- 顶部搜索框 -->
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+        android:background="@drawable/edit_text_background"
+        android:hint="Search..."
+        android:padding="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/searchButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/editTextSearch"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:background="@drawable/edit_text_orange_border"
-                android:hint="Search Reports"
-                android:paddingStart="16dp"
-                android:paddingEnd="48dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="12dp"
+        android:background="@drawable/button_login_background"
+        android:text="Search"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageSearchIcon"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginEnd="12dp"
-                android:contentDescription="Search"
-                android:src="@drawable/ic_search"
-                app:layout_constraintBottom_toBottomOf="@id/editTextSearch"
-                app:layout_constraintEnd_toEndOf="@id/editTextSearch"
-                app:layout_constraintTop_toTopOf="@+id/editTextSearch" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
-
-        <!-- Static ScrollView will be updated to RecyclerView -->
-        <ScrollView
-            android:layout_width="match_parent"
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true">
+            android:clipToPadding="false"
+            android:padding="8dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchEditText" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/item_report" />
-                <include layout="@layout/item_report" />
-                <include layout="@layout/item_report" />
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

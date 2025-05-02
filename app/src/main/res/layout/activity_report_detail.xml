@@ -4,56 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".ui.admin.fragment.unreview.Unreview_list_deatilActivity">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Title -->
+        <!-- 标题 -->
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Report Review"
+            android:text="Report Detail"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- MapView -->
+        <!-- 地图 -->
         <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView2"
-            android:layout_width="362dp"
-            android:layout_height="153dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:id="@+id/mapView"
+            android:layout_width="289dp"
+            android:layout_height="287dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
-        <!-- Info Summary -->
+        <!-- 信息小标题 -->
         <TextView
             android:id="@+id/infoLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:text="Info Summary:"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mapView2" />
+            app:layout_constraintTop_toBottomOf="@+id/mapView" />
 
         <!-- Car Plate -->
         <TextView
             android:id="@+id/labelCarPlate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
             android:text="Car Plate:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/infoLabel" />
@@ -62,18 +58,16 @@
             android:id="@+id/valueCarPlate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ABC123"
             android:layout_marginStart="8dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/labelCarPlate"
-            app:layout_constraintStart_toEndOf="@id/labelCarPlate" />
+            android:text="ABC123"
+            app:layout_constraintStart_toEndOf="@id/labelCarPlate"
+            app:layout_constraintTop_toTopOf="@id/labelCarPlate" />
 
         <!-- Location -->
         <TextView
             android:id="@+id/labelLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
             android:text="Location:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelCarPlate" />
@@ -82,18 +76,16 @@
             android:id="@+id/valueLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="123 Main St"
             android:layout_marginStart="8dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/labelLocation"
-            app:layout_constraintStart_toEndOf="@id/labelLocation" />
+            android:text="123 Main St"
+            app:layout_constraintStart_toEndOf="@id/labelLocation"
+            app:layout_constraintTop_toTopOf="@id/labelLocation" />
 
         <!-- Time -->
         <TextView
             android:id="@+id/labelTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
             android:text="Time:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelLocation" />
@@ -102,18 +94,17 @@
             android:id="@+id/valueTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2025-04-11 14:32"
             android:layout_marginStart="8dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/labelTime"
-            app:layout_constraintStart_toEndOf="@id/labelTime" />
+            android:text="2025-04-11 14:32"
+            app:layout_constraintStart_toEndOf="@id/labelTime"
+            app:layout_constraintTop_toTopOf="@id/labelTime" />
 
         <!-- Notes -->
         <TextView
             android:id="@+id/labelNotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="Notes:"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,52 +112,46 @@
 
         <TextView
             android:id="@+id/valueNotes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Blocked pedestrian path"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@id/labelNotes"
-            app:layout_constraintStart_toEndOf="@id/labelNotes"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Review Outcome Section -->
-        <TextView
-            android:id="@+id/reviewSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="8dp"
+            android:text="Blocked pedestrian path"
+            app:layout_constraintStart_toEndOf="@id/labelNotes"
+            app:layout_constraintTop_toTopOf="@id/labelNotes" />
+
+        <!-- Review Outcome -->
+        <TextView
+            android:id="@+id/reviewOutcomeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Review Outcome Section:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/valueNotes" />
+            app:layout_constraintTop_toBottomOf="@id/labelNotes" />
 
         <!-- Status -->
         <TextView
             android:id="@+id/labelStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
             android:text="Status:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/reviewSection" />
+            app:layout_constraintTop_toBottomOf="@id/reviewOutcomeLabel" />
 
         <TextView
             android:id="@+id/valueStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pending"
             android:layout_marginStart="8dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/labelStatus"
-            app:layout_constraintStart_toEndOf="@id/labelStatus" />
+            android:text="✅ Approved"
+            app:layout_constraintStart_toEndOf="@id/labelStatus"
+            app:layout_constraintTop_toTopOf="@id/labelStatus" />
 
         <!-- Feedback -->
         <TextView
             android:id="@+id/labelFeedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
             android:text="Feedback:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelStatus" />
@@ -175,19 +160,18 @@
             android:id="@+id/valueFeedback"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Violation confirmed by officer."
             android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@id/labelFeedback"
+            android:text="Violation confirmed by officer."
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/labelFeedback"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/labelFeedback" />
 
         <!-- Points -->
         <TextView
             android:id="@+id/labelPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Points Earned:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelFeedback" />
@@ -196,41 +180,10 @@
             android:id="@+id/valuePoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+20"
             android:layout_marginStart="8dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/labelPoints"
-            app:layout_constraintStart_toEndOf="@id/labelPoints" />
-
-        <!-- Radio Group -->
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/labelPoints"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!-- Message -->
-
-        <!-- Submit Button -->
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/button_login_background"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelPoints" />
+            android:text="+20"
+            app:layout_constraintStart_toEndOf="@id/labelPoints"
+            app:layout_constraintTop_toTopOf="@id/labelPoints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

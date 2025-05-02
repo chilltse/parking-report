@@ -1,5 +1,6 @@
 package com.example.parkingreport.ui.user.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,8 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.ui.user.fragment.Myreport.ReportPageActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap gMap;
+    private Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +42,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+
+        button = view.findViewById(R.id.button);
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ReportPageActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override

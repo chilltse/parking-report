@@ -27,7 +27,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.itemTitle);
+            title = itemView.findViewById(R.id.textReportId);
         }
     }
 

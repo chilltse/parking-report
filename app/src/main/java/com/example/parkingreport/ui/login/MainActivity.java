@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -72,19 +73,21 @@ public class MainActivity extends AppCompatActivity {
         createDefaultUser();
 
         // Login option -- user/admin
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroupLoginAs);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the selected RadioButton's ID
-                if (checkedId == R.id.radioButtonUser) {
-                    loginAs = User.USER;
-                    textViewSignUp.setVisibility(View.VISIBLE);
-                } else if (checkedId == R.id.radioButtonAdmin) {
-                    loginAs = User.ADMIN;
-                    textViewSignUp.setVisibility(View.GONE);
-                }
-            }
+        ToggleButton toggleButtonUser = findViewById(R.id.toggleButtonUser);
+        ToggleButton toggleButtonAdmin = findViewById(R.id.toggleButtonAdmin);
+
+        toggleButtonUser.setOnClickListener(v -> {
+            toggleButtonUser.setChecked(true);
+            toggleButtonAdmin.setChecked(false);
+            loginAs = User.USER;
+            textViewSignUp.setVisibility(View.VISIBLE);
+        });
+
+        toggleButtonAdmin.setOnClickListener(v -> {
+            toggleButtonUser.setChecked(false);
+            toggleButtonAdmin.setChecked(true);
+            loginAs = User.ADMIN;
+            textViewSignUp.setVisibility(View.GONE);
         });
 
         // Sign up

@@ -1,0 +1,103 @@
+package com.example.parkingreport.ui.user.fragment.Myreport;
+
+import android.content.ContentValues;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.parkingreport.R;
+
+public class ReportPageActivity extends AppCompatActivity {
+
+    private LinearLayout selectFileLayout;
+    private LinearLayout takePhotoLayout;
+
+    private ActivityResultLauncher<String> pickImageLauncher;
+    private ActivityResultLauncher<Uri> takePhotoLauncher;
+
+    private Uri cameraImageUri; // 拍照用到的uri临时保存
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_report_page);
+
+        selectFileLayout = findViewById(R.id.selectFileLayout);
+        takePhotoLayout = findViewById(R.id.takePhotoLayout);
+
+        // 选择照片
+        pickImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        String realPath = getRealPathFromUri(uri);
+                        if (realPath != null) {
+                            Toast.makeText(this, realPath, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(this, "无法获取真实路径！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        // 拍照
+        takePhotoLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(),
+                success -> {
+                    if (success && cameraImageUri != null) {
+                        String realPath = getRealPathFromUri(cameraImageUri);
+                        if (realPath != null) {
+                            Toast.makeText(this, realPath, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(this, "无法获取拍照图片真实路径！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        // 点击选择文件
+        selectFileLayout.setOnClickListener(v -> {
+            pickImageLauncher.launch("image/*");
+        });
+
+        // 点击拍照
+        takePhotoLayout.setOnClickListener(v -> {
+            startCamera();
+        });
+    }
+
+    private void startCamera() {
+        // 创建一条空的图片uri，用来存储拍照的照片
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, "IMG_" + System.currentTimeMillis() + ".jpg");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        cameraImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        if (cameraImageUri != null) {
+            takePhotoLauncher.launch(cameraImageUri);
+        } else {
+            Toast.makeText(this, "无法创建图片文件", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // 将Uri转换成真实路径
+    private String getRealPathFromUri(Uri uri) {
+        String filePath = null;
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { MediaStore.Images.Media.DATA };
+            try (android.database.Cursor cursor = getContentResolver().query(uri, projection, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    filePath = cursor.getString(columnIndex);
+                }
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            filePath = uri.getPath();
+        }
+        return filePath;
+    }
+}
