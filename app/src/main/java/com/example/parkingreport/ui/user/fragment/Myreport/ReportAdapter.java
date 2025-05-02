@@ -26,13 +26,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView time;
-        TextView id;
+        TextView plate;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textReportStatus);
             time = itemView.findViewById(R.id.textReportDate);
-            id = itemView.findViewById(R.id.textReportId);
+            plate = itemView.findViewById(R.id.textReportId); // 显示车牌的位置不变
         }
     }
 
@@ -45,19 +45,21 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ReportAdapter.ViewHolder holder, int position) {
         ReportItem item = reportList.get(position);
-        holder.id.setText(String.valueOf(item.getId()));
-        holder.title.setText(item.getTitle());
+        holder.plate.setText(item.getPlate());
+        holder.title.setText(item.getState());
         holder.time.setText(item.getTime());
 
-        // 这里设置点击事件
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ReportDetailActivity.class);
-            intent.putExtra("id", item.getId());
-            intent.putExtra("title", item.getTitle());
-            intent.putExtra("time", item.getTime());
+
+            intent.putExtra("reportId",reportId);
+
+
+//            intent.putExtra("plate", item.getPlate());
+//            intent.putExtra("title", item.getState());
+//            intent.putExtra("time", item.getTime());
             context.startActivity(intent);
         });
-
     }
 
     @Override

@@ -108,7 +108,11 @@ public class ReportRepository {
         reportDao.handleReport(reportId, status);
 
         // insert reportLog
-        reportLogRepository.insertLog(new ReportLog(reportId, userId, ReportLog.HANDLE));
+        if(status == Report.APPROVED){
+            reportLogRepository.insertLog(new ReportLog(reportId, userId, ReportLog.APPROVE));
+        }else{
+            reportLogRepository.insertLog(new ReportLog(reportId, userId, ReportLog.DECLINE));
+        }
     }
 
 

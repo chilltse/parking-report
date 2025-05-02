@@ -59,8 +59,7 @@ public class HomeFragment extends Fragment {
         });
 
         logout.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
+            requireActivity().finish();   // ① 结束当前 Activity
         });
 
         return view;

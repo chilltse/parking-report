@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         String password = editTextPassword.getText().toString();
 
         Log.d(TAG, username + " ####login as " + loginAs);
+        Log.d(TAG, username + " ####login as user " + viewModel.findUser(1).getName());
 
         viewModel.validateUser(username, password, loginAs, isMatch -> {
             if (isMatch) {
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         new Intent(MainActivity.this, UserActivity.class):
                         new Intent(MainActivity.this, AdminActivity.class);
                 intent.putExtra("userId", userId);
+                Log.d(TAG, " ####logining as " + username);
                 startActivity(intent);
             } else {
                 editTextPassword.setError("Invalid username or password");

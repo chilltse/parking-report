@@ -22,10 +22,6 @@ import java.util.List;
 
 public class unreFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-
-
-    private UnreviewAdapter adapter;
 
     public unreFragment() {
         // Required empty public constructor
@@ -40,14 +36,14 @@ public class unreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 初始化 RecyclerView
-        recyclerView = view.findViewById(R.id.recycle2);
+        RecyclerView recyclerView = view.findViewById(R.id.recycle2);
 
         List<ItemForUnre> itemList = new ArrayList<>();
         itemList.add(new ItemForUnre("Test 4"));
         itemList.add(new ItemForUnre("Test 5"));
         itemList.add(new ItemForUnre("Test 6"));
 
-        adapter = new UnreviewAdapter(itemList, getContext());
+        UnreviewAdapter adapter = new UnreviewAdapter(itemList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

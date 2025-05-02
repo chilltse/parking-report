@@ -13,14 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.user.fragment.Myreport.ReportAdapter;
 import com.example.parkingreport.ui.user.fragment.Myreport.ReportItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MyReportFragment extends Fragment {
 
@@ -39,6 +42,10 @@ public class MyReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // 返回 fragment 对应的布局
+        reportViewModel = new ViewModelProvider(requireActivity())
+                .get(ReportViewModel.class);
+        viewModel =  new ViewModelProvider(requireActivity())
+                .get(UserViewModel.class);
         return inflater.inflate(R.layout.fragment_my_report, container, false);
     }
 
@@ -46,12 +53,23 @@ public class MyReportFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        recyclerView = view.findViewById(R.id.recycle);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // 模拟一些数据（plate 替代 id）
+        List<Integer> reportIds = reportViewModel.getIdsByUser(viewModel.getUser().getID());
+
+        //TODO 暂时用for循环，可换成livedata
         List<ReportItem> reportList = new ArrayList<>();
-        reportList.add(new ReportItem(1, "Good", "2025-04-20 09:15"));  // 加上 id
-        reportList.add(new ReportItem(2, "Nice", "2025-04-19 18:42"));
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        for(int id: reportIds){
+            Report report = reportViewModel.findReport(id,false);
+            reportList.add(new ReportItem(report.getCarPlate(), String.valueOf(report.getStatus()), fmt.format(report.getTimestamp())));
+        }
 
+        reportList.add(new ReportItem("ABC123", "Good", "2025-04-20 09:15"));
+        reportList.add(new ReportItem("XYZ789", "Nice", "2025-04-19 18:42"));
 
-        // 设置适配器
         adapter = new ReportAdapter(reportList, getContext());
         recyclerView.setAdapter(adapter);
     }

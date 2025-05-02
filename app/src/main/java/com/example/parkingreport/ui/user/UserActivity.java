@@ -39,10 +39,9 @@ public class UserActivity extends AppCompatActivity {
                 .get(ReportViewModel.class);
         Intent intent = getIntent();
         int    userId   = intent.getIntExtra("userId", -1);
-        User currentUser = viewModel.findUser(userId);
-        Log.e("User activity: user name:", currentUser.getName());
-        viewModel.setUser(currentUser);
         Log.e("Useractivity", "user id"+userId);
+        User currentUser = viewModel.findUser(userId);
+        viewModel.setUser(currentUser);
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView3);
@@ -57,6 +56,8 @@ public class UserActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.e("Useractivity","destroied!!!");
         super.onDestroy();
+//        viewModel.setUser(null);
     }
 }

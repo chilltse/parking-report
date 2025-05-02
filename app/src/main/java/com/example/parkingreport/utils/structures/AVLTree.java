@@ -38,6 +38,12 @@ public class AVLTree<T extends Comparable<T> & HasID> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        List<T> list = inorderList();
+        return list.toString();
+    }
+
     private Node insert(Node node, T data) {
         if (node == null) return new Node(data);
 

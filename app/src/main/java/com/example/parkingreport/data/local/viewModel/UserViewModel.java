@@ -45,7 +45,7 @@ public class UserViewModel extends AndroidViewModel {
 
     public UserViewModel(@NonNull Application application) {
         super(application);
-        userRepository = new UserRepository(application.getApplicationContext());
+        userRepository = UserRepository.getInstance(application.getApplicationContext());
         allUserLive = userRepository.getAllUserLive();
     }
 
@@ -90,11 +90,11 @@ public class UserViewModel extends AndroidViewModel {
 
 
 
-    public void modifyUserName(int userId, String name) {
-        executeAsync(() -> {
-            userRepository.modifyUserName(userId, name);
-        });
-    }
+//    public void modifyUserName(int userId, String name) {
+//        executeAsync(() -> {
+//            userRepository.modifyUserName(userId, name);
+//        });
+//    }
 
     public void modifyUserPassword(int userId, String password) {
         executeAsync(() -> {

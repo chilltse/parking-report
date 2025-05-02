@@ -7,6 +7,7 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.parkingreport.data.local.api.Callback;
 import com.example.parkingreport.data.local.entities.Report;
@@ -65,11 +66,13 @@ public class ReportViewModel extends AndroidViewModel {
         return reportRepository.replyReport(ID, isApproved, feedBack);
     }
 
-    public void findReport(int ID, boolean isWaitStatus, Callback<Report> callback) {
-        executeAsync(() -> {
+//    public void findReport(int ID, boolean isWaitStatus, Callback<Report> callback) {
+    public Report findReport(int ID, boolean isWaitStatus) {
+//        executeAsync(() -> {
             Report report = reportRepository.findReport(ID, isWaitStatus);
-            callback.onResult(report);
-        });
+//            callback.onResult(report);
+//        });
+        return report;
     }
 
 
@@ -84,6 +87,19 @@ public class ReportViewModel extends AndroidViewModel {
             }
         });
     }
+
+    // User
+    private final MutableLiveData<Report> reportLive = new MutableLiveData<>();
+    // 主线程
+    public void setReport(Report report) {
+        reportLive.setValue(report);
+    }
+    // 任意线程
+    public void postReport(Report report) {
+        reportLive.postValue(report);
+    }
+    public LiveData<Report> getReportLive() { return reportLive; }
+    public Report getReport() { return reportLive.getValue(); }
 
 }
 

@@ -128,19 +128,19 @@ public class UserRepository {
         userLogRepository.insertLog(new UserLog(userId,UserLog.CANCEL_ACCOUNT));
     }
 
-    public void modifyUserName(int userId, String name){
-        // check userId exist
-        if(userDao.checkIdExists(userId) == 0)
-            return;
-        // check name exist, the new might already used by the others
-        String email = "xx";
-        if(checkUserExists(name,email))
-            return;
-        //modify it
-        userDao.modifyUserName(userId, name);
-        // insert UserLog
-        userLogRepository.insertLog(new UserLog(userId,UserLog.MODIFY_NAME));
-    }
+//    public void modifyUserName(int userId, String name){
+//        // check userId exist
+//        if(userDao.checkIdExists(userId) == 0)
+//            return;
+//        // check name exist, the new might already used by the others
+//        String email = "xx";
+//        if(checkUserExists(name,email))
+//            return;
+//        //modify it
+//        userDao.modifyUserName(userId, name);
+//        // insert UserLog
+//        userLogRepository.insertLog(new UserLog(userId,UserLog.MODIFY_NAME));
+//    }
 
     public void modifyUserPassword(int userId, String password){
         // check userId exist
