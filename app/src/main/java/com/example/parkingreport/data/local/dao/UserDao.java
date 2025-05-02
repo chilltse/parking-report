@@ -11,7 +11,8 @@ public interface UserDao {
     User findUser(int ID);
     User copyUser(User user);
     void clearUser();
-    void deleteUser(int userId);
+    void deleteUser(User user);
+    int findIdByName(String name);
     void modifyUserName(int userId, String name);
     void modifyUserPassword(int userId, String password);
     LiveData<List<User>> getAllUsersLive();

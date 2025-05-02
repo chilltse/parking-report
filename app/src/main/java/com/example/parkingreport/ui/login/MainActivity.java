@@ -104,20 +104,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO 暂时测试，删除用户
-                viewModel.changeUserPassword(2,"gan ni niang");
-//                viewModel.findUser(2, user -> {
-//                    // 这里拿到了 user
-//                    editTextUsername.setText("找到用户2: " + user.getName());
+//                viewModel.changeUserPassword(2,"gan ni niang");
+////                viewModel.findUser(2, user -> {
+////                    // 这里拿到了 user
+////                    editTextUsername.setText("找到用户2: " + user.getName());
+////                });
+//                reportViewModel.findReport(2, false, report -> {
+//                    if(report==null){
+//                        editTextUsername.setText("没找到report2: ");
+//                    }else{
+//                        // 这里拿到了 user
+//                        editTextUsername.setText("找到report2: " + report.getID()+ ";status: "  +report.getStatus());
+//                    }
 //                });
-                reportViewModel.findReport(2, false, report -> {
-                    if(report==null){
-                        editTextUsername.setText("没找到report2: ");
-                    }else{
-                        // 这里拿到了 user
-                        editTextUsername.setText("找到report2: " + report.getID()+ ";status: "  +report.getStatus());
-                    }
-                });
-//                login();
+                login();
 
             }
         });
@@ -138,10 +138,11 @@ public class MainActivity extends AppCompatActivity {
         viewModel.validateUser(username, password, loginAs, isMatch -> {
             if (isMatch) {
                 // Navigate to the next Activity based on user role
+                int userId = viewModel.findIdByName(username);
                 Intent intent = loginAs == User.USER ?
                         new Intent(MainActivity.this, UserActivity.class):
                         new Intent(MainActivity.this, AdminActivity.class);
-                intent.putExtra("UserName", username);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
             } else {
                 editTextPassword.setError("Invalid username or password");
