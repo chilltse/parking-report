@@ -1,29 +1,32 @@
 package com.example.parkingreport.ui.user.fragment.Myreport;
 
 public class ReportItem {
-    private int id;
-    private String title;
-    private String time;
+    private String plate;  // 车牌号
+    private String state;  // 状态（原 title）
+    private String time;   // 报告时间
 
-    public ReportItem(int id, String title, String time) {  // 这里是3个参数的构造器
-        this.id = id;
-        this.title = title;
+    // 构造方法
+    public ReportItem(String plate, String state, String time) {
+        this.plate = plate;
+        this.state = state;
         this.time = time;
     }
-    public int getId() {
-        return id;
+
+    // Getter 和 Setter
+    public String getPlate() {
+        return plate;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPlate(String plate) {
+        this.plate = plate;
     }
 
-    public String getTitle() {
-        return title;
+    public String getState() {
+        return state;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getTime() {

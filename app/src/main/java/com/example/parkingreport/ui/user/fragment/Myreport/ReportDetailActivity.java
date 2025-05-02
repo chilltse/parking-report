@@ -12,12 +12,18 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.parkingreport.R;
 
+import java.util.Calendar;
+
 public class ReportDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_detail);
+
+
+
+
 
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);   // 新增：接收 id，默认-1

@@ -38,17 +38,14 @@ public class MyReportFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 初始化 RecyclerView
         recyclerView = view.findViewById(R.id.recycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // 模拟一些数据
+        // 模拟一些数据（plate 替代 id）
         List<ReportItem> reportList = new ArrayList<>();
-        reportList.add(new ReportItem(1, "Good", "2025-04-20 09:15"));  // 加上 id
-        reportList.add(new ReportItem(2, "Nice", "2025-04-19 18:42"));
+        reportList.add(new ReportItem("ABC123", "Good", "2025-04-20 09:15"));
+        reportList.add(new ReportItem("XYZ789", "Nice", "2025-04-19 18:42"));
 
-
-        // 设置适配器
         adapter = new ReportAdapter(reportList, getContext());
         recyclerView.setAdapter(adapter);
     }
