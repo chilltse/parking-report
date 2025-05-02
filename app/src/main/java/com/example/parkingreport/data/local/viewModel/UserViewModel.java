@@ -37,7 +37,7 @@ public class UserViewModel extends AndroidViewModel {
 
     public UserViewModel(@NonNull Application application) {
         super(application);
-        userRepository = new UserRepository(application.getApplicationContext());
+        userRepository = UserRepository.getInstance(application.getApplicationContext());
         allUserLive = userRepository.getAllUserLive();
     }
 
@@ -120,7 +120,7 @@ public class UserViewModel extends AndroidViewModel {
             }
         });
     }
-public void validateUser(String username, String password, int role, Consumer<Boolean> resultCallback) {
+public void validateUser(String username, String password, String role, Consumer<Boolean> resultCallback) {
     userRepository.getAllUserLive().observeForever(new Observer<List<User>>() {
         @Override
         public void onChanged(List<User> users) {
@@ -128,7 +128,7 @@ public void validateUser(String username, String password, int role, Consumer<Bo
                 if ((username.equals(user.getName()) || username.equals(user.getEmail()))
 //                        && BCrypt.checkpw(password, user.getPassword())
                         && password.equals(user.getPassword())
-                        && role == user.getRole()) {
+                        && role.equals(user.getRole())) {
                     resultCallback.accept(true);
                     userRepository.getAllUserLive().removeObserver(this);
                     return;

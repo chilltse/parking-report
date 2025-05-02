@@ -110,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 if(verifyCode()){
                                     // Save new user to DB
                                     Log.d(TAG, "Succeed save user data!");
-                                    viewModel.insertUser(new User(emailAdress, username, password, User.USER, true));
+                                    viewModel.insertUser(new User(username, emailAdress, password, User.USER, true));
                                     Toast.makeText(getApplicationContext(), "Succeed save user data!", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }else{
