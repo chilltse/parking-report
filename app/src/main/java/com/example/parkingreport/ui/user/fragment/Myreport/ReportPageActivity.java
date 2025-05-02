@@ -1,9 +1,11 @@
 package com.example.parkingreport.ui.user.fragment.Myreport;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -12,6 +14,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.parkingreport.R;
+
+import java.util.Calendar;
 
 public class ReportPageActivity extends AppCompatActivity {
 
@@ -28,8 +32,19 @@ public class ReportPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_page);
 
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1; // 月份从0开始
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        @SuppressLint("DefaultLocale") String currentTime = String.format("%04d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second);
         selectFileLayout = findViewById(R.id.selectFileLayout);
         takePhotoLayout = findViewById(R.id.takePhotoLayout);
+
+        EditText dateInput = findViewById(R.id.dateInput);
+        dateInput.setText(currentTime);
 
         // 选择照片
         pickImageLauncher = registerForActivityResult(

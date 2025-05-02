@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewListFragment extends Fragment {
-    private RecyclerView recyclerView;
-    private ItemAdapter adapter;
 
     public ReviewListFragment() {
         // Required empty public constructor
@@ -37,14 +35,14 @@ public class ReviewListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 初始化 RecyclerView
-        recyclerView = view.findViewById(R.id.recycle);
+        RecyclerView recyclerView = view.findViewById(R.id.recycle);
 
         List<Item> itemList = new ArrayList<>();
         itemList.add(new Item("Test 1"));
         itemList.add(new Item("Test 2"));
         itemList.add(new Item("Test 3"));
 
-        adapter = new ItemAdapter(itemList, getContext());
+        ItemAdapter adapter = new ItemAdapter(itemList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
