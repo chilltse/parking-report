@@ -11,11 +11,6 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/reportFragment"
-        android:name="com.example.parkingreport.ui.user.fragment.ReportFragment"
-        android:label="fragment_report"
-        tools:layout="@layout/fragment_report" />
-    <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.parkingreport.ui.user.fragment.MapFragment"
         android:label="fragment_map"

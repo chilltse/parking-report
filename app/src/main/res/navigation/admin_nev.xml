@@ -16,11 +16,6 @@
         android:label="fragment_review_list"
         tools:layout="@layout/fragment_review_list" />
     <fragment
-        android:id="@+id/notificationFragment"
-        android:name="com.example.parkingreport.ui.admin.fragment.NotificationFragment"
-        android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" />
-    <fragment
         android:id="@+id/unreviewListFragment"
         android:name="com.example.parkingreport.ui.admin.fragment.unreFragment"
         android:label="fragment_unre"

@@ -13,8 +13,4 @@
         android:id="@+id/unreviewListFragment"
         android:icon="@drawable/clipboard"
         android:title="unreview" />
-    <item
-        android:id="@+id/notificationFragment"
-        android:icon="@drawable/notify"
-        android:title="Notify" />
 </menu>
