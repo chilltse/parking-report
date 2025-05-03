@@ -3,11 +3,21 @@ package com.example.parkingreport.search;
 import java.util.*;
 
 public class Tokenizer {
+    /**
+     * A helper class representing two sets of tokens split by an operator (e.g., 'AND' or 'OR').
+     * Typically used to distinguish left-hand side and right-hand side of a query expression.
+     */
     public static class TokenPair {
         public List<Token> leftTokens = new ArrayList<>();
         public List<Token> rightTokens = new ArrayList<>();
     }
 
+
+    /**
+     * Tokenizes an input query string into a TokenPair.
+     * The input is split into two parts at the first whitespace (likely representing a binary operation).
+     * Each part is parsed into a list of Token objects.
+     */
     public static TokenPair tokenize(String input) {
         TokenPair pair = new TokenPair();
         input = input.trim();
@@ -21,6 +31,11 @@ public class Tokenizer {
         return pair;
     }
 
+    /**
+     * Parses a single part of a query string into a list of Tokens.
+     * Supports optional negation using a leading '!' character.
+     * Throws an exception for invalid token values.
+     */
     private static List<Token> parsePart(String value) {
         List<Token> tokens = new ArrayList<>();
         if (value.isEmpty()) return tokens;
@@ -36,7 +51,13 @@ public class Tokenizer {
         tokens.add(new Token(isNegative ? "not_" + type : type, value));
         return tokens;
     }
-
+    /**
+     * Classifies a string into a token type: "plate", "name", or "invalid".
+     * Rules:
+     * - contains digits → "plate"
+     * - only letters → "name"
+     * - otherwise → "invalid"
+     */
     private static String classify(String input) {
         if (input == null || input.isEmpty()) return "invalid";
         if (input.contains(" ")) return "invalid";
