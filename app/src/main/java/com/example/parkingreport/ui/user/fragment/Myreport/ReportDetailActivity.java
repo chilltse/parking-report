@@ -36,6 +36,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);   // 新增：接收 id，默认-1
         String title = intent.getStringExtra("title");
+        String reporterName = intent.getStringExtra("reporterName");
         String time = intent.getStringExtra("time");
 
         // 可以用于调试或者展示
@@ -44,7 +45,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         TextView titleView = findViewById(R.id.valueCarPlate);
         TextView timeView = findViewById(R.id.valueTime);
 
-        titleView.setText(title);
+//        titleView.setText(title);
+        titleView.setText(reporterName);
         timeView.setText(time);
 
     }

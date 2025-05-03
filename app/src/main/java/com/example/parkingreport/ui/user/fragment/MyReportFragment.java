@@ -60,15 +60,25 @@ public class MyReportFragment extends Fragment {
         List<Integer> reportIds = reportViewModel.getIdsByUser(viewModel.getUser().getID());
 
         //TODO 暂时用for循环，可换成livedata
+        String reporterName =  viewModel.getUser().getName();
         List<ReportItem> reportList = new ArrayList<>();
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         for(int id: reportIds){
             Report report = reportViewModel.findReport(id,false);
-            reportList.add(new ReportItem(report.getCarPlate(), String.valueOf(report.getStatus()), fmt.format(report.getTimestamp())));
+//            reportList.add(new ReportItem(report.getCarPlate(), String.valueOf(report.getStatus()), fmt.format(report.getTimestamp())));
+            reportList.add(new ReportItem(
+                    id,
+                    reporterName,
+                    report.getCarPlate(),
+                    report.getLocation(),
+                    fmt.format(report.getTimestamp()),
+                    report.getFeedback(),
+                    String.valueOf(report.getStatus()) )
+            );
         }
 
-        reportList.add(new ReportItem("ABC123", "Good", "2025-04-20 09:15"));
-        reportList.add(new ReportItem("XYZ789", "Nice", "2025-04-19 18:42"));
+//        reportList.add(new ReportItem("ABC123", "Good", "2025-04-20 09:15"));
+//        reportList.add(new ReportItem("XYZ789", "Nice", "2025-04-19 18:42"));
 
         adapter = new ReportAdapter(reportList, getContext());
         recyclerView.setAdapter(adapter);
