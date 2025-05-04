@@ -120,18 +120,22 @@ public class JsonReportDao implements ReportDao {
     }
 
     @Override
-    public synchronized void handleReport(int reportId, int status) {
-        List<Report> list = liveData.getValue();
-        if (list == null) return;
-
-        for (Report r : list) {
-            if (r.getID() == reportId) {
-                r.setStatus(status);
-                break;
+    public synchronized void handleReport(int reportId, String status) {
+        synchronized (this){
+            List<Report> list = liveData.getValue();
+            if (list != null){
+                // find the instance in livedata, or remove won't work.
+                for (Report r : list) {
+                    if(reportId == r.getID()) {
+                        r.setStatus(status);
+                        break;
+                    }
+                }
+                saveToFile(list);
             }
         }
-        saveToFile(list);
     }
+
 
     @Override
     public synchronized void updateReport(Report report) {
@@ -148,15 +152,16 @@ public class JsonReportDao implements ReportDao {
     }
 
     @Override
-    public int checkReportStatus(int id) {
-        List<Report> l = liveData.getValue();
-        if (l == null) return 0;
-        return l.stream()
-                .filter(r -> r.getID() == id)
-                .map(Report::getStatus)
-                .findFirst()
-                .orElse(0);
+    public String checkReportStatus(int reportId) {
+        List<Report> list = liveData.getValue();
+        if(list == null) return null;
+        for (Report r : list) {
+            if(reportId == r.getID())
+                return r.getStatus();
+        }
+        return null;
     }
+
 
     @Override
     public synchronized Report findReport(int id, boolean waitingOnly) {

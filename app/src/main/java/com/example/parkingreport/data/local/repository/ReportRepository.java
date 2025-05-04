@@ -94,15 +94,15 @@ public class ReportRepository {
      * @param reportId the Id of report that we want to handle.
      * @param status  the status(Approve or decline) that we want to set for this report.
      */
-    public void handleReport(int reportId, int userId, int status){
+    public void handleReport(int reportId, int userId, String status){
         //check report exists
         if(reportDao.checkReportExists(reportId) == 0)
             return;
         //check if status are legal (approve or decline)
-        if(status != Report.APPROVED && status != Report.DECLINED)
+        if(!status.equals(Report.APPROVED) && !status.equals(Report.DECLINED))
             return;
         //check if current status is wait for review
-        if(reportDao.checkReportStatus(reportId) != Report.WAIT_FOR_REVIEW)
+        if(!reportDao.checkReportStatus(reportId).equals(Report.WAIT_FOR_REVIEW))
             return;
         //only current status is wait for review can be review
         reportDao.handleReport(reportId, status);

@@ -125,6 +125,7 @@ public class JsonUserDao implements UserDao {
         if (list == null) list = new ArrayList<>();
         list.add(user);
         userTree.insert(user);
+        nameMap.put(user.getName(), user.getID());
         Log.w("JSON_PATH", "Insert User, now list is : " + list.toString());
 
         saveToFile(list);

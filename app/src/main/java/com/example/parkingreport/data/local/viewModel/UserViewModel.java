@@ -3,6 +3,7 @@ package com.example.parkingreport.data.local.viewModel;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
@@ -128,17 +129,20 @@ public class UserViewModel extends AndroidViewModel {
             }
         });
     }
-public void validateUser(String username, String password, int role, Consumer<Boolean> resultCallback) {
+public void validateUser(String username, String password, String role, Consumer<Boolean> resultCallback) {
     userRepository.getAllUserLive().observeForever(new Observer<List<User>>() {
         @Override
         public void onChanged(List<User> users) {
             for (User user : users) {
+                Log.d("verify password, username:", "user.getRole()"+user.getRole());
+                Log.d("verify password, username:", "role"+role);
                 if ((username.equals(user.getName()) || username.equals(user.getEmail()))
 //                        && BCrypt.checkpw(password, user.getPassword())
                         && password.equals(user.getPassword())
-                        && role == user.getRole()) {
+                        && role.equals(user.getRole())) {
                     resultCallback.accept(true);
                     userRepository.getAllUserLive().removeObserver(this);
+                    Log.d("verify password, username:", "succeed"+user.getName());
                     return;
                 }
             }

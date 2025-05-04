@@ -48,7 +48,7 @@ public class ReportViewModel extends AndroidViewModel {
 //        });
 //    }
 
-    public void handleReport(int reportId, int userId, int status){
+    public void handleReport(int reportId, int userId, String status){
         executeAsync(() -> {
             reportRepository.handleReport(reportId, userId, status);
         });
