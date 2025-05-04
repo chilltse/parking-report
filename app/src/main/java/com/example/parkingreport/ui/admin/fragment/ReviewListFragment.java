@@ -8,17 +8,22 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkingreport.R;
-import com.example.parkingreport.ui.admin.fragment.review.Item;
-import com.example.parkingreport.ui.admin.fragment.review.ItemAdapter;
+import com.example.parkingreport.data.local.entities.Report;
+import com.example.parkingreport.data.local.viewModel.ReportViewModel;
+import com.example.parkingreport.data.local.viewModel.UserViewModel;
+import com.example.parkingreport.ui.user.fragment.Myreport.ReportAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewListFragment extends Fragment {
+
+    private ReportViewModel reportViewModel;
 
     public ReviewListFragment() {
         // Required empty public constructor
@@ -28,6 +33,8 @@ public class ReviewListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        reportViewModel = new ViewModelProvider(requireActivity())
+                .get(ReportViewModel.class);
         return inflater.inflate(R.layout.fragment_review_list, container, false);
 
     }
@@ -37,12 +44,10 @@ public class ReviewListFragment extends Fragment {
         // 初始化 RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recycle);
 
-        List<Item> itemList = new ArrayList<>();
-        itemList.add(new Item("Test 1"));
-        itemList.add(new Item("Test 2"));
-        itemList.add(new Item("Test 3"));
+        List<Report> allReports =  reportViewModel.getAllReportsLive().getValue();
 
-        ItemAdapter adapter = new ItemAdapter(itemList, getContext());
+
+        ReportAdapter adapter = new ReportAdapter(allReports, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

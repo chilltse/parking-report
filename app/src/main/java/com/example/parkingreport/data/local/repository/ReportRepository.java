@@ -32,6 +32,8 @@ public class ReportRepository {
         // get the instance of userLog, when creating userRepository
         this.reportLogRepository= ReportLogRepository.getInstance(context);
     }
+    public LiveData<List<Report>> getAllReportsLive() { return reportDao.getAllReportsLive(); }
+    public List<Report> getAllWaitingReportsLive() { return reportDao.getAllWaitingReportsLive(); }
     public static synchronized  ReportRepository getInstance(Context context) {
         if (Instance == null) {
             Instance = new ReportRepository(context.getApplicationContext());

@@ -22,6 +22,7 @@ public interface ReportDao {
     int checkReportExists(int reportId);
 
     String checkReportStatus(int reportId);
+    public List<Report> getAllWaitingReportsLive();
 
     List<Integer> getIdsByUser(int userId);
     List<Integer> getIdsByPlate(String plate);

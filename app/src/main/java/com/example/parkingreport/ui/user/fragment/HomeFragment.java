@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,8 +35,6 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Button logout = view.findViewById(R.id.btn_logout);
-
         // User info related
         viewModel =  new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
@@ -58,8 +58,17 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        logout.setOnClickListener(v -> {
-            requireActivity().finish();   // ① 结束当前 Activity
+        // Change password
+        Button changePwdBtn = view.findViewById(R.id.btn_change_password);
+        changePwdBtn.setOnClickListener(v -> {
+            EditText newPwd = view.findViewById(R.id.newPwd);
+            String pwd = newPwd.getText().toString().trim();
+            if(pwd.equals("")){
+                newPwd.setError("Please input password here!");
+            }else{
+                viewModel.changeUserPassword(user.getID(),pwd);
+                Toast.makeText(requireContext(), "You have changed your password!", Toast.LENGTH_SHORT).show();
+            }
         });
 
         return view;
