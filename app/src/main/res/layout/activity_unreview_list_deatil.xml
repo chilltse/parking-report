@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.admin.fragment.unreview.Unreview_list_deatilActivity">
+    tools:context=".ui.admin.fragment.unreview.Unreview_list_detailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"

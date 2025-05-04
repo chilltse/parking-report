@@ -44,7 +44,7 @@ public class UnreviewAdapter extends RecyclerView.Adapter<UnreviewAdapter.ItemVi
 
         // Click event, jump to DetailActivity
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, Unreview_list_deatilActivity.class);
+            Intent intent = new Intent(context, Unreview_list_detailActivity.class);
             intent.putExtra("title", currentItem.getItem());
             context.startActivity(intent);
         });

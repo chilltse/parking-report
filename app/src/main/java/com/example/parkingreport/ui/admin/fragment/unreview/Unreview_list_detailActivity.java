@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.parkingreport.R;
 
-public class Unreview_list_deatilActivity extends AppCompatActivity {
+public class Unreview_list_detailActivity extends AppCompatActivity {
 
     private ToggleButton approveButton;
     private ToggleButton rejectButton;
