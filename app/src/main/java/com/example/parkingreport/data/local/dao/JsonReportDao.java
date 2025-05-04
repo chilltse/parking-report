@@ -145,7 +145,7 @@ public class JsonReportDao implements ReportDao{
 //    }
 
     @Override
-    public synchronized void handleReport(int reportId, int status) {
+    public synchronized void handleReport(int reportId, String status) {
         synchronized (this){
             List<Report> list = liveData.getValue();
             if (list != null){
@@ -178,14 +178,14 @@ public class JsonReportDao implements ReportDao{
     }
 
     @Override
-    public int checkReportStatus(int reportId) {
+    public String checkReportStatus(int reportId) {
         List<Report> list = liveData.getValue();
-        if(list == null) return 0;
+        if(list == null) return null;
         for (Report r : list) {
             if(reportId == r.getID())
                 return r.getStatus();
         }
-        return 0;
+        return null;
     }
 
     //TODO 待测试

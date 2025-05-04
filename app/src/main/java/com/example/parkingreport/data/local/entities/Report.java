@@ -10,13 +10,14 @@ public class Report implements Comparable<Report>, HasID {
     private Date timestamp;
     private String carPlate;
     private String location;
+    private String reportPicUrl;
     private String feedback;
-    private int status;
-    public static final int APPROVED = 1;
-    public static final int DECLINED= 0;
-    public static final int WAIT_FOR_REVIEW= -1;
+    private String status;
+    public static final String APPROVED = "APPROVED";
+    public static final String DECLINED= "DECLINED";
+    public static final String WAIT_FOR_REVIEW= "WAIT_FOR_REVIEW";
 
-    public Report(int userId, String carPlate, String location, int status) {
+    public Report(int userId, String carPlate, String location, String status) {
 
         this.userId = userId;
         this.timestamp = new Date();
@@ -72,12 +73,20 @@ public class Report implements Comparable<Report>, HasID {
         this.feedback = feedback;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getReportPicUrl() {
+        return reportPicUrl;
+    }
+
+    public void setReportPicUrl(String reportPicUrl) {
+        this.reportPicUrl = reportPicUrl;
     }
 
     @Override

@@ -6,18 +6,15 @@ public class User implements Comparable<User>, HasID {
 
     private int ID;
     private String name;
-
     private String email;
-
     private String password;
-
-    private int role;
+    private String profilePicUrl;
+    private String role;
     private boolean alive;
+    public static final String USER = "User";
+    public static final String ADMIN = "Admin";
 
-    public static final int USER = 1;
-    public static final int ADMIN = 0;
-
-    public User(String name, String email, String password, int role, boolean alive){
+    public User(String name, String email, String password, String role, boolean alive){
         this.name = name;
         this.email = email;
 //        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -47,7 +44,7 @@ public class User implements Comparable<User>, HasID {
         return ID;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
@@ -74,6 +71,15 @@ public class User implements Comparable<User>, HasID {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
+    }
+
     /**
      * @return for debug use, print user info
      */

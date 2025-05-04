@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private UserLogViewModel userLogViewModel; //test
     private ReportLogViewModel reportLogViewModel; //test
 
-    private int loginAs;
+    private String loginAs;
 
     private MediaPlayer mediaPlayer;
 
