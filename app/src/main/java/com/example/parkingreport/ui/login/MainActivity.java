@@ -76,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
         ToggleButton toggleButtonUser = findViewById(R.id.toggleButtonUser);
         ToggleButton toggleButtonAdmin = findViewById(R.id.toggleButtonAdmin);
 
+        // —— 在这里设置默认选中 “User” ——
+        toggleButtonUser.setChecked(true);
+        toggleButtonAdmin.setChecked(false);
+        loginAs = User.USER;
+        textViewSignUp.setVisibility(View.VISIBLE);
+        // ————————————————
+
         toggleButtonUser.setOnClickListener(v -> {
             toggleButtonUser.setChecked(true);
             toggleButtonAdmin.setChecked(false);
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             loginAs = User.ADMIN;
             textViewSignUp.setVisibility(View.GONE);
         });
+
 
         // Sign up
         textViewSignUp.setOnClickListener(new View.OnClickListener() {
