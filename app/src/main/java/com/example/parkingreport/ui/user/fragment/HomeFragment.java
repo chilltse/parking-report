@@ -7,19 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.login.MainActivity;
 
 public class HomeFragment extends Fragment {
 
     private UserViewModel viewModel;
-
-    int userID;
+    private User user;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -35,14 +36,30 @@ public class HomeFragment extends Fragment {
         Button logout = view.findViewById(R.id.btn_logout);
 
         // User info related
-        viewModel =  new ViewModelProvider(this)
+        viewModel =  new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
-        userID = viewModel.getUserId();
-        Log.d("Fragment", " ####user id: " + userID);
+        user = viewModel.getUser();
+        Log.d("Fragment", " ####user id: " + user.getID());
+
+        // User name
+        TextView userNameTextView = view.findViewById(R.id.textView2);
+        userNameTextView.setText(user.getName());
+
+        // User email
+        TextView userEmailTextView = view.findViewById(R.id.textView3);
+        userEmailTextView.setText(user.getEmail());
+
+        // Logout
+        Button logoutButton = view.findViewById(R.id.btn_logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().finish();   // ① 结束当前 Activity
+            }
+        });
 
         logout.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
+            requireActivity().finish();   // ① 结束当前 Activity
         });
 
         return view;

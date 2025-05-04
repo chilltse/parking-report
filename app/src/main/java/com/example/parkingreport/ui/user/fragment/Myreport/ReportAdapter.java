@@ -15,8 +15,8 @@ import java.util.List;
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder> {
 
-    private List<ReportItem> reportList;
-    private Context context;
+    private final List<ReportItem> reportList;
+    private final Context context;
 
     public ReportAdapter(List<ReportItem> reportList, Context context) {
         this.reportList = reportList;
@@ -31,29 +31,35 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textReportStatus);
-            time = itemView.findViewById(R.id.textReportDate);
-            plate = itemView.findViewById(R.id.textReportId); // 显示车牌的位置不变
+            time  = itemView.findViewById(R.id.textReportDate);
+            plate = itemView.findViewById(R.id.textReportId);
         }
     }
 
     @Override
     public ReportAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_report, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_report, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ReportAdapter.ViewHolder holder, int position) {
         ReportItem item = reportList.get(position);
+
         holder.plate.setText(item.getPlate());
-        holder.title.setText(item.getState());
+        holder.title.setText(item.getStatus());
         holder.time.setText(item.getTime());
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ReportDetailActivity.class);
-            intent.putExtra("plate", item.getPlate());
-            intent.putExtra("title", item.getState());
-            intent.putExtra("time", item.getTime());
+            intent.putExtra("reportId",   item.getReportId());    // 正确传入 int id
+            intent.putExtra("plate",      item.getPlate());
+            intent.putExtra("status",     item.getStatus());
+            intent.putExtra("time",       item.getTime());
+            intent.putExtra("location",   item.getLocation());
+            intent.putExtra("feedback",   item.getFeedback());
+            intent.putExtra("reporterName", item.getReporterName());
             context.startActivity(intent);
         });
     }
@@ -63,4 +69,3 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         return reportList.size();
     }
 }
-

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,7 +33,9 @@ public class AdminActivity extends AppCompatActivity {
                 .get(ReportViewModel.class);
         Intent intent = getIntent();
         int    userId   = intent.getIntExtra("userId", -1);
-        viewModel.setUserId(userId);
+        User user =  viewModel.findUser(userId);
+
+        viewModel.setUser(user);
         Log.e("Useractivity", "user id"+userId);
 
 

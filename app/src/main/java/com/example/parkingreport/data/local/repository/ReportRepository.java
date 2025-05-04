@@ -43,8 +43,12 @@ public class ReportRepository {
         return allReportLive;
     }
 
-    public void clearReport() {
-        reportDao.clearReport();
+    public List<Integer> getIdsByUser(int userId) {
+        return reportDao.getIdsByUser(userId);
+    }
+
+    public List<Integer> getIdsByPlate(String plate) {
+        return reportDao.getIdsByPlate(plate);
     }
 
     public void insertReport(Report report){

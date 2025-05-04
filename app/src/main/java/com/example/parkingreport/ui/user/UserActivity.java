@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportLogViewModel;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserLogViewModel;
@@ -38,8 +39,9 @@ public class UserActivity extends AppCompatActivity {
                 .get(ReportViewModel.class);
         Intent intent = getIntent();
         int    userId   = intent.getIntExtra("userId", -1);
-        viewModel.setUserId(userId);
         Log.e("Useractivity", "user id"+userId);
+        User currentUser = viewModel.findUser(userId);
+        viewModel.setUser(currentUser);
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView3);
@@ -54,6 +56,8 @@ public class UserActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.e("Useractivity","destroied!!!");
         super.onDestroy();
+//        viewModel.setUser(null);
     }
 }

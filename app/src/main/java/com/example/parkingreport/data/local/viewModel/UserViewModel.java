@@ -3,6 +3,7 @@ package com.example.parkingreport.data.local.viewModel;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
@@ -29,10 +30,18 @@ public class UserViewModel extends AndroidViewModel {
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    private final MutableLiveData<Integer> userIdLive = new MutableLiveData<>();
-    public void setUserId(int id) { userIdLive.setValue(id); }
-    public LiveData<Integer> getUserIdLive() { return userIdLive; }
-    public int getUserId() { return userIdLive.getValue() != null ? userIdLive.getValue() : -1; }
+    // User
+    private final MutableLiveData<User> userLive = new MutableLiveData<>();
+    // 主线程
+    public void setUser(User user) {
+        userLive.setValue(user);
+    }
+    // 任意线程
+    public void postUser(User user) {
+        userLive.postValue(user);
+    }
+    public LiveData<User> getUserLive() { return userLive; }
+    public User getUser() { return userLive.getValue(); }
 
 
     public UserViewModel(@NonNull Application application) {
@@ -125,12 +134,15 @@ public void validateUser(String username, String password, String role, Consumer
         @Override
         public void onChanged(List<User> users) {
             for (User user : users) {
+                Log.d("verify password, username:", "user.getRole()"+user.getRole());
+                Log.d("verify password, username:", "role"+role);
                 if ((username.equals(user.getName()) || username.equals(user.getEmail()))
 //                        && BCrypt.checkpw(password, user.getPassword())
                         && password.equals(user.getPassword())
                         && role.equals(user.getRole())) {
                     resultCallback.accept(true);
                     userRepository.getAllUserLive().removeObserver(this);
+                    Log.d("verify password, username:", "succeed"+user.getName());
                     return;
                 }
             }

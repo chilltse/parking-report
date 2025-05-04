@@ -2,23 +2,37 @@ package com.example.parkingreport.ui.user.fragment.Myreport;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.graphics.Insets;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.Report;
+import com.example.parkingreport.data.local.entities.User;
+import com.example.parkingreport.data.local.viewModel.ReportViewModel;
+import com.example.parkingreport.data.local.viewModel.UserViewModel;
 
 import java.util.Calendar;
 
 public class ReportPageActivity extends AppCompatActivity {
 
+    private UserViewModel viewModel;
+    private ReportViewModel reportViewModel;
+    private User user;
     private LinearLayout selectFileLayout;
     private LinearLayout takePhotoLayout;
 
@@ -31,6 +45,10 @@ public class ReportPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_page);
+
+        Intent intent = getIntent();
+        reportViewModel = new ViewModelProvider(this)
+                .get(ReportViewModel.class);
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -83,6 +101,41 @@ public class ReportPageActivity extends AppCompatActivity {
         takePhotoLayout.setOnClickListener(v -> {
             startCamera();
         });
+
+
+        // User info related
+        intent = getIntent();
+        int    userId   = intent.getIntExtra("userId", -1);
+
+        Button button = findViewById(R.id.submitButton);
+        button.setOnClickListener(v -> {
+            boolean isOK = true;
+            String gpsLocation = ((TextView)findViewById(R.id.locationInput)).getText().toString();
+            String date = ((TextView)findViewById(R.id.dateInput)).getText().toString();
+            String carPlate1 = ((TextView)findViewById(R.id.carPlateInput1)).getText().toString();
+            String carPlate2 = ((TextView)findViewById(R.id.carPlateInput2)).getText().toString();
+            if(!carPlate1.equals(carPlate2)){
+                ((TextView)findViewById(R.id.carPlateInput2)).setError("Not matching!");
+                isOK = false;
+            }
+            if(!((CheckBox )findViewById(R.id.confirmCheckbox)).isChecked()){
+                isOK = false;
+                Toast.makeText(getApplicationContext(), "Please click the confirm Checkbox",Toast.LENGTH_SHORT).show();
+            }
+
+            // Create report
+            if(isOK){
+                Report report = new Report(
+                        userId,
+                carPlate2,
+                gpsLocation,
+                Report.WAIT_FOR_REVIEW);
+                reportViewModel.insertReport(report);
+                finish();
+            }
+
+        });
+
     }
 
     private void startCamera() {

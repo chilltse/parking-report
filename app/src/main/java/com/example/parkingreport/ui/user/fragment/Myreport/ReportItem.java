@@ -1,18 +1,49 @@
 package com.example.parkingreport.ui.user.fragment.Myreport;
 
+/**
+ * 数据模型：报告条目
+ */
 public class ReportItem {
-    private String plate;  // 车牌号
-    private String state;  // 状态（原 title）
-    private String time;   // 报告时间
+    private int reportId;
+    private String reporterName;
+    private String plate;
+    private String location;
+    private String time;
+    private String feedback;
+    private String status;
 
-    // 构造方法
-    public ReportItem(String plate, String state, String time) {
+    public ReportItem(int reportId,
+                      String reporterName,
+                      String plate,
+                      String location,
+                      String time,
+                      String feedback,
+                      String status) {
+        this.reportId = reportId;
+        this.reporterName = reporterName;
         this.plate = plate;
-        this.state = state;
+        this.location = location;
         this.time = time;
+        this.feedback = feedback;
+        this.status = status;
     }
 
-    // Getter 和 Setter
+    public int getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(int reportId) {
+        this.reportId = reportId;
+    }
+
+    public String getReporterName() {
+        return reporterName;
+    }
+
+    public void setReporterName(String reporterName) {
+        this.reporterName = reporterName;
+    }
+
     public String getPlate() {
         return plate;
     }
@@ -21,12 +52,12 @@ public class ReportItem {
         this.plate = plate;
     }
 
-    public String getState() {
-        return state;
+    public String getLocation() {
+        return location;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getTime() {
@@ -36,5 +67,20 @@ public class ReportItem {
     public void setTime(String time) {
         this.time = time;
     }
-}
 
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

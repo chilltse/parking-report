@@ -7,6 +7,7 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.parkingreport.data.local.api.Callback;
 import com.example.parkingreport.data.local.entities.Report;
@@ -40,11 +41,6 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
-    public void clearReport(){
-        executeAsync(() -> {
-            reportRepository.clearReport();
-        });
-    }
 
 //    public void deleteReport(int reportId){
 //        executeAsync(() -> {
@@ -58,15 +54,25 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
+    public List<Integer> getIdsByUser(int userId) {
+        return reportRepository.getIdsByUser(userId);
+    }
+
+    public List<Integer> getIdsByPlate(String plate) {
+        return reportRepository.getIdsByPlate(plate);
+    }
+
     public boolean replyReport(int ID, boolean isApproved, String feedBack){
         return reportRepository.replyReport(ID, isApproved, feedBack);
     }
 
-    public void findReport(int ID, boolean isWaitStatus, Callback<Report> callback) {
-        executeAsync(() -> {
+//    public void findReport(int ID, boolean isWaitStatus, Callback<Report> callback) {
+    public Report findReport(int ID, boolean isWaitStatus) {
+//        executeAsync(() -> {
             Report report = reportRepository.findReport(ID, isWaitStatus);
-            callback.onResult(report);
-        });
+//            callback.onResult(report);
+//        });
+        return report;
     }
 
 
@@ -81,6 +87,19 @@ public class ReportViewModel extends AndroidViewModel {
             }
         });
     }
+
+    // User
+    private final MutableLiveData<Report> reportLive = new MutableLiveData<>();
+    // 主线程
+    public void setReport(Report report) {
+        reportLive.setValue(report);
+    }
+    // 任意线程
+    public void postReport(Report report) {
+        reportLive.postValue(report);
+    }
+    public LiveData<Report> getReportLive() { return reportLive; }
+    public Report getReport() { return reportLive.getValue(); }
 
 }
 
