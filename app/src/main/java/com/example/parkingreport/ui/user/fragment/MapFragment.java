@@ -1,5 +1,7 @@
 package com.example.parkingreport.ui.user.fragment;
 
+import static com.example.parkingreport.utils.PolygonUtil.isPointInPolygon;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +27,7 @@ import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.user.fragment.Myreport.ReportPageActivity;
+import com.example.parkingreport.utils.GPS;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,6 +40,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import android.Manifest;
+
+import java.util.Arrays;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -74,12 +79,43 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         button = view.findViewById(R.id.button);
+        //加入违停区域才允许拍照的逻辑
         button.setOnClickListener(v -> {
-            User user =  viewModel.getUser();
-            Intent intent = new Intent(getActivity(), ReportPageActivity.class);
-            intent.putExtra("userId", user.getID());
-            startActivity(intent);
+            GPS.getCurrentLocation(requireContext(), new GPS.GpsCallback() {
+                @Override
+                public void onLocationReady(double lat, double lng) {
+                    LatLng userLocation = new LatLng(lat, lng);
+
+                    boolean isInIllegalZone = false;
+                    for (IllegalParkingZone zone : IllegalParkingZone.values()) {
+                        if (isPointInPolygon(userLocation, Arrays.asList(zone.getVertices()))) {
+                            isInIllegalZone = true;
+                            break;
+                        }
+                    }
+
+                    if (isInIllegalZone) {
+                        User user = viewModel.getUser();
+                        Intent intent = new Intent(getActivity(), ReportPageActivity.class);
+                        intent.putExtra("userId", user.getID());
+                        startActivity(intent);
+                    } else {
+                        LayoutInflater inflater = getLayoutInflater();
+                        View layout = inflater.inflate(R.layout.custom_toast, null);
+
+                        TextView text = layout.findViewById(R.id.toast_text);
+                        text.setText("Not an illegal parking area, unable to report");
+
+                        Toast toast = new Toast(requireContext());
+                        toast.setDuration(Toast.LENGTH_SHORT);
+                        toast.setView(layout);
+                        toast.setGravity(Gravity.CENTER, 0, 0);  // Center the message
+                        toast.show();
+                    }
+                }
+            });
         });
+
 
 
     }
