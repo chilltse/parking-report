@@ -8,28 +8,39 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkingreport.R;
-import com.example.parkingreport.ui.admin.fragment.review.Item;
-import com.example.parkingreport.ui.admin.fragment.review.ItemAdapter;
-import com.example.parkingreport.ui.admin.fragment.unreview.ItemForUnre;
-import com.example.parkingreport.ui.admin.fragment.unreview.UnreviewAdapter;
+import com.example.parkingreport.data.local.entities.Report;
+import com.example.parkingreport.data.local.viewModel.ReportViewModel;
+import com.example.parkingreport.data.local.viewModel.UserViewModel;
 
+import com.example.parkingreport.ui.user.fragment.Myreport.ReportAdapter;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class unreFragment extends Fragment {
+public class UnreFragment extends Fragment {
+
+    private UserViewModel viewModel;
+    private ReportViewModel reportViewModel;
 
 
-    public unreFragment() {
+    public UnreFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        reportViewModel = new ViewModelProvider(requireActivity())
+                .get(ReportViewModel.class);
+        viewModel =  new ViewModelProvider(requireActivity())
+                .get(UserViewModel.class);
         return inflater.inflate(R.layout.fragment_unreview_list, container, false);
     }
     @Override
@@ -38,12 +49,11 @@ public class unreFragment extends Fragment {
         // 初始化 RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recycle2);
 
-        List<ItemForUnre> itemList = new ArrayList<>();
-        itemList.add(new ItemForUnre("Test 4"));
-        itemList.add(new ItemForUnre("Test 5"));
-        itemList.add(new ItemForUnre("Test 6"));
 
-        UnreviewAdapter adapter = new UnreviewAdapter(itemList, getContext());
+         List<Report> allReports =  reportViewModel.getAllWaitingReportsLive();
+
+
+        ReportAdapter adapter = new ReportAdapter(allReports, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

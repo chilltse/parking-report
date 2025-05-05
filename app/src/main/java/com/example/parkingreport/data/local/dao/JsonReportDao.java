@@ -99,7 +99,7 @@ public class JsonReportDao implements ReportDao {
     /* ───────────────── index maintenance ──────────────────── */
     private void insertIntoIndexes(Report r) {
         reportTree.insert(r);
-        if (r.getStatus() == Report.WAIT_FOR_REVIEW) {
+        if (r.getStatus().equals(Report.WAIT_FOR_REVIEW) ) {
             waitingReportTree.insert(r);
         }
 
@@ -144,6 +144,11 @@ public class JsonReportDao implements ReportDao {
 
     /* ─────────────────── query helpers ───────────────────── */
     @Override public LiveData<List<Report>> getAllReportsLive() { return liveData; }
+
+    @Override public List<Report> getAllWaitingReportsLive() {
+        Log.d("JsonReportDao", waitingReportTree.toString());
+        return waitingReportTree.inorderList();
+    }
 
     @Override
     public int checkReportExists(int id) {

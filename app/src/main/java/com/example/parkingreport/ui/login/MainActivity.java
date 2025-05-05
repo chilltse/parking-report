@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                         new Intent(MainActivity.this, UserActivity.class):
                         new Intent(MainActivity.this, AdminActivity.class);
                 intent.putExtra("userId", userId);
-                Log.d(TAG, " ####logining as " + username);
+                Log.d(TAG, " ####logining as " + loginAs);
                 startActivity(intent);
             } else {
                 editTextPassword.setError("Invalid username or password");

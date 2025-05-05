@@ -24,8 +24,7 @@ public class AdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
-
+        Log.e("AdminActivity", "before setContentView");
         // Data
         viewModel =  new ViewModelProvider(this)
                 .get(UserViewModel.class);
@@ -33,10 +32,12 @@ public class AdminActivity extends AppCompatActivity {
                 .get(ReportViewModel.class);
         Intent intent = getIntent();
         int    userId   = intent.getIntExtra("userId", -1);
-        User user =  viewModel.findUser(userId);
+        Log.e("Adminactivity", "##user id"+userId);
+        User currentUser = viewModel.findUser(userId);
+        Log.d("Adminactivity", " Adminactivity####user: " + currentUser);
+        viewModel.setUser(currentUser);
 
-        viewModel.setUser(user);
-        Log.e("Useractivity", "user id"+userId);
+        setContentView(R.layout.activity_admin);
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView2);
@@ -50,7 +51,9 @@ public class AdminActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.e("Adminactivity","destroied!!!");
         super.onDestroy();
+//        viewModel.setUser(null);
     }
 
 }

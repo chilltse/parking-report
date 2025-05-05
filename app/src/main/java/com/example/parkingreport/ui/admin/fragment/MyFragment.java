@@ -3,12 +3,18 @@ package com.example.parkingreport.ui.admin.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.User;
+import com.example.parkingreport.data.local.viewModel.UserViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +25,10 @@ public class MyFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private UserViewModel viewModel;
+
+    private User user;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -51,6 +61,14 @@ public class MyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // User info related
+        viewModel =  new ViewModelProvider(requireActivity())
+                .get(UserViewModel.class);
+        user = viewModel.getUser();
+        Log.d("Fragment", " ####user: " + user);
+        Log.d("Fragment", " ####user id: " + user.getID());
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -61,6 +79,28 @@ public class MyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my, container, false);
+
+
+        View view =  inflater.inflate(R.layout.fragment_my, container, false);
+
+        // User name
+        TextView userNameTextView = view.findViewById(R.id.textView2);
+        userNameTextView.setText(user.getName());
+
+        // User email
+        TextView userEmailTextView = view.findViewById(R.id.textView3);
+        userEmailTextView.setText(user.getEmail());
+
+        // Logout
+        Button logoutButton = view.findViewById(R.id.btn_logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().finish();   // ① 结束当前 Activity
+            }
+        });
+
+
+        return view;
     }
 }

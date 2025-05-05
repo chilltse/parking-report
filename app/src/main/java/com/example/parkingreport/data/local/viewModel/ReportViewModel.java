@@ -41,6 +41,9 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
+    public LiveData<List<Report>> getAllReportsLive() { return reportRepository.getAllReportsLive(); }
+    public List<Report> getAllWaitingReportsLive() { return reportRepository.getAllWaitingReportsLive(); }
+
 
 //    public void deleteReport(int reportId){
 //        executeAsync(() -> {
