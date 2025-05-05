@@ -46,6 +46,20 @@ public enum IllegalParkingZone {
             new LatLng(-35.279745, 149.131179),
             new LatLng(-35.279118, 149.127443),
     }),
+    Braddon(new LatLng[]{
+            new LatLng(-35.27048, 149.13210),
+            new LatLng(-35.27759, 149.13092),
+            new LatLng(-35.27818, 149.13272),
+            new LatLng(-35.27540, 149.13338),
+            new LatLng(-35.27086, 149.13394)
+    }),
+
+    MacArthur_Ave(new LatLng[]{
+            new LatLng(-35.25953, 149.11654),
+            new LatLng(-35.26150, 149.13575),
+            new LatLng(-35.26028, 149.13580),
+            new LatLng(-35.25801, 149.11513)
+    }),
 
     Gungahlin(new LatLng[]{
             new LatLng(-35.178, 149.137),
