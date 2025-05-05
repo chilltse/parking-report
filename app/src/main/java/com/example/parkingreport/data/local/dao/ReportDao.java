@@ -15,7 +15,7 @@ public interface ReportDao {
     Report findReport(int ID, boolean isWaitStatus);
     Report copyReport(Report report);
 
-    void handleReport(int reportId, String status);
+//    void handleReport(int reportId, String status);
 
     LiveData<List<Report>> getAllReportsLive();
 
