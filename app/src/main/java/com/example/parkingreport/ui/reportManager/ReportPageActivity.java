@@ -1,13 +1,11 @@
-package com.example.parkingreport.ui.user.fragment.Myreport;
+package com.example.parkingreport.ui.reportManager;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Insets;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;

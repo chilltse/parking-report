@@ -16,14 +16,15 @@ import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-import com.example.parkingreport.ui.user.fragment.Myreport.ReportAdapter;
+import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewListFragment extends Fragment {
 
     private ReportViewModel reportViewModel;
+
+    private UserViewModel viewModel;
 
     public ReviewListFragment() {
         // Required empty public constructor
@@ -35,6 +36,8 @@ public class ReviewListFragment extends Fragment {
                              Bundle savedInstanceState) {
         reportViewModel = new ViewModelProvider(requireActivity())
                 .get(ReportViewModel.class);
+        viewModel =  new ViewModelProvider(requireActivity())
+                .get(UserViewModel.class);
         return inflater.inflate(R.layout.fragment_review_list, container, false);
 
     }
@@ -47,7 +50,7 @@ public class ReviewListFragment extends Fragment {
         List<Report> allReports =  reportViewModel.getAllReportsLive().getValue();
 
 
-        ReportAdapter adapter = new ReportAdapter(allReports, getContext());
+        ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

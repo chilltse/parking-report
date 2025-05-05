@@ -1,4 +1,4 @@
-package com.example.parkingreport.ui.user.fragment.Myreport;
+package com.example.parkingreport.ui.reportManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,11 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.parkingreport.R;
@@ -19,8 +15,6 @@ import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-
-import java.util.Calendar;
 
 public class ReportDetailActivity extends AppCompatActivity {
 
@@ -48,12 +42,13 @@ public class ReportDetailActivity extends AppCompatActivity {
         String location = intent.getStringExtra("location");
         String feedback = intent.getStringExtra("feedback");
         String reporterName = intent.getStringExtra("reporterName");
+        String loginAs = intent.getStringExtra("loginAs");
 
         // 判断启用哪一个xml
         Log.d("Review_list", "status:" + status);
         Log.d("Review_list", "R.layout.activity_unreview_list_deatil:" + R.layout.activity_unreview_list_deatil);
         Log.d("Review_list", "R.layout.activity_report_detail:" + R.layout.activity_report_detail);
-        int layoutId = status.equals(Report.WAIT_FOR_REVIEW)?
+        int layoutId = status.equals(Report.WAIT_FOR_REVIEW) && loginAs.equals(User.ADMIN)?
                 R.layout.activity_unreview_list_deatil:
                 R.layout.activity_report_detail;
         setContentView(layoutId);

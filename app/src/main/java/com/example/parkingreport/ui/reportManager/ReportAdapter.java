@@ -1,4 +1,4 @@
-package com.example.parkingreport.ui.user.fragment.Myreport;
+package com.example.parkingreport.ui.reportManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,11 +20,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
     private final List<Report> reportList;
     private final Context context;
+    private String loginAs;
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-    public ReportAdapter(List<Report> reportList, Context context) {
+    public ReportAdapter(List<Report> reportList, Context context, String loginAs) {
         this.reportList = reportList;
         this.context = context;
+        this.loginAs = loginAs;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,6 +66,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
             intent.putExtra("location",   item.getLocation());
             intent.putExtra("feedback",   item.getFeedback());
             intent.putExtra("reporterID", item.getUserId());
+            intent.putExtra("loginAs", loginAs);
             context.startActivity(intent);
         });
     }
