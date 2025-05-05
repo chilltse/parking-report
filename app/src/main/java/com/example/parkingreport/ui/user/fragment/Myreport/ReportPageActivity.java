@@ -25,6 +25,7 @@ import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
+import com.example.parkingreport.utils.GPS;
 
 import java.util.Calendar;
 
@@ -134,6 +135,13 @@ public class ReportPageActivity extends AppCompatActivity {
                 finish();
             }
 
+        });
+        GPS.getCurrentLocation(this, new GPS.GpsCallback() {
+            @Override
+            public void onLocationReady(double lat, double lng) {
+                String locationText = lat + ", " + lng;
+                ((TextView) findViewById(R.id.locationInput)).setText(locationText);
+            }
         });
 
     }
