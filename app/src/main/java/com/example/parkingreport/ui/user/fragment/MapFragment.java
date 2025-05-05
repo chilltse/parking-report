@@ -153,7 +153,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 .position(userLocation)
                                 .title("You're here"));// Add a marker at the current position
 
-                        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));//Move the camera to the current position
+                        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));//Move the camera to the current position
                     }
                 });
     }

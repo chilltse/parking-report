@@ -47,24 +47,44 @@ public enum IllegalParkingZone {
             new LatLng(-35.279118, 149.127443),
     }),
 
-    HARRISON(new LatLng[]{
+    Gungahlin(new LatLng[]{
             new LatLng(-35.178, 149.137),
             new LatLng(-35.178, 149.150),
             new LatLng(-35.190, 149.150),
             new LatLng(-35.190, 149.137)
     }),
-//    CANBERRA_CBD(new LatLng[]{
-//            new LatLng(-35.276, 149.122),
-//            new LatLng(-35.276, 149.140),
-//            new LatLng(-35.295, 149.140),
-//            new LatLng(-35.295, 149.122)
-//    }),
-    DEPOT_MARKS(new LatLng[]{
-            new LatLng(-35.314, 149.110),
-            new LatLng(-35.314, 149.125),
-            new LatLng(-35.330, 149.125),
-            new LatLng(-35.330, 149.110)
+    Mount_Ainslie(new LatLng[]{
+            new LatLng(-35.254, 149.164),
+            new LatLng(-35.275, 149.146),
+            new LatLng(-35.284, 149.166),
+            new LatLng(-35.263, 149.182)
+    }),
+    Wild_Reservation(new LatLng[]{
+            new LatLng(-35.243, 148.943),
+            new LatLng(-35.465, 148.930),
+            new LatLng(-35.588, 149.053),
+            new LatLng(-35.458, 149.090),
+            new LatLng(-35.371, 149.038),
+            new LatLng(-35.290, 149.036),
+    }),
+    Mount_Black(new LatLng[]{
+            new LatLng(-35.283, 149.086),
+            new LatLng(-35.280, 149.109),
+            new LatLng(-35.253, 149.111),
+            new LatLng(-35.250, 149.090),
+            new LatLng(-35.270, 149.080),
+    }),
+    Parliament(new LatLng[]{
+            new LatLng(-35.3112, 149.1156),
+            new LatLng(-35.3128, 149.1304),
+            new LatLng(-35.3033, 149.1299),
+            new LatLng(-35.2987, 149.1214),
+            new LatLng(-35.3037, 149.1185),
+            new LatLng(-35.3094, 149.1143),
+
     });
+
+
     private final LatLng[] vertices;
 
     IllegalParkingZone(LatLng[] vertices) {
