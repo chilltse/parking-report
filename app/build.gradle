@@ -130,4 +130,7 @@ dependencies {
     //Google map dependence
     implementation("com.google.android.gms:play-services-maps:18.0.1")
 
+    // location dependence for GPS
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
 }
