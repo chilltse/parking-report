@@ -104,7 +104,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
     - Proposed Google API GPS integration strategy and zone validation logic – TODO:Link to be added
     - Designed visual structure of map overlays and feedback interactions – TODO:Link to be added
 
-3. **u7807744,Weimiao Sun**  I have 20% contribution, as follows: <br>
+3. **u7864325,Weimiao Sun**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
     - Basic Feature [DataFiles] – TODO:Link to be added
     - Basic Feature [LoadShowData] - TODO:Link to be added
@@ -117,7 +117,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
 - **Others**
     - Added test cases and refined UML model structure– TODO:Link to be added
 
-4. **u7807744,Nanxuan Xie**  I have 20% contribution, as follows: <br>
+4. **u8016457,Nanxuan Xie**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
     - Basic Feature [LogIn] – TODO:Link to be added
     - Basic Feature [Process-Permission] - TODO:Link to be added
@@ -130,7 +130,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
 - **Others**
     - Coordinated all member's merge requests and resolved backend conflicts
 
-5. **u7807744,Nanxuan Xie**  I have 20% contribution, as follows: <br>
+5. **u7937030,Yudong Qiu**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
     - Basic Feature [UIFeedback] – TODO:Link to be added
     - Basic Feature [UI-Layout] - TODO:Link to be added
