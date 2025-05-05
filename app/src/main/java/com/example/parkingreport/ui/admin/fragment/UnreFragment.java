@@ -17,12 +17,9 @@ import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 
-import com.example.parkingreport.ui.user.fragment.Myreport.ReportAdapter;
+import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class UnreFragment extends Fragment {
 
@@ -53,7 +50,7 @@ public class UnreFragment extends Fragment {
          List<Report> allReports =  reportViewModel.getAllWaitingReportsLive();
 
 
-        ReportAdapter adapter = new ReportAdapter(allReports, getContext());
+        ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

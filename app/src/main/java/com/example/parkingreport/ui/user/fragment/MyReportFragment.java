@@ -17,13 +17,11 @@ import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-import com.example.parkingreport.ui.user.fragment.Myreport.ReportAdapter;
+import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MyReportFragment extends Fragment {
 
@@ -71,7 +69,7 @@ public class MyReportFragment extends Fragment {
 //        reportList.add(new ReportItem("ABC123", "Good", "2025-04-20 09:15"));
 //        reportList.add(new ReportItem("XYZ789", "Nice", "2025-04-19 18:42"));
 
-        adapter = new ReportAdapter(reportList, getContext());
+        adapter = new ReportAdapter(reportList, getContext(), viewModel.getUser().getRole());
         recyclerView.setAdapter(adapter);
     }
 }
