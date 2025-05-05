@@ -119,27 +119,53 @@ public class JsonReportDao implements ReportDao {
         saveToFile(list);
     }
 
-    @Override
-    public synchronized void handleReport(int reportId, String status) {
-        synchronized (this){
-            List<Report> list = liveData.getValue();
-            if (list != null){
-                // find the instance in livedata, or remove won't work.
-                for (Report r : list) {
-                    if(reportId == r.getID()) {
-                        r.setStatus(status);
-                        break;
-                    }
-                }
-                saveToFile(list);
-            }
-        }
-    }
+//    @Override
+//    public synchronized void handleReport(int reportId, String status) {
+//        synchronized (this){
+//            List<Report> list = liveData.getValue();
+//            if (list != null){
+//                // find the instance in livedata, or remove won't work.
+//                for (Report r : list) {
+//                    if(reportId == r.getID()) {
+//                        r.setStatus(status);
+//                        break;
+//                    }
+//                }
+//                saveToFile(list);
+//            }
+//        }
+//    }
 
 
     @Override
     public synchronized void updateReport(Report report) {
-        // original implementation retained elsewhere
+        List<Report> list = liveData.getValue();
+        if (list == null) list = new ArrayList<>();
+
+        if (waitingReportTree.find(report.getID()) == null) {
+            // 如果没找到，可能是异常，可以选择抛异常或直接return
+            Log.d("JSON_PATH", "Warning: User with ID " + report.getID() + " not found for update.");
+            return;
+        }
+
+        // 1 先在 List 里找到并更新对应的Report
+        Report foundedReport = null;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getID() == report.getID()) {
+                foundedReport = list.get(i);
+                list.set(i, report); // 替换
+                break;
+            }
+        }
+
+        // 2 在 AVL Tree 里也更新
+        // waitingReportTree删除该节点。reportTree变更该节点
+        waitingReportTree.delete(foundedReport); // 删除旧的
+        reportTree.delete(foundedReport); // 删除旧的
+        reportTree.insert(report); // 插入新的
+
+        // 3 保存回文件
+        saveToFile(list);
     }
 
     /* ─────────────────── query helpers ───────────────────── */

@@ -12,7 +12,7 @@ public class ReportLog {
     public static final String APPROVE = "The administrator user passed a report.";
     public static final String DECLINE = "The administrator user declined a report.";
 
-    public ReportLog(int reportId, int userId, String description) {
+    public ReportLog(int reportId, String description) {
         this.timestamp = new Date();
         this.reportId = reportId;
         this.userId = userId;
