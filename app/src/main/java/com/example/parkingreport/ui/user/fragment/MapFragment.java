@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,7 +31,11 @@ import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.user.fragment.Myreport.ReportPageActivity;
 import com.example.parkingreport.utils.GPS;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -55,6 +61,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private User user;
 
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        this.gMap = googleMap;
+
+
+        // Start positioning and move the map to the current location
+        GPS.getCurrentLocation(requireContext(), (lat, lng) -> {
+            LatLng userLocation = new LatLng(lat, lng);
+            gMap.addMarker(new MarkerOptions().position(userLocation).title("You're here"));
+            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
+        });
+        setUpIllegalZone();// Draw all illegal parking areas and instantiate them.
+        setUpZoneClickable();//make illegal parking areas clickable.
+        setupMapListeners();//Wherever you click, the marker will follow and display the coordinate information
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Data
         viewModel =  new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
+
 
         return inflater.inflate(R.layout.fragment_map, container, false);
 
@@ -71,6 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         //create map view.
         super.onViewCreated(view, savedInstanceState);
 
+
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.map);
 
@@ -79,7 +105,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         button = view.findViewById(R.id.button);
-        //加入违停区域才允许拍照的逻辑
+        //Added logic to allow taking photos only in illegal parking areas
         button.setOnClickListener(v -> {
             GPS.getCurrentLocation(requireContext(), new GPS.GpsCallback() {
                 @Override
@@ -116,20 +142,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             });
         });
 
-
-
     }
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        this.gMap = googleMap;
-
-        setUpIllegalZone();// Draw all illegal parking areas and instantiate them.
-        setUpZoneClickable();//make illegal parking areas clickable.
-        setUpGPS(); //Center the map at the user's GPS location.
-        setupMapListeners();//Wherever you click, the marker will follow and display the coordinate information
-
-    }
 
 
     private void setUpIllegalZone() {
@@ -162,36 +176,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
-    }
-
-
-    private void setUpGPS() {
-        /*
-         *Check whether GPS location permission has been obtained.
-         *Please manually set the location in the emulator because the default GPS location of the virtual machine is San Jose, USA.
-         */
-        Context context = getContext();
-        if (context != null) {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                gMap.setMyLocationEnabled(true); // display a small blue dot as GPS location
-            } else {
-                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            } // Ask the user for location permission if no permission.
-        }
-
-//        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(location -> {
-                    if (location != null) {
-                        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                        gMap.addMarker(new MarkerOptions()
-                                .position(userLocation)
-                                .title("You're here"));// Add a marker at the current position
-
-                        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));//Move the camera to the current position
-                    }
-                });
     }
 
     private void setupMapListeners() {
