@@ -1,6 +1,5 @@
 package com.example.parkingreport.ui.user.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-import com.example.parkingreport.ui.login.MainActivity;
 
 public class HomeFragment extends Fragment {
 

@@ -20,4 +20,9 @@
         android:name="com.example.parkingreport.ui.user.fragment.MyReportFragment"
         android:label="fragment_my_report"
         tools:layout="@layout/fragment_my_report" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.parkingreport.ui.user.fragment.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>
