@@ -28,7 +28,7 @@ import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-import com.example.parkingreport.ui.user.fragment.Myreport.ReportPageActivity;
+import com.example.parkingreport.ui.reportManager.ReportPageActivity;
 import com.example.parkingreport.utils.GPS;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -107,6 +107,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         button = view.findViewById(R.id.button);
         //Added logic to allow taking photos only in illegal parking areas
         button.setOnClickListener(v -> {
+
+            Context context = requireContext();
+            boolean hasFineLocation = ActivityCompat.checkSelfPermission(
+                    context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+            boolean hasCoarseLocation = ActivityCompat.checkSelfPermission(
+                    context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+            if (!hasFineLocation && !hasCoarseLocation) {
+                LayoutInflater inflater = getLayoutInflater();
+                View layout = inflater.inflate(R.layout.custom_toast, null);
+
+                TextView text = layout.findViewById(R.id.toast_text);
+                text.setText("Please enable GPS permission to report");
+
+                Toast toast = new Toast(requireContext());
+                toast.setDuration(Toast.LENGTH_SHORT);
+                toast.setView(layout);
+                toast.setGravity(Gravity.CENTER, 0, 0);  // Center the message
+                toast.show();
+                return; // hint for open permission
+            }
+
             GPS.getCurrentLocation(requireContext(), new GPS.GpsCallback() {
                 @Override
                 public void onLocationReady(double lat, double lng) {
@@ -196,4 +217,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                GPS.getCurrentLocation(requireContext(), (lat, lng) -> {
+                    LatLng userLocation = new LatLng(lat, lng);
+                    gMap.addMarker(new MarkerOptions().position(userLocation).title("You're here"));
+                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
+                });
+            } else {
+                Toast.makeText(getContext(), "Location permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }//automatically called by requestPermission in GPS.java.getCurrentLocation
 }
