@@ -126,10 +126,6 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "用户名或邮箱已注册", Toast.LENGTH_SHORT).show();
                     } else {
                         if (validateForm() && verifyCode()) {
-                            // 注册成功，保存用户信息
-                            viewModel.insertUser(new User(username, emailAdress, password, User.USER, true));
-                            Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
-
                             // 保存头像到 SharedPreferences
                             String resourceName = getResources().getResourceEntryName(selectedAvatarResId);
                             SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -140,6 +136,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                             String drawablePath = "android.resource://" + getPackageName() + "/drawable/" + resourceName;
                             Log.d(TAG, "头像资源路径: " + drawablePath);
+                            // 注册成功，保存用户信息
+                            viewModel.insertUser(new User(username, emailAdress, password,drawablePath ,User.USER, true));
+                            Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
                             Toast.makeText(getApplicationContext(), "头像已保存: " + drawablePath, Toast.LENGTH_LONG).show();
 
                             finish();

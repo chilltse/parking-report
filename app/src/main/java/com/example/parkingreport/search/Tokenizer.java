@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Tokenizer {
     /**
-     * A helper class representing two sets of tokens split by an operator (e.g., 'AND' or 'OR').
+     * A helper class representing two sets of tokens split by an operator (e.g., 'NOT' or 'OR').
      * Typically used to distinguish left-hand side and right-hand side of a query expression.
      */
     public static class TokenPair {

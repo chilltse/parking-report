@@ -112,7 +112,7 @@ public class JsonUserDao implements UserDao {
     public AVLTree<User> getUserTree() { return userTree; }
 
     public User copyUser(User src) {
-        User c = new User(src.getName(), src.getEmail(), src.getPassword(), src.getRole(), src.isAlive());
+        User c = new User(src.getName(), src.getEmail(), src.getPassword(), src.getProfilePicUrl(),src.getRole(), src.isAlive());
         c.setID(src.getID());
         return c;
     }

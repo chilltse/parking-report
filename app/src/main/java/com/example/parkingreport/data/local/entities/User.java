@@ -14,11 +14,12 @@ public class User implements Comparable<User>, HasID {
     public static final String USER = "User";
     public static final String ADMIN = "Admin";
 
-    public User(String name, String email, String password, String role, boolean alive){
+    public User(String name, String email, String password, String profilePicUrl, String role, boolean alive){
         this.name = name;
         this.email = email;
 //        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.password = password;
+        this.profilePicUrl = profilePicUrl;
         this.role = role;
         this.alive = alive;
     }
