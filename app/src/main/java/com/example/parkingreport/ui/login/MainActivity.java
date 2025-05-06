@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                         new Intent(MainActivity.this, UserActivity.class):
                         new Intent(MainActivity.this, AdminActivity.class);
                 intent.putExtra("userId", userId);
-                Log.d(TAG, " ####logining as " + username);
+                Log.d(TAG, " ####logining as " + loginAs);
                 startActivity(intent);
             } else {
                 editTextPassword.setError("Invalid username or password");
@@ -141,10 +141,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createDefaultUser(){
-        String defUrl = "android.resource://com.example.parkingreport/drawable/panda";
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_1, BuildConfig.DEFAULT_USER_EMAIL_1, BuildConfig.DEFAULT_USER_PASSWORD_1,defUrl ,User.USER, true));
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_2, BuildConfig.DEFAULT_USER_EMAIL_2, BuildConfig.DEFAULT_USER_PASSWORD_2,defUrl, User.USER, true));
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_ADMIN_NAME, BuildConfig.DEFAULT_ADMIN_EMAIL, BuildConfig.DEFAULT_ADMIN_PASSWORD,defUrl, User.ADMIN, true));
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_1, BuildConfig.DEFAULT_USER_EMAIL_1, BuildConfig.DEFAULT_USER_PASSWORD_1,User.DEFAULT_PROFILE_PIC ,User.USER, true));
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_2, BuildConfig.DEFAULT_USER_EMAIL_2, BuildConfig.DEFAULT_USER_PASSWORD_2,User.DEFAULT_PROFILE_PIC, User.USER, true));
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_ADMIN_NAME, BuildConfig.DEFAULT_ADMIN_EMAIL, BuildConfig.DEFAULT_ADMIN_PASSWORD,User.DEFAULT_PROFILE_PIC, User.ADMIN, true));
 
     }
 

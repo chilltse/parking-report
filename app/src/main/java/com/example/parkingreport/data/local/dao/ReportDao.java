@@ -15,13 +15,14 @@ public interface ReportDao {
     Report findReport(int ID, boolean isWaitStatus);
     Report copyReport(Report report);
 
-    void handleReport(int reportId, String status);
+//    void handleReport(int reportId, String status);
 
     LiveData<List<Report>> getAllReportsLive();
 
     int checkReportExists(int reportId);
 
     String checkReportStatus(int reportId);
+    public List<Report> getAllWaitingReportsLive();
 
     List<Integer> getIdsByUser(int userId);
     List<Integer> getIdsByPlate(String plate);

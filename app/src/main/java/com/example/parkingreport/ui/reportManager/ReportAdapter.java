@@ -1,4 +1,4 @@
-package com.example.parkingreport.ui.user.fragment.Myreport;
+package com.example.parkingreport.ui.reportManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,17 +10,23 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.Report;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder> {
 
-    private final List<ReportItem> reportList;
+    private final List<Report> reportList;
     private final Context context;
+    private String loginAs;
+    SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-    public ReportAdapter(List<ReportItem> reportList, Context context) {
+    public ReportAdapter(List<Report> reportList, Context context, String loginAs) {
         this.reportList = reportList;
         this.context = context;
+        this.loginAs = loginAs;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,21 +51,22 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ReportAdapter.ViewHolder holder, int position) {
-        ReportItem item = reportList.get(position);
+        Report item = reportList.get(position);
 
-        holder.plate.setText(item.getPlate());
+        holder.plate.setText(item.getCarPlate());
         holder.title.setText(item.getStatus());
-        holder.time.setText(item.getTime());
+        holder.time.setText(fmt.format(item.getTimestamp()));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ReportDetailActivity.class);
-            intent.putExtra("reportId",   item.getReportId());    // 正确传入 int id
-            intent.putExtra("plate",      item.getPlate());
+            intent.putExtra("reportId",   item.getID());    // 正确传入 int id
+            intent.putExtra("plate",      item.getCarPlate());
             intent.putExtra("status",     item.getStatus());
-            intent.putExtra("time",       item.getTime());
+            intent.putExtra("time",       fmt.format(item.getTimestamp()));
             intent.putExtra("location",   item.getLocation());
             intent.putExtra("feedback",   item.getFeedback());
-            intent.putExtra("reporterName", item.getReporterName());
+            intent.putExtra("reporterID", item.getUserId());
+            intent.putExtra("loginAs", loginAs);
             context.startActivity(intent);
         });
     }

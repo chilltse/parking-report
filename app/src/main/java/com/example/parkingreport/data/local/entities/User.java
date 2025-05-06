@@ -13,6 +13,7 @@ public class User implements Comparable<User>, HasID {
     private boolean alive;
     public static final String USER = "User";
     public static final String ADMIN = "Admin";
+    public static final String DEFAULT_PROFILE_PIC = "android.resource://com.example.parkingreport/drawable/panda";
 
     public User(String name, String email, String password, String profilePicUrl, String role, boolean alive){
         this.name = name;

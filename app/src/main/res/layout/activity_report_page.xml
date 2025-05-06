@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.user.fragment.Myreport.ReportPageActivity">
+    tools:context=".ui.reportManager.ReportPageActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"

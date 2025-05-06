@@ -41,6 +41,9 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
+    public LiveData<List<Report>> getAllReportsLive() { return reportRepository.getAllReportsLive(); }
+    public List<Report> getAllWaitingReportsLive() { return reportRepository.getAllWaitingReportsLive(); }
+
 
 //    public void deleteReport(int reportId){
 //        executeAsync(() -> {
@@ -48,11 +51,11 @@ public class ReportViewModel extends AndroidViewModel {
 //        });
 //    }
 
-    public void handleReport(int reportId, int userId, String status){
-        executeAsync(() -> {
-            reportRepository.handleReport(reportId, userId, status);
-        });
-    }
+//    public void handleReport(int reportId, int userId, String status){
+//        executeAsync(() -> {
+//            reportRepository.handleReport(reportId, userId, status);
+//        });
+//    }
 
     public List<Integer> getIdsByUser(int userId) {
         return reportRepository.getIdsByUser(userId);

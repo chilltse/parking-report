@@ -18,7 +18,7 @@
         android:theme="@style/Theme.ParkingReport"
         tools:targetApi="31">
         <activity
-            android:name=".ui.admin.fragment.unreview.Unreview_list_deatilActivity"
+            android:name=".ui.admin.fragment.unreview.Unreview_list_detailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.admin.fragment.review.Review_list_detailActivity"
@@ -40,8 +40,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}"/>
-        <activity android:name=".ui.user.fragment.Myreport.ReportPageActivity" />
-        <activity android:name=".ui.user.fragment.Myreport.ReportDetailActivity" />
+        <activity android:name=".ui.reportManager.ReportPageActivity" />
+        <activity android:name=".ui.reportManager.ReportDetailActivity" />
 
 
         <activity
