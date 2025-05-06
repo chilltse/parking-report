@@ -7,6 +7,7 @@ import java.util.Date;
 public class Report implements Comparable<Report>, HasID {
     private int ID;
     private int userId;
+    private String userName;
     private Date timestamp;
     private String carPlate;
     private String location;
@@ -17,19 +18,20 @@ public class Report implements Comparable<Report>, HasID {
     public static final String DECLINED= "DECLINED";
     public static final String WAIT_FOR_REVIEW= "WAIT_FOR_REVIEW";
 
-    public Report(int userId, String carPlate, String location, String status) {
+    public Report(int userId, String userName, String carPlate, String location, String reportPicUrl, String status) {
 
         this.userId = userId;
+        this.userName = userName;
         this.timestamp = new Date();
         this.carPlate = carPlate;
         this.location = location;
+        this.reportPicUrl = reportPicUrl;
         this.feedback = new String();
         this.status = status;
 
     }
 
     public Report() {}
-
 
 
     @Override
@@ -84,9 +86,14 @@ public class Report implements Comparable<Report>, HasID {
     public String getReportPicUrl() {
         return reportPicUrl;
     }
-
     public void setReportPicUrl(String reportPicUrl) {
         this.reportPicUrl = reportPicUrl;
+    }
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override

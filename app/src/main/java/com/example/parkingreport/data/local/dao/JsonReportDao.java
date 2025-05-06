@@ -201,7 +201,7 @@ public class JsonReportDao implements ReportDao {
 
     @Override
     public Report copyReport(Report src) {
-        Report copy = new Report(src.getUserId(), src.getCarPlate(), src.getLocation(), src.getStatus());
+        Report copy = new Report(src.getUserId(), src.getUserName(), src.getCarPlate(), src.getLocation(), src.getReportPicUrl(), src.getStatus());
         copy.setID(src.getID());
         return copy;
     }
