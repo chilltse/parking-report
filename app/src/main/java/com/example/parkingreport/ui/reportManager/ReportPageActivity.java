@@ -105,6 +105,7 @@ public class ReportPageActivity extends AppCompatActivity {
         // User info related
         intent = getIntent();
         int    userId   = intent.getIntExtra("userId", -1);
+        String userName = intent.getStringExtra("userName");
 
         Button button = findViewById(R.id.submitButton);
         button.setOnClickListener(v -> {
@@ -124,10 +125,14 @@ public class ReportPageActivity extends AppCompatActivity {
 
             // Create report
             if(isOK){
+                // 新增 report picture url
+                String reportPicUrl = "default_report_url";
                 Report report = new Report(
                         userId,
+                userName,
                 carPlate2,
                 gpsLocation,
+                reportPicUrl,
                 Report.WAIT_FOR_REVIEW);
                 reportViewModel.insertReport(report);
                 finish();

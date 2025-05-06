@@ -60,6 +60,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ReportDetailActivity.class);
             intent.putExtra("reportId",   item.getID());    // 正确传入 int id
+            intent.putExtra("reporterName", item.getUserName()); // 新增传入 userName
             intent.putExtra("plate",      item.getCarPlate());
             intent.putExtra("status",     item.getStatus());
             intent.putExtra("time",       fmt.format(item.getTimestamp()));
