@@ -28,7 +28,7 @@ import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-import com.example.parkingreport.ui.user.fragment.Myreport.ReportPageActivity;
+import com.example.parkingreport.ui.reportManager.ReportPageActivity;
 import com.example.parkingreport.utils.GPS;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
