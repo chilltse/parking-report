@@ -1,0 +1,9 @@
+Dear owner of ${plate},
+
+Your vehicle has been reported for illegal parking. Please take immediate action to resolve this issue to avoid penalties or towing.
+
+If you did not initiate this request, please disregard this message.
+
+Thank you for your attention.
+
+— Parking Report System

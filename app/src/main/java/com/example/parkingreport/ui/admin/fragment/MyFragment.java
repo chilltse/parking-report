@@ -67,7 +67,7 @@ public class MyFragment extends Fragment {
                 .get(UserViewModel.class);
         user = viewModel.getUser();
         Log.d("Fragment", " ####user: " + user);
-        Log.d("Fragment", " ####user id: " + user.getID());
+//        Log.d("Fragment", " ####user id: " + user.getID());
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
