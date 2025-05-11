@@ -17,14 +17,14 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/report_review"
-            android:textSize="24sp"
+            android:text="Report Review"
+            android:textColor="@color/orange_button"
+            android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- MapView -->
 
         <!-- Info Summary -->
         <TextView
@@ -32,10 +32,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:textAlignment="center"
             android:text="@string/info_summary"
+            android:textColor="@color/black"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
 
         <!-- Car Plate -->
         <TextView
@@ -44,6 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/car_plate"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/infoLabel" />
 
@@ -52,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textSize="16sp"
             app:layout_constraintBaseline_toBaselineOf="@id/labelCarPlate"
             app:layout_constraintStart_toEndOf="@id/labelCarPlate" />
 
@@ -62,6 +72,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/location_for_unreview"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelCarPlate" />
 
@@ -70,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textSize="16sp"
             app:layout_constraintBaseline_toBaselineOf="@id/labelLocation"
             app:layout_constraintStart_toEndOf="@id/labelLocation" />
 
@@ -80,6 +94,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/time"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelLocation" />
 
@@ -88,6 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textSize="16sp"
             app:layout_constraintBaseline_toBaselineOf="@id/labelTime"
             app:layout_constraintStart_toEndOf="@id/labelTime" />
 
@@ -98,15 +116,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/reporter_name"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/valueTime" />
-
         <TextView
             android:id="@+id/valueReporterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textSize="16sp"
             app:layout_constraintBaseline_toBaselineOf="@id/labelReporterName"
             app:layout_constraintStart_toEndOf="@id/labelReporterName" />
 
@@ -117,15 +137,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/report_id"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelReporterName" />
-
         <TextView
             android:id="@+id/valueReportId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textSize="16sp"
             app:layout_constraintBaseline_toBaselineOf="@id/labelReportId"
             app:layout_constraintStart_toEndOf="@id/labelReportId" />
 
@@ -137,14 +159,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/status"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/valueReportId" />
-
         <TextView
             android:id="@+id/valueStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textSize="16sp"
             app:layout_constraintBaseline_toBaselineOf="@id/labelStatus"
             app:layout_constraintStart_toEndOf="@id/labelStatus" />
 
@@ -171,6 +196,7 @@
                 android:gravity="center"
                 android:stateListAnimator="@null"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textOff="@string/approve"
                 android:textOn="@string/approve"
                 android:textSize="16sp"
@@ -192,6 +218,7 @@
                 android:textOff="@string/reject"
                 android:textOn="@string/reject"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/approveButton"
@@ -218,7 +245,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="24dp"
             android:background="@drawable/button_login_background"
             android:text="@string/submitbutton"
