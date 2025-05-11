@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +32,11 @@ public class ReviewListFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
+    private EditText searchInput;
+    private Button searchBtn;
+
+
+
     public ReviewListFragment() {
         // Required empty public constructor
     }
@@ -50,8 +57,19 @@ public class ReviewListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // 初始化 RecyclerView
         recyclerView = view.findViewById(R.id.recycle);
+        searchInput = view.findViewById(R.id.searchEditText);
+        searchBtn = view.findViewById(R.id.searchButton);
 
         updateReports();
+
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateSearchResult();
+            }
+        });
+
 //        List<Report> allReports =  reportViewModel.getAllReportsLive().getValue();
 //        ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
 //        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -72,5 +90,17 @@ public class ReviewListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
+
+    private void updateSearchResult() {
+        String searchContent = searchInput.getText().toString();
+
+        List<Report> searchResult =  reportViewModel.searchReports(searchContent,false);
+        Collections.sort(searchResult, Collections.reverseOrder());
+        ReportAdapter adapter = new ReportAdapter(searchResult, getContext(), viewModel.getUser().getRole());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+    }
+
+
 }
 
