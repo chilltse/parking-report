@@ -54,6 +54,8 @@ public class UserRepository {
             newUser.setPassword(pwd);
 
             userDao.updateUser(newUser);
+            // insert UserLog
+            userLogRepository.insertLog(new UserLog(ID, UserLog.MODIFY_PASSWORD));
             return true;
         }else{
             return false;

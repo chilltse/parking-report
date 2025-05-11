@@ -2,6 +2,7 @@ package com.example.parkingreport.search;
 import android.util.Log;
 
 import com.example.parkingreport.data.local.entities.Report;
+import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.repository.ReportRepository;
 import com.example.parkingreport.data.local.repository.UserRepository;
 
@@ -14,7 +15,7 @@ public class Parser {
      * This is essentially a wrapper that assigns parsed tokens
      * into a structured result object.
      */
-    public static List<Report> evaluateTokens(List<Token> tokens, boolean isWaitStatus, ReportRepository reportRepository, UserRepository userRepository) {
+    public static List<Report> evaluateTokens(List<Token> tokens, boolean isWaitStatus, String role, int userID, ReportRepository reportRepository, UserRepository userRepository) {
         List<Report> userNameResult = new ArrayList<>();
         List<Report> carPlateResult = new ArrayList<>();
         Boolean userNameFlag = false; // 用于判断用户是否查询了userName
@@ -54,6 +55,27 @@ public class Parser {
                     }
                 }
             }
+        }
+
+        // if role is user, then userNameFlag is set, and userNameResult is result of current user.
+        if(role.equals(User.USER)){
+            userNameFlag = true;
+            // use userId to find report ids
+            List<Integer> ids = reportRepository.getIdsByUser(userID);
+            // find detail and add to results
+            for (Integer id : ids) {
+                Report find = reportRepository.findReport(id, isWaitStatus);
+                // same type之间是“或”查询
+                if(!userNameResult.contains(find) && find != null){
+                    userNameResult.add(find);
+                }
+            }
+        }
+
+        // if role is admin and tokens is empty, then return all record.
+        if(role.equals(User.ADMIN) && tokens.size() == 0){
+            userNameFlag = true;
+            userNameResult = reportRepository.getAllReportsLive();
         }
 
         // different type 之间是“与”查询，same type之间是“或”查询
