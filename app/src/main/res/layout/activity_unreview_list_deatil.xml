@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".ui.admin.fragment.unreview.Unreview_list_detailActivity">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
@@ -18,7 +17,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Report Review"
+            android:text="@string/report_review"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,6 +30,8 @@
             android:layout_width="362dp"
             android:layout_height="153dp"
             android:layout_marginTop="15dp"
+            android:importantForAccessibility="no"
+            android:contentDescription="@null"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -41,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Info Summary:"
+            android:text="@string/info_summary"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/mapView2"
             app:layout_constraintStart_toStartOf="parent" />
@@ -52,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Car Plate:"
+            android:text="@string/car_plate"
             app:layout_constraintTop_toBottomOf="@id/infoLabel"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -61,7 +62,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="ABC123"
             app:layout_constraintBaseline_toBaselineOf="@id/labelCarPlate"
             app:layout_constraintStart_toEndOf="@id/labelCarPlate" />
 
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Location:"
+            android:text="@string/location_for_unreview"
             app:layout_constraintTop_toBottomOf="@id/labelCarPlate"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -80,7 +80,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="123 Main St"
             app:layout_constraintBaseline_toBaselineOf="@id/labelLocation"
             app:layout_constraintStart_toEndOf="@id/labelLocation" />
 
@@ -90,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Time:"
+            android:text="@string/time"
             app:layout_constraintTop_toBottomOf="@id/labelLocation"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -99,7 +98,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="2025-04-11 14:32"
             app:layout_constraintBaseline_toBaselineOf="@id/labelTime"
             app:layout_constraintStart_toEndOf="@id/labelTime" />
 
@@ -109,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Reporter Name:"
+            android:text="@string/reporter_name"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/valueTime"
             app:layout_constraintStart_toStartOf="parent" />
@@ -119,7 +117,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="John Doe"
             app:layout_constraintBaseline_toBaselineOf="@id/labelReporterName"
             app:layout_constraintStart_toEndOf="@id/labelReporterName" />
 
@@ -129,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Report ID:"
+            android:text="@string/report_id"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/labelReporterName"
             app:layout_constraintStart_toStartOf="parent" />
@@ -139,7 +136,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="#12345"
             app:layout_constraintBaseline_toBaselineOf="@id/labelReportId"
             app:layout_constraintStart_toEndOf="@id/labelReportId" />
 
@@ -150,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Status:"
+            android:text="@string/status"
             app:layout_constraintTop_toBottomOf="@id/valueReportId"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -159,7 +155,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Pending"
             app:layout_constraintBaseline_toBaselineOf="@id/labelStatus"
             app:layout_constraintStart_toEndOf="@id/labelStatus" />
 
@@ -169,7 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Feedback:"
+            android:text="@string/feedback"
             app:layout_constraintTop_toBottomOf="@id/labelStatus"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -178,7 +173,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Violation confirmed by officer."
             app:layout_constraintTop_toTopOf="@id/labelFeedback"
             app:layout_constraintStart_toEndOf="@id/labelFeedback"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -199,8 +193,8 @@
                 android:layout_height="56dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/toggle_button_background"
-                android:textOn="Approve"
-                android:textOff="Approve"
+                android:textOn="@string/approve"
+                android:textOff="@string/approve"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:gravity="center"
@@ -217,8 +211,8 @@
                 android:layout_height="56dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/toggle_button_background"
-                android:textOn="Reject"
-                android:textOff="Reject"
+                android:textOn="@string/reject"
+                android:textOff="@string/reject"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:gravity="center"
@@ -237,7 +231,7 @@
             android:layout_height="69dp"
             android:layout_marginTop="15dp"
             android:gravity="top"
-            android:hint="  Leave Message: This is a text field"
+            android:hint="@string/leave_message_this_is_a_text_field"
             android:padding="12dp"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/toggleGroup"
@@ -253,7 +247,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:background="@drawable/button_login_background"
-            android:text="Submit"
+            android:text="@string/submitbutton"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textStyle="bold"

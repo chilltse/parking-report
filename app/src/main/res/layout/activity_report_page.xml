@@ -18,7 +18,7 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Report Violation"
+            android:text="@string/report_violation_report_page"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,12 +45,13 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:contentDescription="@string/subbmit_form_you_phone"
                 android:src="@drawable/submit1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="select file"
+                android:text="@string/select_file_report_page"
                 android:textColor="#F4A536"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"/>
@@ -76,12 +77,13 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:contentDescription="@null"
                 android:src="@drawable/takephoto" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="take photo"
+                android:text="@string/take_photo_report_page"
                 android:textColor="#F4A536"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"/>
@@ -93,7 +95,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
-            android:hint="Location [Auto GPS address]"
+            android:hint="@string/location"
             android:padding="12dp"
             android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@id/selectFileLayout"
@@ -107,7 +109,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
-            android:hint="Date: dd/mm/yyyy"
+            android:hint="@string/date_dd_mm_yyyy"
             android:padding="12dp"
             android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@id/locationInput"
@@ -121,7 +123,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
-            android:hint="Text: Car Plate Number"
+            android:hint="@string/text_car_plate_number"
             android:padding="12dp"
             android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@id/dateInput"
@@ -135,7 +137,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
-            android:hint="Text: Confirm Car Plate Number"
+            android:hint="@string/text_confirm_car_plate_number"
             android:padding="12dp"
             android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@id/carPlateInput1"
@@ -148,7 +150,7 @@
             android:id="@+id/confirmCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I confirm the information is true and accurate."
+            android:text="@string/i_confirm_the_information_is_true_and_accurate"
             android:textColor="#000000"
             app:layout_constraintTop_toBottomOf="@id/carPlateInput2"
             app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +165,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:background="@drawable/button_login_background"
-            android:text="Submit"
+            android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
