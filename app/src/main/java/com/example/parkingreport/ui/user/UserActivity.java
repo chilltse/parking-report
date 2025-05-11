@@ -1,7 +1,5 @@
 package com.example.parkingreport.ui.user;
 
-import static com.example.parkingreport.utils.FileLoader.readPlatePhone;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
