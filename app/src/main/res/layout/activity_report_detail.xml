@@ -24,18 +24,177 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- MapView -->
+
         <!-- Image -->
         <ImageView
             android:id="@+id/mapView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/map"
-            app:layout_constraintTop_toBottomOf="@id/title"
+            android:layout_marginTop="40dp"
+            android:text="Info Summary:"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+        <!-- Car Plate -->
+        <TextView
+            android:id="@+id/labelCarPlate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Car Plate:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/infoLabel" />
+
+        <TextView
+            android:id="@+id/valueCarPlate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="ABC123"
+            app:layout_constraintBaseline_toBaselineOf="@id/labelCarPlate"
+            app:layout_constraintStart_toEndOf="@id/labelCarPlate" />
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/labelLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Location:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelCarPlate" />
+
+        <TextView
+            android:id="@+id/valueLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="123 Main St"
+            app:layout_constraintBaseline_toBaselineOf="@id/labelLocation"
+            app:layout_constraintStart_toEndOf="@id/labelLocation" />
+
+        <!-- Time -->
+        <TextView
+            android:id="@+id/labelTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Time:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelLocation" />
+
+        <TextView
+            android:id="@+id/valueTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="2025-04-11 14:32"
+            app:layout_constraintBaseline_toBaselineOf="@id/labelTime"
+            app:layout_constraintStart_toEndOf="@id/labelTime" />
+
+        <!-- Reporter Name -->
+        <TextView
+            android:id="@+id/labelReporterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Reporter Name:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/valueTime" />
+
+        <TextView
+            android:id="@+id/valueReporterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="John Doe"
+            app:layout_constraintBaseline_toBaselineOf="@id/labelReporterName"
+            app:layout_constraintStart_toEndOf="@id/labelReporterName" />
+
+        <!-- Report ID -->
+        <TextView
+            android:id="@+id/labelReportId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Report ID:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelReporterName" />
+
+        <TextView
+            android:id="@+id/valueReportId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="#12345"
+            app:layout_constraintBaseline_toBaselineOf="@id/labelReportId"
+            app:layout_constraintStart_toEndOf="@id/labelReportId" />
+
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/labelStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Status:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/valueReportId" />
+
+        <TextView
+            android:id="@+id/valueStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Pending"
+            app:layout_constraintBaseline_toBaselineOf="@id/labelStatus"
+            app:layout_constraintStart_toEndOf="@id/labelStatus" />
+
+        <!-- Review Section 标题（补上这个 missing id） -->
+        <TextView
+            android:id="@+id/reviewSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Review Section"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/valueFeedback" />
+
+        <!-- Feedback -->
+        <TextView
+            android:id="@+id/labelFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Feedback:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelStatus" />
+
+        <TextView
+            android:id="@+id/valueFeedback"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Violation confirmed by officer."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/labelFeedback"
+            app:layout_constraintTop_toTopOf="@id/labelFeedback" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="268dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/img_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <!-- Orange Card -->
         <androidx.cardview.widget.CardView
