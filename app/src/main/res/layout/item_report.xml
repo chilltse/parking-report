@@ -15,14 +15,6 @@
         android:padding="12dp">
 
         <!-- left: User uploaded thumbnail-->
-        <ImageView
-            android:id="@+id/imageThumbnail"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:background="#D0D0D0"
-            android:contentDescription="Report image"
-            android:layout_gravity="center_vertical" />
 
         <!-- right: User info-->
         <LinearLayout
