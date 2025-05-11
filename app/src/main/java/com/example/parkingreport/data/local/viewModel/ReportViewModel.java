@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 public class ReportViewModel extends AndroidViewModel {
     private ReportRepository reportRepository;
     private UserRepository userRepository;
-    LiveData<List<Report>> allReportLive;
+    List<Report> allReportLive;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
