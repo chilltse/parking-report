@@ -57,5 +57,10 @@
     <string name="icon">Icon</string>
     <string name="search_for_report">Search...</string>
     <string name="search">Search</string>
+    <string name="view_details">View Details</string>
+    <string name="send">Send</string>
+    <string name="setting">Setting</string>
+    <string name="profile">Profile</string>
+    <string name="report">Report</string>
 
 </resources>

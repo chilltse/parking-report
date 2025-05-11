@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Root scrollable container to support long vertical content -->
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,13 +7,14 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
+    <!-- Main constraint-based layout inside the scroll view -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Title -->
+        <!-- Page Title -->
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -24,9 +26,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- MapView -->
+        <!-- Map preview of the report location -->
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView2"
+            android:layout_width="362dp"
+            android:layout_height="153dp"
+            android:layout_marginTop="15dp"
+            android:importantForAccessibility="no"
+            android:contentDescription="@null"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Info Summary -->
+        <!-- "Information Summary" label -->
         <TextView
             android:id="@+id/infoLabel"
             android:layout_width="wrap_content"
@@ -37,7 +49,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-        <!-- Car Plate -->
+        <!-- Car Plate label and value -->
         <TextView
             android:id="@+id/labelCarPlate"
             android:layout_width="wrap_content"
@@ -55,7 +67,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/labelCarPlate"
             app:layout_constraintStart_toEndOf="@id/labelCarPlate" />
 
-        <!-- Location -->
+        <!-- Location label and value -->
         <TextView
             android:id="@+id/labelLocation"
             android:layout_width="wrap_content"
@@ -73,7 +85,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/labelLocation"
             app:layout_constraintStart_toEndOf="@id/labelLocation" />
 
-        <!-- Time -->
+        <!-- Time label and value -->
         <TextView
             android:id="@+id/labelTime"
             android:layout_width="wrap_content"
@@ -91,7 +103,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/labelTime"
             app:layout_constraintStart_toEndOf="@id/labelTime" />
 
-        <!-- Reporter Name -->
+        <!-- Reporter name label and value -->
         <TextView
             android:id="@+id/labelReporterName"
             android:layout_width="wrap_content"
@@ -110,7 +122,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/labelReporterName"
             app:layout_constraintStart_toEndOf="@id/labelReporterName" />
 
-        <!-- Report ID -->
+        <!-- Report ID label and value -->
         <TextView
             android:id="@+id/labelReportId"
             android:layout_width="wrap_content"
@@ -129,8 +141,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/labelReportId"
             app:layout_constraintStart_toEndOf="@id/labelReportId" />
 
-
-        <!-- Status -->
+        <!-- Status label and value -->
         <TextView
             android:id="@+id/labelStatus"
             android:layout_width="wrap_content"
@@ -161,6 +172,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/valueStatus">
 
+            <!-- Approve toggle button -->
             <ToggleButton
                 android:id="@+id/approveButton"
                 android:layout_width="0dp"
@@ -179,6 +191,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- Reject toggle button -->
             <ToggleButton
                 android:id="@+id/rejectButton"
                 android:layout_width="0dp"
@@ -198,7 +211,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Message -->
+        <!-- Message input field -->
         <EditText
             android:id="@+id/messageField"
             android:layout_width="0dp"
@@ -212,7 +225,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toggleGroup" />
 
-        <!-- Submit Button -->
+        <!-- Submit button for approving/rejecting the report -->
         <Button
             android:id="@+id/submitButton"
             android:layout_width="0dp"

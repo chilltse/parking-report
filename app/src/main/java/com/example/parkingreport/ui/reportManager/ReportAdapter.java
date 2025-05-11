@@ -39,13 +39,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         TextView time;
         TextView plate;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textReportStatus);
             time  = itemView.findViewById(R.id.textReportDate);
             plate = itemView.findViewById(R.id.textReportId);
-
         }
     }
 

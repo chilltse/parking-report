@@ -65,6 +65,9 @@ android {
         buildConfigField "String", "SMS_SID", "\"${SMS_SID}\""
         buildConfigField "String", "SMS_TOKEN", "\"${SMS_TOKEN}\""
         buildConfigField "String", "TWILIO_PHONE_NUMBER", "\"${TWILIO_PHONE_NUMBER}\""
+
+        // LML info
+        buildConfigField "String", "OPENAI_TOKEN", "\"${OPENAI_TOKEN}\""
     }
 
     buildFeatures {
@@ -139,6 +142,6 @@ dependencies {
 
     // location dependence for GPS
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-    
+
 
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Root layout that supports coordination behaviors (e.g., Snackbar, FAB) -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,20 +9,21 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.admin.fragment.ReviewListFragment">
 
+    <!-- Main container using ConstraintLayout for flexible UI positioning -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
         android:fitsSystemWindows="true">
 
-        <!-- 顶部横向排列控件 -->
+        <!-- EditText for entering a search keyword (e.g., to search reports) -->
         <EditText
             android:id="@+id/searchEditText"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginEnd="15dp"
             android:background="@drawable/edit_text_background"
-            android:hint="Search..."
+            android:hint="@string/search_for_report"
             android:padding="12dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/searchButton"
@@ -29,19 +31,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Button to trigger the search action -->
         <Button
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:background="@drawable/button_login_background"
-            android:text="Search"
+            android:text="@string/search"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/searchEditText" />
 
-        <!-- 数据展示 RecyclerView -->
+        <!-- RecyclerView to display a list of reports or results -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle2"
             android:layout_width="0dp"
