@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:text="Report ID: 1234"
+                android:text="@string/report_id_for_report"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -42,7 +42,7 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:text="Report Date: 2024-04-21"
+                android:text="@string/date_dd_mm_yyyy"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text=" Report Status: "
+                android:text="@string/status"
                 android:textColor="#D32F2F"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -67,7 +67,8 @@
                 android:clickable="true"
                 android:focusable="true">
 
-                <ImageView
+
+            <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_clickhere" />
@@ -77,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="View Details"
+                    android:text="@string/view_details"
                     android:textColor="@color/orange_button"
                     android:textSize="14sp" />
             </LinearLayout>

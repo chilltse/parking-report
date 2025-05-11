@@ -57,5 +57,6 @@
     <string name="icon">Icon</string>
     <string name="search_for_report">Search...</string>
     <string name="search">Search</string>
+    <string name="view_details">View Details</string>
 
 </resources>

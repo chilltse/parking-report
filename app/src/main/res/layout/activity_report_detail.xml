@@ -17,7 +17,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Report Review"
+            android:text="@string/report_review"
             android:textColor="@color/orange_button"
             android:textSize="34sp"
             android:textStyle="bold"

@@ -37,14 +37,12 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         TextView title;
         TextView time;
         TextView plate;
-        ImageView picture;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textReportStatus);
             time  = itemView.findViewById(R.id.textReportDate);
             plate = itemView.findViewById(R.id.textReportId);
-            picture = itemView.findViewById(R.id.imageThumbnail);
         }
     }
 
@@ -62,14 +60,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         holder.plate.setText(item.getCarPlate());
         holder.title.setText(item.getStatus());
         holder.time.setText(fmt.format(item.getTimestamp()));
-        Bitmap bitmap = BitmapFactory.decodeFile(item.getReportPicUrl());
-        if (bitmap != null) {
-            holder.picture.setImageBitmap(bitmap);
-        } else {
-            holder.picture.setImageResource(R.drawable.logo); // 显示默认图
-            Toast.makeText(context, "图片加载失败，使用默认图", Toast.LENGTH_SHORT).show();
-        }
-
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ReportDetailActivity.class);
