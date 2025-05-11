@@ -25,6 +25,12 @@ import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.utils.GPS;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 
 public class ReportPageActivity extends AppCompatActivity {
@@ -32,6 +38,7 @@ public class ReportPageActivity extends AppCompatActivity {
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
     private User user;
+    private String lastPhotoPath = null;
     private LinearLayout selectFileLayout;
     private LinearLayout takePhotoLayout;
 
@@ -63,28 +70,36 @@ public class ReportPageActivity extends AppCompatActivity {
         EditText dateInput = findViewById(R.id.dateInput);
         dateInput.setText(currentTime);
 
-        // 选择照片
+        // 选择图片
         pickImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
                         String realPath = getRealPathFromUri(uri);
                         if (realPath != null) {
-                            Toast.makeText(this, realPath, Toast.LENGTH_LONG).show();
+                            String newPath = copyToInternalStorage(realPath, "selected_" + System.currentTimeMillis() + ".jpg");
+                            if (newPath != null) {
+                                lastPhotoPath = newPath;
+                                Toast.makeText(this, "图片已保存至: " + newPath, Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             Toast.makeText(this, "无法获取真实路径！", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
-        // 拍照
+// 拍照
         takePhotoLauncher = registerForActivityResult(
                 new ActivityResultContracts.TakePicture(),
                 success -> {
                     if (success && cameraImageUri != null) {
                         String realPath = getRealPathFromUri(cameraImageUri);
                         if (realPath != null) {
-                            Toast.makeText(this, realPath, Toast.LENGTH_LONG).show();
+                            String newPath = copyToInternalStorage(realPath, "captured_" + System.currentTimeMillis() + ".jpg");
+                            if (newPath != null) {
+                                lastPhotoPath = newPath;
+                                Toast.makeText(this, "照片已保存至: " + newPath, Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             Toast.makeText(this, "无法获取拍照图片真实路径！", Toast.LENGTH_SHORT).show();
                         }
@@ -122,6 +137,10 @@ public class ReportPageActivity extends AppCompatActivity {
                 isOK = false;
                 Toast.makeText(getApplicationContext(), "Please click the confirm Checkbox",Toast.LENGTH_SHORT).show();
             }
+            if (lastPhotoPath == null) {
+                isOK = false;
+                Toast.makeText(getApplicationContext(), "请先选择图片或拍照", Toast.LENGTH_SHORT).show();
+            }
 
             // Create report
             if(isOK){
@@ -129,11 +148,12 @@ public class ReportPageActivity extends AppCompatActivity {
                 String reportPicUrl = "default_report_url";
                 Report report = new Report(
                         userId,
-                userName,
-                carPlate2,
-                gpsLocation,
-                reportPicUrl,
-                Report.WAIT_FOR_REVIEW);
+                        userName,
+                        carPlate2,
+
+                        gpsLocation,
+                        lastPhotoPath,
+                        Report.WAIT_FOR_REVIEW);
                 reportViewModel.insertReport(report);
                 finish();
             }
@@ -180,4 +200,35 @@ public class ReportPageActivity extends AppCompatActivity {
         return filePath;
     }
 
+    private String copyToInternalStorage(String sourcePath, String fileName) {
+        File srcFile = new File(sourcePath);
+
+
+        File subDir = new File(getFilesDir(), "images");
+        if (!subDir.exists()) {
+            if (!subDir.mkdirs()) {
+                Toast.makeText(this, "创建文件夹失败", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }
+
+
+        File destFile = new File(subDir, fileName);
+
+        try (InputStream in = new FileInputStream(srcFile);
+             OutputStream out = new FileOutputStream(destFile)) {
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+
+            return destFile.getAbsolutePath(); // 返回完整路径
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "复制失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
 }

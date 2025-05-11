@@ -2,7 +2,11 @@
     android:id="@+id/messageText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#EEEEEE"
-    android:padding="10dp"
+    android:background="@drawable/chat_bubble_left"
+    android:padding="12dp"
     android:layout_gravity="start"
-    android:textColor="#000000"/>
+    android:textColor="#212121"
+    android:textSize="16sp"
+    android:elevation="2dp"
+    android:maxWidth="260dp"
+    android:lineSpacingExtra="4dp" />

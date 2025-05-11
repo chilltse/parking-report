@@ -21,30 +21,22 @@
             android:text="Report Review"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- MapView -->
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView2"
-            android:layout_width="0dp"
-            android:layout_height="153dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
 
         <!-- Info Summary -->
         <TextView
             android:id="@+id/infoLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="40dp"
             android:text="Info Summary:"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/mapView2"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
         <!-- Car Plate -->
         <TextView
@@ -53,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Car Plate:"
-            app:layout_constraintTop_toBottomOf="@id/infoLabel"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/infoLabel" />
 
         <TextView
             android:id="@+id/valueCarPlate"
@@ -72,8 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Location:"
-            app:layout_constraintTop_toBottomOf="@id/labelCarPlate"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelCarPlate" />
 
         <TextView
             android:id="@+id/valueLocation"
@@ -91,8 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Time:"
-            app:layout_constraintTop_toBottomOf="@id/labelLocation"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelLocation" />
 
         <TextView
             android:id="@+id/valueTime"
@@ -111,8 +103,8 @@
             android:layout_marginTop="12dp"
             android:text="Reporter Name:"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/valueTime"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/valueTime" />
 
         <TextView
             android:id="@+id/valueReporterName"
@@ -131,8 +123,8 @@
             android:layout_marginTop="8dp"
             android:text="Report ID:"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/labelReporterName"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelReporterName" />
 
         <TextView
             android:id="@+id/valueReportId"
@@ -151,8 +143,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Status:"
-            app:layout_constraintTop_toBottomOf="@id/valueReportId"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/valueReportId" />
 
         <TextView
             android:id="@+id/valueStatus"
@@ -171,8 +163,8 @@
             android:layout_marginTop="8dp"
             android:text="Review Section"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/valueFeedback"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/valueFeedback" />
 
         <!-- Feedback -->
         <TextView
@@ -181,8 +173,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Feedback:"
-            app:layout_constraintTop_toBottomOf="@id/labelStatus"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelStatus" />
 
         <TextView
             android:id="@+id/valueFeedback"
@@ -190,9 +182,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Violation confirmed by officer."
-            app:layout_constraintTop_toTopOf="@id/labelFeedback"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/labelFeedback"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/labelFeedback" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="268dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/img_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

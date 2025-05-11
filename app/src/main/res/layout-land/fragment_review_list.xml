@@ -22,24 +22,16 @@
             android:id="@+id/searchEditText"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="15dp"
             android:background="@drawable/edit_text_background"
             android:hint="Search..."
             android:padding="12dp"
             android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/searchButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/sortSpinner" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 排序 Spinner -->
-        <Spinner
-            android:id="@+id/sortSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toTopOf="@id/searchEditText"
-            app:layout_constraintStart_toEndOf="@id/searchEditText"
-            app:layout_constraintEnd_toStartOf="@id/searchButton" />
 
         <!-- 搜索按钮 -->
         <Button
