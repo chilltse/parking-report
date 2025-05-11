@@ -43,9 +43,10 @@ public class ReportViewModel extends AndroidViewModel {
     }
 
     public List<Report> getAllReportsLive() {
-        List<Report> reports =  reportRepository.getAllReportsLive();
-        Collections.sort(reports, Collections.reverseOrder());
-        return reports;
+        List<Report> originals =  reportRepository.getAllReportsLive();
+        List<Report> sorted = new ArrayList<>(originals);
+        Collections.sort(sorted, Collections.reverseOrder());
+        return sorted;
     }
     public List<Report> getAllWaitingReportsLive() { return reportRepository.getAllWaitingReportsLive(); }
 

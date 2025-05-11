@@ -1,6 +1,7 @@
 package com.example.parkingreport.data.local.repository;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -119,6 +120,7 @@ public class ReportRepository {
 
 
     public boolean replyReport(int ID, boolean isApproved, String feedBack){
+        Log.d("ReportRepository", "feedBack:"+feedBack);
         Report report = reportDao.findReport(ID, true);
         // 只有当报告存在且状态是待处理的才OK
         if(report!=null && report.getStatus().equals(Report.WAIT_FOR_REVIEW)){

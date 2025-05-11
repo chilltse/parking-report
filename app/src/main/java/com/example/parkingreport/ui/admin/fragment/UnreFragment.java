@@ -65,7 +65,7 @@ public class UnreFragment extends Fragment {
 
     private void updateReports() {
         // 初始化 RecyclerView
-        List<Report> allReports =  reportViewModel.getAllReportsLive();
+        List<Report> allReports =  reportViewModel.getAllWaitingReportsLive();
         ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);

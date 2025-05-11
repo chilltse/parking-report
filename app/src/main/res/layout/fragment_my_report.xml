@@ -15,7 +15,7 @@
         android:paddingTop="16dp"
         android:paddingEnd="16dp">
 
-        <!-- 顶部搜索框 -->
+
         <EditText
             android:id="@+id/searchEditText"
             android:layout_width="0dp"
@@ -23,8 +23,9 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="5dp"
+            android:autofillHints="@null"
             android:background="@drawable/edit_text_background"
-            android:hint="Search..."
+            android:hint="@string/search_for_report"
             android:padding="12dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/searchButton"
@@ -39,7 +40,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/button_login_background"
-            android:text="Search"
+            android:text="@string/search"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
