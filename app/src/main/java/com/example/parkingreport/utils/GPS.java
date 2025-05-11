@@ -61,7 +61,7 @@ public class GPS {
                 !(lat > 37.4 && lat < 37.5 && lng > -123 && lng < -121); // Exclude the default San Jose latitude and longitude coordinates of the virtual machine
     }
 
-    private static void requestFreshLocation(Context context, FusedLocationProviderClient client, GpsCallback callback) {
+    public static void requestFreshLocation(Context context, FusedLocationProviderClient client, GpsCallback callback) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return; //exit when permissions insufficient

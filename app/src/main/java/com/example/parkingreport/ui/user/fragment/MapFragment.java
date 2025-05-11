@@ -1,5 +1,6 @@
 package com.example.parkingreport.ui.user.fragment;
 
+import static com.example.parkingreport.utils.GPS.requestFreshLocation;
 import static com.example.parkingreport.utils.PolygonUtil.isPointInPolygon;
 
 import android.content.Context;
@@ -58,6 +59,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private ReportViewModel reportViewModel;
     private User user;
     private static final int REQUEST_LOCATION = 1;
+    private Marker userMarker;  // GPS marker
 
 
     @Override
@@ -233,6 +235,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void attemptLocate() {
+        FusedLocationProviderClient client =
+                LocationServices.getFusedLocationProviderClient(requireContext());
         // 如果已经有权限，直接走定位
         if (ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -243,6 +247,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         .title("You're here"));
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
             });
+            GPS.requestFreshLocation(
+                    requireContext(),
+                    client,
+                    (lat, lng) -> {
+                        LatLng fresh = new LatLng(lat, lng);
+                        placeOrMoveUserMarker(fresh);
+                    }
+            );
+
         } else {
             // 没有权限就向 Fragment 申请
             requestPermissions(
@@ -252,4 +265,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+
+    /** 在地图上添加或移动 “你在这儿” 这个 marker，并把 camera 移过去 */
+    private void placeOrMoveUserMarker(LatLng ll) {
+        if (userMarker == null) {
+            userMarker = gMap.addMarker(new MarkerOptions()
+                    .position(ll)
+                    .title("You're here"));
+        } else {
+            userMarker.setPosition(ll);
+        }
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 17));
+    }
 }
