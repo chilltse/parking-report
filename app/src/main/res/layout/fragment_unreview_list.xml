@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Root layout: Enables behaviors like snackbar and floating action buttons -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,6 +9,7 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.admin.fragment.ReviewListFragment">
 
+    <!-- Main container using ConstraintLayout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,7 +18,7 @@
         android:paddingTop="16dp"
         android:paddingEnd="16dp">
 
-        <!-- 顶部搜索框 -->
+        <!-- Search input field for report filtering -->
         <EditText
             android:id="@+id/searchEditText"
             android:layout_width="0dp"
@@ -32,9 +34,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- 排序 Spinner -->
-
-        <!-- 搜索按钮 -->
+        <!-- Search button next to the EditText -->
         <Button
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- RecyclerView 列表 -->
+        <!-- RecyclerView to display the list of review reports -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle2"
             android:layout_width="0dp"

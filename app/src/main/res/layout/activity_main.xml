@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- ScrollView: allows vertical scrolling if content exceeds screen height -->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,12 +11,14 @@
     android:background="#FBFBFB"
     tools:context=".ui.login.MainActivity">
 
+    <!-- Main container layout using ConstraintLayout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="24dp">
 
+        <!-- App Logo or Profile Image -->
         <ImageView
             android:id="@+id/imageViewProfile"
             android:layout_width="160dp"
@@ -28,6 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Username input field -->
         <EditText
             android:id="@+id/editTextUsername"
             android:layout_width="0dp"
@@ -47,6 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Password input field -->
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="0dp"
@@ -66,6 +71,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Toggle buttons to switch between user/admin login mode -->
         <LinearLayout
             android:id="@+id/loginToggleGroup"
             android:layout_width="match_parent"
@@ -78,6 +84,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+            <!-- Toggle for "User" role -->
             <ToggleButton
                 android:id="@+id/toggleButtonUser"
                 android:layout_width="0dp"
@@ -92,10 +99,12 @@
                 android:stateListAnimator="@null"
                 android:elevation="0dp"/>
 
+            <!-- Spacer between toggles -->
             <View
                 android:layout_width="16dp"
                 android:layout_height="0dp" />
 
+            <!-- Toggle for "Admin" role -->
             <ToggleButton
                 android:id="@+id/toggleButtonAdmin"
                 android:layout_width="0dp"
@@ -111,6 +120,7 @@
                 android:elevation="0dp"/>
         </LinearLayout>
 
+        <!-- Link to sign-up page (optional for unregistered users) -->
         <TextView
             android:id="@+id/textViewSignUp"
             android:layout_width="wrap_content"
@@ -125,6 +135,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Login button -->
         <Button
             android:id="@+id/buttonLogin"
             android:layout_width="0dp"

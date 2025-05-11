@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Scrollable container to allow vertical scrolling when content exceeds screen height -->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,13 +9,14 @@
     android:fillViewport="true"
     android:background="@color/white">
 
+    <!-- Main layout for the sign-up form using ConstraintLayout for flexibility -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/signUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-
+        <!-- Title text prompting the user to select an avatar -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
@@ -26,6 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Grid of avatar icons for the user to select -->
         <GridLayout
             android:id="@+id/avatarGrid"
             android:layout_width="0dp"
@@ -41,6 +44,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleText" />
 
+        <!-- Username input field -->
         <EditText
             android:id="@+id/editTextNewUsername"
             android:layout_width="0dp"
@@ -57,6 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarGrid" />
 
+        <!-- Email input field -->
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="0dp"
@@ -73,6 +78,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextNewUsername" />
 
+        <!-- Verification code input field -->
         <EditText
             android:id="@+id/editTextNewCode"
             android:layout_width="0dp"
@@ -88,6 +94,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
 
+        <!-- Button to send verification code to email -->
         <Button
             android:id="@+id/buttonSendCode"
             android:layout_width="wrap_content"
@@ -102,6 +109,7 @@
             app:layout_constraintStart_toEndOf="@id/editTextNewCode"
             app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
 
+        <!-- Password input field -->
         <EditText
             android:id="@+id/editTextNewPassword"
             android:layout_width="0dp"
@@ -117,6 +125,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextNewCode" />
 
+        <!-- Register/Finish button to complete sign-up -->
         <Button
             android:id="@+id/buttonFinish"
             android:layout_width="0dp"
@@ -127,10 +136,10 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextNewPassword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-
