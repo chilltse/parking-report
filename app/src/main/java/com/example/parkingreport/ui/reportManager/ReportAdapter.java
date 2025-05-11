@@ -49,6 +49,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         return new ViewHolder(v);
     }
 
+    public void updateData(List<Report> newReports) {
+        reportList.clear();
+        reportList.addAll(newReports);
+        // 或者用 DiffUtil 来优化，这里简单直接刷新
+//        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(ReportAdapter.ViewHolder holder, int position) {
         Report item = reportList.get(position);

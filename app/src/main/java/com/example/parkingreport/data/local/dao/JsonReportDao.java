@@ -169,7 +169,7 @@ public class JsonReportDao implements ReportDao {
     }
 
     /* ─────────────────── query helpers ───────────────────── */
-    @Override public LiveData<List<Report>> getAllReportsLive() { return liveData; }
+    @Override public List<Report> getAllReportsLive() { return liveData.getValue(); }
 
     @Override public List<Report> getAllWaitingReportsLive() {
         Log.d("JsonReportDao", waitingReportTree.toString());

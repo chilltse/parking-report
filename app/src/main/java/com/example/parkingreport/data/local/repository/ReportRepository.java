@@ -20,7 +20,7 @@ import java.util.Set;
 public class ReportRepository {
     private static ReportRepository Instance;
     private ReportDao reportDao;
-    private LiveData<List<Report>> allReportLive;
+    private List<Report> allReportLive;
 
     private ReportLogRepository reportLogRepository;
 
@@ -32,7 +32,7 @@ public class ReportRepository {
         // get the instance of userLog, when creating userRepository
         this.reportLogRepository= ReportLogRepository.getInstance(context);
     }
-    public LiveData<List<Report>> getAllReportsLive() { return reportDao.getAllReportsLive(); }
+    public List<Report> getAllReportsLive() { return reportDao.getAllReportsLive(); }
     public List<Report> getAllWaitingReportsLive() { return reportDao.getAllWaitingReportsLive(); }
     public static synchronized  ReportRepository getInstance(Context context) {
         if (Instance == null) {
@@ -41,7 +41,7 @@ public class ReportRepository {
         return Instance;
     }
 
-    public LiveData<List<Report>> getAllReportLive() {
+    public List<Report> getAllReportLive() {
         return allReportLive;
     }
 
@@ -55,10 +55,10 @@ public class ReportRepository {
 
     public void insertReport(Report report){
         // generated id
-        List<Report> list = allReportLive.getValue();
+        List<Report> list = allReportLive;
         if (list == null) list = new ArrayList<>();
 
-        int newId = list.size();
+        int newId = list.size() + 1;
         report.setID(newId);
 
         // insert report

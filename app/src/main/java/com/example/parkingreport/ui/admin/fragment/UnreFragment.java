@@ -25,6 +25,7 @@ public class UnreFragment extends Fragment {
 
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
+    private RecyclerView recyclerView;
 
 
     public UnreFragment() {
@@ -44,12 +45,27 @@ public class UnreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 初始化 RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recycle2);
+        recyclerView = view.findViewById(R.id.recycle2);
 
+        updateReports();
 
-         List<Report> allReports =  reportViewModel.getAllWaitingReportsLive();
+//         List<Report> allReports =  reportViewModel.getAllWaitingReportsLive();
+//
+//
+//        ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.setAdapter(adapter);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateReports();
+    }
 
+    private void updateReports() {
+        // 初始化 RecyclerView
+        List<Report> allReports =  reportViewModel.getAllReportsLive();
         ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
