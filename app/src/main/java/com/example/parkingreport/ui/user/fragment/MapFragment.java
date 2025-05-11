@@ -54,25 +54,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap gMap;
     private Marker currentMarker;
     private Button button;
-
     private UserViewModel viewModel;
-
     private ReportViewModel reportViewModel;
-
     private User user;
+    private static final int REQUEST_LOCATION = 1;
 
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.gMap = googleMap;
 
-
-        // Start positioning and move the map to the current location
-        GPS.getCurrentLocation(requireContext(), (lat, lng) -> {
-            LatLng userLocation = new LatLng(lat, lng);
-            gMap.addMarker(new MarkerOptions().position(userLocation).title("You're here"));
-            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
-        });
+        attemptLocate();
         setUpIllegalZone();// Draw all illegal parking areas and instantiate them.
         setUpZoneClickable();//make illegal parking areas clickable.
         setupMapListeners();//Wherever you click, the marker will follow and display the coordinate information
@@ -113,12 +105,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
             boolean hasCoarseLocation = ActivityCompat.checkSelfPermission(
                     context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-            if (!hasFineLocation && !hasCoarseLocation) {
+            if (!hasFineLocation || !hasCoarseLocation) {
                 LayoutInflater inflater = getLayoutInflater();
                 View layout = inflater.inflate(R.layout.custom_toast, null);
 
                 TextView text = layout.findViewById(R.id.toast_text);
-                text.setText("Please enable GPS permission to report");
+                text.setText("Please enable GPS permission in phone setting to report");
 
                 Toast toast = new Toast(requireContext());
                 toast.setDuration(Toast.LENGTH_SHORT);
@@ -220,19 +212,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                GPS.getCurrentLocation(requireContext(), (lat, lng) -> {
-                    LatLng userLocation = new LatLng(lat, lng);
-                    gMap.addMarker(new MarkerOptions().position(userLocation).title("You're here"));
-                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
-                });
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 用户刚刚在权限弹窗里点了“允许”，
+                // 这里再调一次 setUpGPS()（或你用来定位+moveCamera的方法）
+                attemptLocate();
             } else {
-                Toast.makeText(getContext(), "Location permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),
+                                "Location permission denied",
+                                Toast.LENGTH_SHORT)
+                        .show();
             }
         }
-    }//automatically called by requestPermission in GPS.java.getCurrentLocation
+    }
+
+    private void attemptLocate() {
+        // 如果已经有权限，直接走定位
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            GPS.getCurrentLocation(requireContext(), (lat, lng) -> {
+                LatLng userLocation = new LatLng(lat, lng);
+                gMap.addMarker(new MarkerOptions()
+                        .position(userLocation)
+                        .title("You're here"));
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
+            });
+        } else {
+            // 没有权限就向 Fragment 申请
+            requestPermissions(
+                    new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },
+                    REQUEST_LOCATION
+            );
+        }
+    }
+
 }
