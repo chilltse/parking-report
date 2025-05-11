@@ -1,13 +1,13 @@
 package com.example.parkingreport.ui.reportManager;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,8 +19,16 @@ import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
+import com.example.parkingreport.service.NotificationFactory;
+import com.example.parkingreport.service.NotificationType;
+import com.example.parkingreport.service.api.INotificationService;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.parkingreport.utils.FileLoader.readPlatePhone;
 
 public class ReportDetailActivity extends AppCompatActivity {
 
@@ -29,7 +37,9 @@ public class ReportDetailActivity extends AppCompatActivity {
     private ReportViewModel reportViewModel;
     private ToggleButton approveButton;
     private ToggleButton rejectButton;
-    private TextView feedbackTextView;
+    private TextView feedbackTextViewShow;
+    private EditText feedbackTextViewInput;
+    private final String PLATE_PHONE_FILE = "plate_phone_2500.csv";
     private ImageView priUrl;
 
 
@@ -67,7 +77,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         TextView reporterNameView = findViewById(R.id.valueReporterName);
         TextView reportIdView = findViewById(R.id.valueReportId);
         TextView statusView = findViewById(R.id.valueStatus);
-        TextView feedbackView = findViewById(R.id.valueFeedback);
 
 
 
@@ -79,13 +88,12 @@ public class ReportDetailActivity extends AppCompatActivity {
         reportIdView.setText(String.format("%d", reportId));
 //        reportIdView.setText(reportId);
         statusView.setText(status);
-        feedbackView.setText(feedback);
 
         // 对于审批的report，设置监听器
         if(layoutId == R.layout.activity_unreview_list_deatil){
             approveButton = findViewById(R.id.approveButton);
             rejectButton = findViewById(R.id.rejectButton);
-            feedbackTextView = findViewById(R.id.valueFeedback);
+            feedbackTextViewInput = findViewById(R.id.messageField);
             setupToggleButtonListeners();
 
 
@@ -94,18 +102,48 @@ public class ReportDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 //                    String isApproved = approveButton.isChecked() ? Report.APPROVED : Report.DECLINED;
-//                    String feedback = feedbackTextView.getText().toString();
+                    String feedback = feedbackTextViewInput.getText().toString();
+
+                    // Change the status of the report, so the reporter can see the difference.
                     reportViewModel.replyReport(reportId,approveButton.isChecked(),feedback);
+
+                    // If this report has been approved, then it will send sms msg to the corresponding car owner.
+                    if(approveButton.isChecked()){
+                        String phone;
+                        try {
+                            Map<String, String> map = readPlatePhone(getApplicationContext(), PLATE_PHONE_FILE);
+                            phone = map.get(plate);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        if(phone==null){
+                            Toast.makeText(getApplicationContext(), "Can not find the plate user, canceled alarm msg!", Toast.LENGTH_SHORT).show();
+                        }else{
+                            INotificationService smsService = NotificationFactory.createService(
+                                    "sms", getApplicationContext(), NotificationType.ALARM,
+                                    new HashMap<String, String>() {{
+                                        put("plate", plate);
+                                    }});
+                            //TODO COMMENT OUT FOR NOW
+//                            smsService.sendMsg(phone);
+                            Toast.makeText(getApplicationContext(), "Sent alarm msg to car owner.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
                     finish();
                 }
             });
         }
 
+
         //设置相关的图片
+        priUrl = findViewById(R.id.imageView4);
+        assert picUrl != null;
+        Glide.with(this).load(new File(picUrl)).into(priUrl);
+
         if(layoutId == R.layout.activity_report_detail) {
-            priUrl = findViewById(R.id.imageView4);
-            assert picUrl != null;
-            Glide.with(this).load(new File(picUrl)).into(priUrl);
+            feedbackTextViewShow = findViewById(R.id.valueFeedback);
+            feedbackTextViewShow.setText(feedback);
         }
 
 

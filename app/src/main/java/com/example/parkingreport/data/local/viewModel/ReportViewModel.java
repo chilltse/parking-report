@@ -3,6 +3,7 @@ package com.example.parkingreport.data.local.viewModel;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -13,8 +14,13 @@ import com.example.parkingreport.data.local.api.Callback;
 import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.repository.ReportRepository;
+import com.example.parkingreport.data.local.repository.UserRepository;
+import com.example.parkingreport.search.Parser;
+import com.example.parkingreport.search.Token;
+import com.example.parkingreport.search.Tokenizer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,17 +29,19 @@ import java.util.concurrent.Executors;
 
 public class ReportViewModel extends AndroidViewModel {
     private ReportRepository reportRepository;
-    LiveData<List<Report>> allReportLive;
+    private UserRepository userRepository;
+    List<Report> allReportLive;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public ReportViewModel(@NonNull Application application) {
         super(application);
         reportRepository = ReportRepository.getInstance(application.getApplicationContext());
+        userRepository = UserRepository.getInstance(application.getApplicationContext());
         allReportLive = reportRepository.getAllReportLive();
     }
 
-    public LiveData<List<Report>> getAllReportLive(){return allReportLive;}
+    public List<Report> getAllReportLive(){return allReportLive;}
 
     public void insertReport(Report report){
         executeAsync(() -> {
@@ -41,8 +49,18 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<Report>> getAllReportsLive() { return reportRepository.getAllReportsLive(); }
-    public List<Report> getAllWaitingReportsLive() { return reportRepository.getAllWaitingReportsLive(); }
+    public List<Report> getAllReportsLive() {
+        List<Report> originals =  reportRepository.getAllReportsLive();
+        List<Report> sorted = new ArrayList<>(originals);
+        Collections.sort(sorted, Collections.reverseOrder());
+        return sorted;
+    }
+    public List<Report> getAllWaitingReportsLive() {
+        List<Report> originals =  reportRepository.getAllWaitingReportsLive();
+        List<Report> sorted = new ArrayList<>(originals);
+        Collections.sort(sorted, Collections.reverseOrder());
+        return sorted;
+    }
 
 
 //    public void deleteReport(int reportId){
@@ -78,6 +96,29 @@ public class ReportViewModel extends AndroidViewModel {
         return report;
     }
 
+    // 新增search功能，在这里调用token和parser
+    public List<Report> searchReports(String input, boolean isWaitStatus){
+        List<Report> result = new ArrayList<>();
+        Tokenizer.Tokens allToken = null;
+        try {
+            allToken = Tokenizer.tokenize(input);
+        } catch (IllegalArgumentException e) {
+            // 暂时设置为有错误返回null来提示， 这样后台exception不会打断程序运行
+            Log.d("IllegalArgs", "IllegalArgs");
+            return null;
+        }
+
+        // debug
+        if(allToken.tokens == null || allToken.tokens.size() == 0){
+            Log.d("Token_Null", "No tokens");
+        }
+        for (Token token : allToken.tokens) {
+            Log.d("Tokens", token.toString());
+        }
+
+        result = Parser.evaluateTokens(allToken.tokens, isWaitStatus, this.reportRepository, this.userRepository);
+        return result;
+    }
 
     // 通用异步执行方法
     private void executeAsync(Runnable task) {

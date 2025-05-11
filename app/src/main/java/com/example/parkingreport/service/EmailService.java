@@ -21,7 +21,6 @@ import jakarta.mail.internet.MimeMessage;
 
 public class EmailService implements INotificationService {
     private static final String TAG = "EmailService";
-    private static final String ORDER_TEMPLATE = "order_template.html";
     private static final String CODE_TEMPLATE = "code_template.html";
 
     private static final String SMTP_HOST = BuildConfig.EMAIL_SMTP_HOST;
@@ -41,10 +40,6 @@ public class EmailService implements INotificationService {
         this.session = getSession();
 
         switch (emailType) {
-            case ORDER:
-                this.templateFileName = ORDER_TEMPLATE;
-                this.subject = "New Order Placed";
-                break;
             case REGISTRATION:
                 this.templateFileName = CODE_TEMPLATE;
                 this.subject = "Verification Code";

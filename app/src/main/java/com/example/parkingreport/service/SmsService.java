@@ -21,6 +21,7 @@ import okhttp3.Response;
 public class SmsService implements INotificationService {
     private static final String TAG = "SmsService";
     private String templateFileName;
+    private static final String ALARM_TEMPLATE = "alarm_template.txt";
     private Map<String, String> replacements;
     private Context context;
 
@@ -33,8 +34,8 @@ public class SmsService implements INotificationService {
      */
     public SmsService(Context context, NotificationType smsType, Map<String, String> replacements) {
         switch (smsType) {
-            case REGISTRATION:
-                templateFileName = "sms_register_template.txt";
+            case ALARM:
+                templateFileName = ALARM_TEMPLATE;
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported SMS type: " + smsType);

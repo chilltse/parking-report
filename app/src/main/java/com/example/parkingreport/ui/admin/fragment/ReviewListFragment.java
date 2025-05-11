@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +20,8 @@ import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ReviewListFragment extends Fragment {
@@ -25,6 +29,13 @@ public class ReviewListFragment extends Fragment {
     private ReportViewModel reportViewModel;
 
     private UserViewModel viewModel;
+
+    private RecyclerView recyclerView;
+
+    private EditText searchInput;
+    private Button searchBtn;
+
+
 
     public ReviewListFragment() {
         // Required empty public constructor
@@ -45,14 +56,51 @@ public class ReviewListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 初始化 RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recycle);
+        recyclerView = view.findViewById(R.id.recycle);
+        searchInput = view.findViewById(R.id.searchEditText);
+        searchBtn = view.findViewById(R.id.searchButton);
 
-        List<Report> allReports =  reportViewModel.getAllReportsLive().getValue();
+        updateReports();
 
 
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateSearchResult();
+            }
+        });
+
+//        List<Report> allReports =  reportViewModel.getAllReportsLive().getValue();
+//        ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.setAdapter(adapter);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateReports();
+    }
+
+    private void updateReports() {
+        // 初始化 RecyclerView
+        List<Report> allReports =  reportViewModel.getAllReportsLive();
         ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
+
+    private void updateSearchResult() {
+        String searchContent = searchInput.getText().toString();
+
+        List<Report> searchResult =  reportViewModel.searchReports(searchContent,false);
+        Collections.sort(searchResult, Collections.reverseOrder());
+        ReportAdapter adapter = new ReportAdapter(searchResult, getContext(), viewModel.getUser().getRole());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+    }
+
+
 }
 

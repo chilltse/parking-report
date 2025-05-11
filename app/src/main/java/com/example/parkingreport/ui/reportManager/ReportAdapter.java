@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +54,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         return new ViewHolder(v);
     }
 
+    public void updateData(List<Report> newReports) {
+        reportList.clear();
+        reportList.addAll(newReports);
+        // 或者用 DiffUtil 来优化，这里简单直接刷新
+//        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(ReportAdapter.ViewHolder holder, int position) {
         Report item = reportList.get(position);
@@ -60,6 +68,8 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         holder.plate.setText(item.getCarPlate());
         holder.title.setText(item.getStatus());
         holder.time.setText(fmt.format(item.getTimestamp()));
+
+
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ReportDetailActivity.class);

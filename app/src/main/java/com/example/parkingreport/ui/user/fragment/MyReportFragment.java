@@ -1,10 +1,11 @@
 package com.example.parkingreport.ui.user.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MyReportFragment extends Fragment {
@@ -33,6 +35,9 @@ public class MyReportFragment extends Fragment {
     private RecyclerView recyclerView;
     private ReportAdapter adapter;
 
+    private EditText searchInput;
+    private Button searchBtn;
+
     public MyReportFragment() {
         // Required empty public constructor
     }
@@ -42,7 +47,7 @@ public class MyReportFragment extends Fragment {
                              Bundle savedInstanceState) {
         reportViewModel = new ViewModelProvider(requireActivity())
                 .get(ReportViewModel.class);
-        viewModel = new ViewModelProvider(requireActivity())
+        viewModel =  new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
         // 返回 fragment 对应的布局
         return inflater.inflate(R.layout.fragment_my_report, container, false);
@@ -52,26 +57,48 @@ public class MyReportFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        searchInput = view.findViewById(R.id.searchEditText);
+        searchBtn = view.findViewById(R.id.searchButton);
+
         recyclerView = view.findViewById(R.id.recycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // 获取对应用户的report IDs
-        List<Integer> reportIds = reportViewModel.getIdsByUser(viewModel.getUser().getID());
+        loadReports();
 
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateSearchResult();
+            }
+        });
+    }
 
-        //TODO 暂时用for循环，可换成livedata
-        String reporterName =  viewModel.getUser().getName();
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadReports();
+    }
+
+    private void loadReports() {
+        // 拿到当前用户 id
+        int userId = viewModel.getUser().getID();
+        // 用你的原来逻辑来构造列表
+        List<Integer> reportIds = reportViewModel.getIdsByUser(userId);
         List<Report> reportList = new ArrayList<>();
-        for(int id: reportIds){
-            Report report = reportViewModel.findReport(id,false);
-//            reportList.add(new ReportItem(report.getCarPlate(), String.valueOf(report.getStatus()), fmt.format(report.getTimestamp())));
-            reportList.add(report);
+        for (int id : reportIds) {
+            reportList.add(reportViewModel.findReport(id, false));
         }
-        if(reportIds == null)
-            Log.d("Check_User_Live_null","NUll");
-        else{Log.d("Check_User_Live",reportList.toString());}
-
+        Collections.sort(reportList, Collections.reverseOrder());
         adapter = new ReportAdapter(reportList, getContext(), viewModel.getUser().getRole());
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void updateSearchResult() {
+        String searchContent = searchInput.getText().toString();
+
+        List<Report> searchResult =  reportViewModel.searchReports(searchContent,false);
+        Collections.sort(searchResult, Collections.reverseOrder());
+        ReportAdapter adapter = new ReportAdapter(searchResult, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
