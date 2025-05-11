@@ -2,6 +2,8 @@ package com.example.parkingreport.search;
 
 import android.util.Log;
 
+import com.example.parkingreport.data.local.entities.User;
+
 import java.util.*;
 
 public class Tokenizer {
@@ -21,7 +23,7 @@ public class Tokenizer {
      * The input is split into two parts at the first whitespace (likely representing a binary operation).
      * Each part is parsed into a list of Token objects.
      */
-    public static Tokens tokenize(String input) {
+    public static Tokens tokenize(String input, String role) {
         Tokens tokens = new Tokens();
         input = input.trim();
 
@@ -32,7 +34,7 @@ public class Tokenizer {
             if (part.isEmpty()) continue;
             // 处理前缀
             try{
-                token = prefixHandle(part);
+                token = prefixHandle(part, role);
                 Log.d("prefixHandle_result", token.toString());
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("invalid input：" + part);
@@ -68,11 +70,11 @@ public class Tokenizer {
      * Supports optional negation using a leading 'U:' or 'P:' character.
      * Throws an exception for invalid token values.
      */
-    private static Token prefixHandle(String value) {
+    private static Token prefixHandle(String value, String role) {
         Token token = null;
         if (value.isEmpty()) return token;
 
-        String type = classify(value);
+        String type = classify(value, role);
 
         // debug
         if(type != null){
@@ -100,13 +102,13 @@ public class Tokenizer {
      * - only letters → "name"
      * - otherwise → "invalid"
      */
-    private static String classify(String value) {
+    private static String classify(String value, String role) {
         String prefix = null;
         String upper = value.toUpperCase();
         Boolean checkFlag = false; // 是否匹配上前缀
 
         boolean isUser = upper.startsWith("U:");
-        if (isUser){
+        if (isUser && role.equals(User.ADMIN)){
             prefix = upper.substring(0, 1); // only get first char.
             checkFlag = true;
         }

@@ -21,6 +21,7 @@ import com.example.parkingreport.data.local.viewModel.UserViewModel;
 
 import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -76,7 +77,8 @@ public class UnreFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateReports();
+//        updateReports();
+        updateSearchResult();
     }
 
     private void updateReports() {
@@ -90,8 +92,13 @@ public class UnreFragment extends Fragment {
     private void updateSearchResult() {
         String searchContent = searchInput.getText().toString();
 
-        List<Report> searchResult =  reportViewModel.searchReports(searchContent,false);
-        Collections.sort(searchResult, Collections.reverseOrder());
+        List<Report> searchResult =  reportViewModel.searchReports(searchContent,false, viewModel.getUser().getRole(), viewModel.getUser().getID());
+        if(searchResult == null){
+            searchInput.setError("Invalid Input!!!");
+            searchResult = new ArrayList<>();
+        }else{
+            Collections.sort(searchResult, Collections.reverseOrder());
+        }
         ReportAdapter adapter = new ReportAdapter(searchResult, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);

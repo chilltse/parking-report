@@ -42,9 +42,9 @@ public class ReportRepository {
         return Instance;
     }
 
-    public List<Report> getAllReportLive() {
-        return allReportLive;
-    }
+//    public List<Report> getAllReportLive() {
+//        return allReportLive;
+//    }
 
     public List<Integer> getIdsByUser(int userId) {
         return reportDao.getIdsByUser(userId);

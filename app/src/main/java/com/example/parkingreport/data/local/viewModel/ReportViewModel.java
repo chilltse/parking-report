@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 public class ReportViewModel extends AndroidViewModel {
     private ReportRepository reportRepository;
     private UserRepository userRepository;
-    List<Report> allReportLive;
+//    List<Report> allReportLive;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -38,10 +38,10 @@ public class ReportViewModel extends AndroidViewModel {
         super(application);
         reportRepository = ReportRepository.getInstance(application.getApplicationContext());
         userRepository = UserRepository.getInstance(application.getApplicationContext());
-        allReportLive = reportRepository.getAllReportLive();
+//        allReportLive = reportRepository.getAllReportLive();
     }
 
-    public List<Report> getAllReportLive(){return allReportLive;}
+//    public List<Report> getAllReportLive(){return allReportLive;}
 
     public void insertReport(Report report){
         executeAsync(() -> {
@@ -92,11 +92,11 @@ public class ReportViewModel extends AndroidViewModel {
     }
 
     // 新增search功能，在这里调用token和parser
-    public List<Report> searchReports(String input, boolean isWaitStatus){
+    public List<Report> searchReports(String input, boolean isWaitStatus, String role, int userID){
         List<Report> result = new ArrayList<>();
         Tokenizer.Tokens allToken = null;
         try {
-            allToken = Tokenizer.tokenize(input);
+            allToken = Tokenizer.tokenize(input, role);
         } catch (IllegalArgumentException e) {
             // 暂时设置为有错误返回null来提示， 这样后台exception不会打断程序运行
             Log.d("IllegalArgs", "IllegalArgs");
@@ -111,7 +111,7 @@ public class ReportViewModel extends AndroidViewModel {
             Log.d("Tokens", token.toString());
         }
 
-        result = Parser.evaluateTokens(allToken.tokens, isWaitStatus, this.reportRepository, this.userRepository);
+        result = Parser.evaluateTokens(allToken.tokens, isWaitStatus, role, userID, this.reportRepository, this.userRepository);
         return result;
     }
 
