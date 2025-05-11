@@ -1,6 +1,7 @@
 package com.example.parkingreport.ui.user.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class MyReportFragment extends Fragment {
                              Bundle savedInstanceState) {
         reportViewModel = new ViewModelProvider(requireActivity())
                 .get(ReportViewModel.class);
-        viewModel =  new ViewModelProvider(requireActivity())
+        viewModel = new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
         // 返回 fragment 对应的布局
         return inflater.inflate(R.layout.fragment_my_report, container, false);
@@ -57,6 +58,7 @@ public class MyReportFragment extends Fragment {
         // 获取对应用户的report IDs
         List<Integer> reportIds = reportViewModel.getIdsByUser(viewModel.getUser().getID());
 
+
         //TODO 暂时用for循环，可换成livedata
         String reporterName =  viewModel.getUser().getName();
         List<Report> reportList = new ArrayList<>();
@@ -65,11 +67,12 @@ public class MyReportFragment extends Fragment {
 //            reportList.add(new ReportItem(report.getCarPlate(), String.valueOf(report.getStatus()), fmt.format(report.getTimestamp())));
             reportList.add(report);
         }
-
-//        reportList.add(new ReportItem("ABC123", "Good", "2025-04-20 09:15"));
-//        reportList.add(new ReportItem("XYZ789", "Nice", "2025-04-19 18:42"));
+        if(reportIds == null)
+            Log.d("Check_User_Live_null","NUll");
+        else{Log.d("Check_User_Live",reportList.toString());}
 
         adapter = new ReportAdapter(reportList, getContext(), viewModel.getUser().getRole());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
 }

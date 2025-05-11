@@ -28,7 +28,6 @@ public class ChatFragment extends Fragment {
     private ChatAdapter chatAdapter;
     private EditText inputEditText;
     private RecyclerView recyclerView;
-    private Spinner sortSpinner;
     private LLMClient llmClient;
 
     public ChatFragment() {
@@ -51,7 +50,7 @@ public class ChatFragment extends Fragment {
 
         inputEditText = view.findViewById(R.id.inputEditText);
         recyclerView = view.findViewById(R.id.chatRecyclerView);
-        sortSpinner = view.findViewById(R.id.sortSpinner);
+        Spinner sortSpinner = view.findViewById(R.id.sortSpinner);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         chatAdapter = new ChatAdapter();
         recyclerView.setAdapter(chatAdapter);

@@ -4,5 +4,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">New feature will be releasing!</string>
     <string name="log_out">Log Out</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+    <string name="send_code">Send Code</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="email_address">Email Address</string>
+    <string name="username">Username</string>
+    <string name="please_select_you_icon">Please select you icon</string>
 
 </resources>

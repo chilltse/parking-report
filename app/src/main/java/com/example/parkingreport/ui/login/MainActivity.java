@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             if (isMatch) {
                 // Navigate to the next Activity based on user role
                 int userId = viewModel.findIdByName(username);
-                Intent intent = loginAs == User.USER ?
+                Intent intent = loginAs.equals(User.USER) ?
                         new Intent(MainActivity.this, UserActivity.class):
                         new Intent(MainActivity.this, AdminActivity.class);
                 intent.putExtra("userId", userId);
