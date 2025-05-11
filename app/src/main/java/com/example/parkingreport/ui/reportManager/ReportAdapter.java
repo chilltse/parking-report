@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -37,14 +38,14 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         TextView title;
         TextView time;
         TextView plate;
-        ImageView picture;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textReportStatus);
             time  = itemView.findViewById(R.id.textReportDate);
             plate = itemView.findViewById(R.id.textReportId);
-            picture = itemView.findViewById(R.id.imageThumbnail);
+
         }
     }
 
@@ -55,6 +56,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         return new ViewHolder(v);
     }
 
+    public void updateData(List<Report> newReports) {
+        reportList.clear();
+        reportList.addAll(newReports);
+        // 或者用 DiffUtil 来优化，这里简单直接刷新
+//        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(ReportAdapter.ViewHolder holder, int position) {
         Report item = reportList.get(position);
@@ -62,13 +70,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         holder.plate.setText(item.getCarPlate());
         holder.title.setText(item.getStatus());
         holder.time.setText(fmt.format(item.getTimestamp()));
-        Bitmap bitmap = BitmapFactory.decodeFile(item.getReportPicUrl());
-        if (bitmap != null) {
-            holder.picture.setImageBitmap(bitmap);
-        } else {
-            holder.picture.setImageResource(R.drawable.logo); // 显示默认图
-            Toast.makeText(context, "图片加载失败，使用默认图", Toast.LENGTH_SHORT).show();
-        }
+
 
 
         holder.itemView.setOnClickListener(v -> {

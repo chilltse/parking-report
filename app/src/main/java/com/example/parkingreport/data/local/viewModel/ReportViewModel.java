@@ -15,6 +15,7 @@ import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.repository.ReportRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +24,7 @@ import java.util.concurrent.Executors;
 
 public class ReportViewModel extends AndroidViewModel {
     private ReportRepository reportRepository;
-    LiveData<List<Report>> allReportLive;
+    List<Report> allReportLive;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -33,7 +34,7 @@ public class ReportViewModel extends AndroidViewModel {
         allReportLive = reportRepository.getAllReportLive();
     }
 
-    public LiveData<List<Report>> getAllReportLive(){return allReportLive;}
+    public List<Report> getAllReportLive(){return allReportLive;}
 
     public void insertReport(Report report){
         executeAsync(() -> {
@@ -41,7 +42,12 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<Report>> getAllReportsLive() { return reportRepository.getAllReportsLive(); }
+    public List<Report> getAllReportsLive() {
+        List<Report> originals =  reportRepository.getAllReportsLive();
+        List<Report> sorted = new ArrayList<>(originals);
+        Collections.sort(sorted, Collections.reverseOrder());
+        return sorted;
+    }
     public List<Report> getAllWaitingReportsLive() { return reportRepository.getAllWaitingReportsLive(); }
 
 

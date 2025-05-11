@@ -17,7 +17,7 @@ public interface ReportDao {
 
 //    void handleReport(int reportId, String status);
 
-    LiveData<List<Report>> getAllReportsLive();
+    List<Report> getAllReportsLive();
 
     int checkReportExists(int reportId);
 

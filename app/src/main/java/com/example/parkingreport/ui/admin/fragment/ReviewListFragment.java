@@ -18,6 +18,8 @@ import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ReviewListFragment extends Fragment {
@@ -25,6 +27,8 @@ public class ReviewListFragment extends Fragment {
     private ReportViewModel reportViewModel;
 
     private UserViewModel viewModel;
+
+    private RecyclerView recyclerView;
 
     public ReviewListFragment() {
         // Required empty public constructor
@@ -45,11 +49,25 @@ public class ReviewListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 初始化 RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recycle);
+        recyclerView = view.findViewById(R.id.recycle);
 
-        List<Report> allReports =  reportViewModel.getAllReportsLive().getValue();
+        updateReports();
+//        List<Report> allReports =  reportViewModel.getAllReportsLive().getValue();
+//        ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.setAdapter(adapter);
+    }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateReports();
+    }
+
+    private void updateReports() {
+        // 初始化 RecyclerView
+        List<Report> allReports =  reportViewModel.getAllReportsLive();
         ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
