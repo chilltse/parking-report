@@ -92,7 +92,7 @@ public class UnreFragment extends Fragment {
     private void updateSearchResult() {
         String searchContent = searchInput.getText().toString();
 
-        List<Report> searchResult =  reportViewModel.searchReports(searchContent,false, viewModel.getUser().getRole(), viewModel.getUser().getID());
+        List<Report> searchResult =  reportViewModel.searchReports(searchContent,true, viewModel.getUser().getRole(), viewModel.getUser().getID());
         if(searchResult == null){
             searchInput.setError("Invalid Input!!!");
             searchResult = new ArrayList<>();

@@ -55,7 +55,8 @@ public class JsonUserDao implements UserDao {
         if(nameMap.get(name)!=null){
             return nameMap.get(name);
         }else{
-            throw new RuntimeException("No such user for "+ name);
+//            throw new RuntimeException("No such user for "+ name);
+            return -1;
         }
     }
 

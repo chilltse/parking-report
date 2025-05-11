@@ -75,7 +75,11 @@ public class Parser {
         // if role is admin and tokens is empty, then return all record.
         if(role.equals(User.ADMIN) && tokens.size() == 0){
             userNameFlag = true;
-            userNameResult = reportRepository.getAllReportsLive();
+            if(isWaitStatus){
+                userNameResult = reportRepository.getAllWaitingReportsLive();
+            }else{
+                userNameResult = reportRepository.getAllReportsLive();
+            }
         }
 
         // different type 之间是“与”查询，same type之间是“或”查询
