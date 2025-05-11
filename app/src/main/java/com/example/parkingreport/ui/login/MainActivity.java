@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         // Create reports
         createDefaultReport();
 
+        // Default pic
+        copyRawImageToImagesDir();
+
         // default value for loginAs
 //        loginAs = User.USER;
         viewModel =  new ViewModelProvider(this)
@@ -132,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             if (isMatch) {
                 // Navigate to the next Activity based on user role
                 int userId = viewModel.findIdByName(username);
-                Intent intent = loginAs == User.USER ?
+                Intent intent = loginAs.equals(User.USER) ?
                         new Intent(MainActivity.this, UserActivity.class):
                         new Intent(MainActivity.this, AdminActivity.class);
                 intent.putExtra("userId", userId);
@@ -210,6 +213,41 @@ public class MainActivity extends AppCompatActivity {
             os.flush();
         } catch (IOException e) {
             Log.e("MainActivity", "拷贝 asset 文件失败: " + assetName, e);
+        }
+    }
+
+    private void copyRawImageToImagesDir() {
+        // 1. 获取内部存储 files 目录下的 images 子目录
+        File imagesDir = new File(getFilesDir(), "images");
+        if (!imagesDir.exists()) {
+            // 如果 images/ 不存在，就创建它
+            boolean ok = imagesDir.mkdirs();
+            if (!ok) {
+                Log.d("MainActivity", "Can't create images/");
+                return;
+            }
+        }
+
+        // 2. 准备目标文件
+        File outFile = new File(imagesDir, "default_parking.png");
+        if (outFile.exists()) {
+            // 已经存在，就不再重复拷贝
+            return;
+        }
+
+        // 3. 打开 raw 资源并写入到目标文件
+        try (InputStream is = getResources().openRawResource(R.raw.default_parking);
+             OutputStream os = new FileOutputStream(outFile)) {
+
+            byte[] buffer = new byte[8 * 1024]; // 8KB 缓冲
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                os.write(buffer, 0, len);
+            }
+            os.flush();
+            Log.d("MainActivity", "已拷贝 default_parking.png 到 " + outFile.getAbsolutePath());
+        } catch (IOException e) {
+            Log.e("MainActivity", "拷贝 default_parking.png 失败", e);
         }
     }
 
