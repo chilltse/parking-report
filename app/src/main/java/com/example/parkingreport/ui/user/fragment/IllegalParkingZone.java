@@ -9,6 +9,12 @@ public enum IllegalParkingZone {
             new LatLng(-35.27853, 149.12650723),
             new LatLng(-35.27853, 149.1261743),
     }),
+    Yukeembruk(new LatLng[]{
+            new LatLng(-35.28088648624807, 149.11001600325108),
+            new LatLng(-35.279998885041536, 149.11086224019527),
+            new LatLng(-35.28035934590916, 149.1124316677451),
+            new LatLng(-35.28196703110752, 149.1119233891368),
+    }),
     Hanna_Neumann(new LatLng[]{
             new LatLng(-35.2750666, 149.120955),
             new LatLng(-35.2754769, 149.121058),

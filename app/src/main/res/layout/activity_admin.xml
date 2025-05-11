@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.admin.AdminActivity">
 
-    <!-- 真正显示 Fragment 内容的容器 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView5"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -20,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 底部导航栏 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView2"
         android:layout_width="0dp"

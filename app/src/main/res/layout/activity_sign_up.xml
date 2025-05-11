@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Scrollable container to allow vertical scrolling when content exceeds screen height -->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/white">
 
+    <!-- Main layout for the sign-up form using ConstraintLayout for flexibility -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/signUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-
+        <!-- Title text prompting the user to select an avatar -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
@@ -25,6 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Grid of avatar icons for the user to select -->
         <GridLayout
             android:id="@+id/avatarGrid"
             android:layout_width="0dp"
@@ -40,53 +44,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleText" />
 
+        <!-- Username input field -->
         <EditText
             android:id="@+id/editTextNewUsername"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:minHeight="48dp"
             android:autofillHints=""
             android:background="@drawable/edit_text_background"
             android:hint="@string/username"
             android:inputType="textPersonName"
+            android:minHeight="48dp"
             android:padding="12dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/avatarGrid" />
 
+        <!-- Email input field -->
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:minHeight="48dp"
             android:autofillHints=""
             android:background="@drawable/edit_text_background"
             android:hint="@string/email_address"
             android:inputType="textEmailAddress"
+            android:minHeight="48dp"
             android:padding="12dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextNewUsername" />
 
+        <!-- Verification code input field -->
         <EditText
             android:id="@+id/editTextNewCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:minHeight="48dp"
             android:background="@drawable/edit_text_background"
             android:hint="@string/verification_code"
+            android:minHeight="48dp"
             android:padding="12dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@id/buttonSendCode"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
 
+        <!-- Button to send verification code to email -->
         <Button
             android:id="@+id/buttonSendCode"
             android:layout_width="wrap_content"
@@ -101,6 +109,7 @@
             app:layout_constraintStart_toEndOf="@id/editTextNewCode"
             app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
 
+        <!-- Password input field -->
         <EditText
             android:id="@+id/editTextNewPassword"
             android:layout_width="0dp"
@@ -108,14 +117,15 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/edit_text_background"
             android:hint="@string/password"
-            android:minHeight="48dp"
             android:inputType="textPassword"
+            android:minHeight="48dp"
             android:padding="12dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextNewCode" />
 
+        <!-- Register/Finish button to complete sign-up -->
         <Button
             android:id="@+id/buttonFinish"
             android:layout_width="0dp"
@@ -126,6 +136,7 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextNewPassword" />

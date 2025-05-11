@@ -13,7 +13,6 @@
         android:padding="16dp"
         android:fitsSystemWindows="true">
 
-        <!-- 横向排列：搜索框 + 排序 + 搜索按钮 -->
         <EditText
             android:id="@+id/searchEditText"
             android:layout_width="0dp"
@@ -39,7 +38,6 @@
             app:layout_constraintTop_toTopOf="@id/searchEditText"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- RecyclerView 占据下方所有空间 -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle"
             android:layout_width="0dp"

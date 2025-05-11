@@ -69,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(resId);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(200, 200));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             imageView.setOnClickListener(v -> {

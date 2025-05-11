@@ -55,7 +55,12 @@ public class ReportViewModel extends AndroidViewModel {
         Collections.sort(sorted, Collections.reverseOrder());
         return sorted;
     }
-    public List<Report> getAllWaitingReportsLive() { return reportRepository.getAllWaitingReportsLive(); }
+    public List<Report> getAllWaitingReportsLive() {
+        List<Report> originals =  reportRepository.getAllWaitingReportsLive();
+        List<Report> sorted = new ArrayList<>(originals);
+        Collections.sort(sorted, Collections.reverseOrder());
+        return sorted;
+    }
 
 
 //    public void deleteReport(int reportId){

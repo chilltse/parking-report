@@ -125,39 +125,63 @@ public class ReportPageActivity extends AppCompatActivity {
         Button button = findViewById(R.id.submitButton);
         button.setOnClickListener(v -> {
             boolean isOK = true;
-            String gpsLocation = ((TextView)findViewById(R.id.locationInput)).getText().toString();
-            String date = ((TextView)findViewById(R.id.dateInput)).getText().toString();
-            String carPlate1 = ((TextView)findViewById(R.id.carPlateInput1)).getText().toString();
-            String carPlate2 = ((TextView)findViewById(R.id.carPlateInput2)).getText().toString();
-            if(!carPlate1.equals(carPlate2)){
-                ((TextView)findViewById(R.id.carPlateInput2)).setError("Not matching!");
+
+            String gpsLocation = ((TextView) findViewById(R.id.locationInput))
+                    .getText().toString().trim();
+            String date = ((TextView) findViewById(R.id.dateInput))
+                    .getText().toString().trim();
+            String carPlate1 = ((TextView) findViewById(R.id.carPlateInput1))
+                    .getText().toString().trim();
+            String carPlate2 = ((TextView) findViewById(R.id.carPlateInput2))
+                    .getText().toString().trim();
+
+            // 1. 非空校验
+            if (carPlate1.isEmpty()) {
+                ((TextView) findViewById(R.id.carPlateInput1))
+                        .setError("请输入车牌号");
                 isOK = false;
             }
-            if(!((CheckBox )findViewById(R.id.confirmCheckbox)).isChecked()){
+            if (carPlate2.isEmpty()) {
+                ((TextView) findViewById(R.id.carPlateInput2))
+                        .setError("请再次输入车牌号");
                 isOK = false;
-                Toast.makeText(getApplicationContext(), "Please click the confirm Checkbox",Toast.LENGTH_SHORT).show();
-            }
-            if (lastPhotoPath == null) {
-                isOK = false;
-                Toast.makeText(getApplicationContext(), "请先选择图片或拍照", Toast.LENGTH_SHORT).show();
             }
 
-            // Create report
-            if(isOK){
-                // 新增 report picture url
-                String reportPicUrl = "default_report_url";
+            // 2. 相等性校验（只有在都非空时才做）
+            if (isOK && !carPlate1.equals(carPlate2)) {
+                ((TextView) findViewById(R.id.carPlateInput2))
+                        .setError("两次输入不一致");
+                isOK = false;
+            }
+
+            // 3. 勾选框校验
+            CheckBox confirmCb = findViewById(R.id.confirmCheckbox);
+            if (!confirmCb.isChecked()) {
+                Toast.makeText(getApplicationContext(),
+                        "请勾选确认框", Toast.LENGTH_SHORT).show();
+                isOK = false;
+            }
+
+            // 4. 图片校验
+            if (lastPhotoPath == null) {
+                Toast.makeText(getApplicationContext(),
+                        "请先选择图片或拍照", Toast.LENGTH_SHORT).show();
+                isOK = false;
+            }
+
+            // 最终 OK 时写入
+            if (isOK) {
                 Report report = new Report(
                         userId,
                         userName,
                         carPlate2,
-
                         gpsLocation,
                         lastPhotoPath,
-                        Report.WAIT_FOR_REVIEW);
+                        Report.WAIT_FOR_REVIEW
+                );
                 reportViewModel.insertReport(report);
                 finish();
             }
-
         });
         GPS.getCurrentLocation(this, new GPS.GpsCallback() {
             @Override

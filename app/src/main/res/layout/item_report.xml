@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- A CardView container used for displaying a single report item -->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -8,15 +9,16 @@
     app:cardElevation="4dp"
     android:background="#F5F5F5">
 
+    <!-- Main horizontal layout inside the card -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <!-- left: User uploaded thumbnail-->
+        <!-- TODO: Add a user-uploaded thumbnail or image on the left side here -->
 
-        <!-- right: User info-->
+        <!-- Vertical layout for report info on the right -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -24,17 +26,19 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <!-- TextView showing the report ID -->
             <TextView
                 android:id="@+id/textReportId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:text="Report ID: 1234"
+                android:text="@string/report_id_for_report"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
+            <!-- TextView showing the report date -->
             <TextView
                 android:id="@+id/textReportDate"
                 android:layout_width="wrap_content"
@@ -42,21 +46,23 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:text="Report Date: 2024-04-21"
+                android:text="@string/date_dd_mm_yyyy"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
+            <!-- TextView showing the current status of the report -->
             <TextView
                 android:id="@+id/textReportStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text=" Report Status: "
+                android:text="@string/status"
                 android:textColor="#D32F2F"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
+            <!-- Row for the 'View Details' prompt with an icon -->
             <LinearLayout
                 android:id="@+id/layoutViewDetails"
                 android:layout_width="wrap_content"
@@ -64,22 +70,27 @@
                 android:layout_marginTop="6dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true">
+                android:clickable="false"
+                android:focusable="false"
+                android:enabled="false">
 
+                <!-- Icon indicating "click here" -->
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_clickhere" />
+                    android:src="@drawable/ic_clickhere"
+                    android:contentDescription="@null" />
 
+                <!-- Text label "View Details" -->
                 <TextView
                     android:id="@+id/textViewDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="View Details"
+                    android:text="@string/view_details"
                     android:textColor="@color/orange_button"
                     android:textSize="14sp" />
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
