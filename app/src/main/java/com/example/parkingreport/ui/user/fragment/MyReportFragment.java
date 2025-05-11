@@ -21,6 +21,7 @@ import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MyReportFragment extends Fragment {
@@ -54,21 +55,25 @@ public class MyReportFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // 获取对应用户的report IDs
-        List<Integer> reportIds = reportViewModel.getIdsByUser(viewModel.getUser().getID());
+        loadReports();
+    }
 
-        //TODO 暂时用for循环，可换成livedata
-        String reporterName =  viewModel.getUser().getName();
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadReports();
+    }
+
+    private void loadReports() {
+        // 拿到当前用户 id
+        int userId = viewModel.getUser().getID();
+        // 用你的原来逻辑来构造列表
+        List<Integer> reportIds = reportViewModel.getIdsByUser(userId);
         List<Report> reportList = new ArrayList<>();
-        for(int id: reportIds){
-            Report report = reportViewModel.findReport(id,false);
-//            reportList.add(new ReportItem(report.getCarPlate(), String.valueOf(report.getStatus()), fmt.format(report.getTimestamp())));
-            reportList.add(report);
+        for (int id : reportIds) {
+            reportList.add(reportViewModel.findReport(id, false));
         }
-
-//        reportList.add(new ReportItem("ABC123", "Good", "2025-04-20 09:15"));
-//        reportList.add(new ReportItem("XYZ789", "Nice", "2025-04-19 18:42"));
-
+        Collections.sort(reportList, Collections.reverseOrder());
         adapter = new ReportAdapter(reportList, getContext(), viewModel.getUser().getRole());
         recyclerView.setAdapter(adapter);
     }

@@ -79,7 +79,7 @@ public class UserRepository {
                 list = new ArrayList<>();
             }
 //            int newId = generateNextAvailableID(list);
-            int newId = list.size();
+            int newId = list.size() + 1;
             user.setID(newId);
 
             //insert

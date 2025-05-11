@@ -1,5 +1,7 @@
 package com.example.parkingreport.ui.user;
 
+import static com.example.parkingreport.utils.FileLoader.readPlatePhone;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +13,19 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.parkingreport.R;
+import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportLogViewModel;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserLogViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -30,7 +39,6 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-
 
         // Data
         viewModel =  new ViewModelProvider(this)

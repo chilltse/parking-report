@@ -1,31 +1,39 @@
 package com.example.parkingreport.ui.reportManager;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 
+import java.io.File;
+
 public class ReportDetailActivity extends AppCompatActivity {
 
     private UserViewModel viewModel;
     private User user;
-
     private ReportViewModel reportViewModel;
-
     private ToggleButton approveButton;
     private ToggleButton rejectButton;
-    private TextView feedbackTextView;
+    private TextView feedbackTextViewShow;
+    private EditText feedbackTextViewInput;
+    private ImageView priUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         String feedback = intent.getStringExtra("feedback");
         String reporterName = intent.getStringExtra("reporterName");
         String loginAs = intent.getStringExtra("loginAs");
+        String picUrl = intent.getStringExtra("picUrl");
 
         // 判断启用哪一个xml
         Log.d("Review_list", "status:" + status);
@@ -60,7 +69,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         TextView reporterNameView = findViewById(R.id.valueReporterName);
         TextView reportIdView = findViewById(R.id.valueReportId);
         TextView statusView = findViewById(R.id.valueStatus);
-        TextView feedbackView = findViewById(R.id.valueFeedback);
+
+
 
 //        titleView.setText(title);
         carPlateView.setText(plate);
@@ -70,13 +80,12 @@ public class ReportDetailActivity extends AppCompatActivity {
         reportIdView.setText(String.format("%d", reportId));
 //        reportIdView.setText(reportId);
         statusView.setText(status);
-        feedbackView.setText(feedback);
 
         // 对于审批的report，设置监听器
         if(layoutId == R.layout.activity_unreview_list_deatil){
             approveButton = findViewById(R.id.approveButton);
             rejectButton = findViewById(R.id.rejectButton);
-            feedbackTextView = findViewById(R.id.valueFeedback);
+            feedbackTextViewInput = findViewById(R.id.messageField);
             setupToggleButtonListeners();
 
 
@@ -85,11 +94,23 @@ public class ReportDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 //                    String isApproved = approveButton.isChecked() ? Report.APPROVED : Report.DECLINED;
-//                    String feedback = feedbackTextView.getText().toString();
+                    String feedback = feedbackTextViewInput.getText().toString();
+
                     reportViewModel.replyReport(reportId,approveButton.isChecked(),feedback);
                     finish();
                 }
             });
+        }
+
+
+        //设置相关的图片
+        priUrl = findViewById(R.id.imageView4);
+        assert picUrl != null;
+        Glide.with(this).load(new File(picUrl)).into(priUrl);
+
+        if(layoutId == R.layout.activity_report_detail) {
+            feedbackTextViewShow = findViewById(R.id.valueFeedback);
+            feedbackTextViewShow.setText(feedback);
         }
 
 

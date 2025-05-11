@@ -20,6 +20,7 @@ import com.example.parkingreport.search.Token;
 import com.example.parkingreport.search.Tokenizer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class ReportViewModel extends AndroidViewModel {
         allReportLive = reportRepository.getAllReportLive();
     }
 
-    public LiveData<List<Report>> getAllReportLive(){return allReportLive;}
+    public List<Report> getAllReportLive(){return allReportLive;}
 
     public void insertReport(Report report){
         executeAsync(() -> {
@@ -48,7 +49,12 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<Report>> getAllReportsLive() { return reportRepository.getAllReportsLive(); }
+    public List<Report> getAllReportsLive() {
+        List<Report> originals =  reportRepository.getAllReportsLive();
+        List<Report> sorted = new ArrayList<>(originals);
+        Collections.sort(sorted, Collections.reverseOrder());
+        return sorted;
+    }
     public List<Report> getAllWaitingReportsLive() { return reportRepository.getAllWaitingReportsLive(); }
 
 

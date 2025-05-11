@@ -2,16 +2,21 @@ package com.example.parkingreport.ui.reportManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -34,11 +39,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         TextView time;
         TextView plate;
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textReportStatus);
             time  = itemView.findViewById(R.id.textReportDate);
             plate = itemView.findViewById(R.id.textReportId);
+
         }
     }
 
@@ -49,6 +56,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         return new ViewHolder(v);
     }
 
+    public void updateData(List<Report> newReports) {
+        reportList.clear();
+        reportList.addAll(newReports);
+        // 或者用 DiffUtil 来优化，这里简单直接刷新
+//        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(ReportAdapter.ViewHolder holder, int position) {
         Report item = reportList.get(position);
@@ -57,11 +71,14 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         holder.title.setText(item.getStatus());
         holder.time.setText(fmt.format(item.getTimestamp()));
 
+
+
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ReportDetailActivity.class);
             intent.putExtra("reportId",   item.getID());    // 正确传入 int id
             intent.putExtra("reporterName", item.getUserName()); // 新增传入 userName
             intent.putExtra("plate",      item.getCarPlate());
+            intent.putExtra("picUrl", item.getReportPicUrl());
             intent.putExtra("status",     item.getStatus());
             intent.putExtra("time",       fmt.format(item.getTimestamp()));
             intent.putExtra("location",   item.getLocation());

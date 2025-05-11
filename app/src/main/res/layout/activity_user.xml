@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.user.UserActivity">
 
-    <!-- Fragment容器 -->
+    <!-- Fragment 容器 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -13,12 +15,13 @@
         android:layout_height="0dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/my_nav"
+        tools:navGraph="@navigation/my_nav"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 美化后的 BottomNavigationView -->
+    <!-- 底部导航栏 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView3"
         android:layout_width="0dp"
