@@ -1,9 +1,6 @@
 package com.example.parkingreport.ui.user.fragment;
 
-import static android.content.ContentValues.TAG;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
@@ -66,7 +64,7 @@ public class HomeFragment extends Fragment {
 
         int resId = getResources().getIdentifier(resourceName, "drawable", requireContext().getPackageName());
         if (resId != 0) {
-            Glide.with(requireContext())
+            ViewTarget<ImageView, Drawable> into = Glide.with(requireContext())
                     .load(resId)
                     .override(120, 120)      // 强制加载尺寸
                     .centerCrop()            // 居中裁剪显示
