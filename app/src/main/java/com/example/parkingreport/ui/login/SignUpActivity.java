@@ -1,3 +1,4 @@
+// User registration screen logic
 package com.example.parkingreport.ui.login;
 
 import android.content.SharedPreferences;
@@ -64,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
         editTextCode = findViewById(R.id.editTextNewCode);
         GridLayout avatarGrid = findViewById(R.id.avatarGrid);
 
-        // 加载头像选择器
+        // Load avatar selector
         for (int resId : avatarResIds) {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(resId);
@@ -90,8 +91,8 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResult(boolean exists) {
                         if (exists) {
-                            Toast.makeText(getApplicationContext(), "用户或邮箱已存在", Toast.LENGTH_SHORT).show();
-                            editTextUsername.setError("已注册");
+                            Toast.makeText(getApplicationContext(), "Username or email already exists", Toast.LENGTH_SHORT).show();
+                            editTextUsername.setError("Already registered");
                         } else {
                             sendVerificationCode();
                         }
@@ -99,11 +100,11 @@ public class SignUpActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Exception e) {
-                        Toast.makeText(getApplicationContext(), "查询失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Query failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
-                editTextEmail.setError("请输入有效邮箱");
+                editTextEmail.setError("Please enter a valid email");
             }
         });
 
@@ -114,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
             verificationCode = editTextCode.getText().toString();
 
             if (selectedAvatarResId == -1) {
-                Toast.makeText(this, "请先选择一个头像", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please select an avatar", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -122,11 +123,11 @@ public class SignUpActivity extends AppCompatActivity {
                 @Override
                 public void onResult(boolean exists) {
                     if (exists) {
-                        editTextUsername.setError("用户名或邮箱已注册");
-                        Toast.makeText(getApplicationContext(), "用户名或邮箱已注册", Toast.LENGTH_SHORT).show();
+                        editTextUsername.setError("Username or email already registered");
+                        Toast.makeText(getApplicationContext(), "Username or email already registered", Toast.LENGTH_SHORT).show();
                     } else {
                         if (validateForm() && verifyCode()) {
-                            // 保存头像到 SharedPreferences
+                            // Save avatar to SharedPreferences
                             String resourceName = getResources().getResourceEntryName(selectedAvatarResId);
                             SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                             prefs.edit()
@@ -135,22 +136,23 @@ public class SignUpActivity extends AppCompatActivity {
                                     .apply();
 
                             String drawablePath = "android.resource://" + getPackageName() + "/drawable/" + resourceName;
-                            Log.d(TAG, "头像资源路径: " + drawablePath);
-                            // 注册成功，保存用户信息
-                            viewModel.insertUser(new User(username, emailAdress, password,drawablePath ,User.USER, true));
-                            Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(getApplicationContext(), "头像已保存: " + drawablePath, Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "Avatar resource path: " + drawablePath);
+
+                            // Registration successful, save user info
+                            viewModel.insertUser(new User(username, emailAdress, password, drawablePath, User.USER, true));
+                            Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Avatar saved: " + drawablePath, Toast.LENGTH_LONG).show();
 
                             finish();
                         } else {
-                            editTextCode.setError("验证码错误或已过期");
+                            editTextCode.setError("Invalid or expired verification code");
                         }
                     }
                 }
 
                 @Override
                 public void onError(Exception e) {
-                    Toast.makeText(getApplicationContext(), "查询失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Query failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         });
@@ -164,7 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         if (username.isEmpty() || emailAdress.isEmpty() || password.isEmpty() || verificationCode.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "请填写完整信息", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_SHORT).show();
             return false;
         }
         return isValidEmail(emailAdress);
@@ -173,7 +175,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void sendVerificationCode() {
         currentVerificationCode = String.format("%06d", new Random().nextInt(999999));
         isCodeValid = true;
-        Log.d(TAG, "验证码: " + currentVerificationCode);
+        Log.d(TAG, "Verification code: " + currentVerificationCode);
 
         INotificationService emailService = NotificationFactory.createService(
                 "email", getApplicationContext(), NotificationType.REGISTRATION,

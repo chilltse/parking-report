@@ -69,7 +69,8 @@ android {
         // LML info
         buildConfigField "String", "OPENAI_TOKEN", "\"${OPENAI_TOKEN}\""
         buildConfigField "String", "OPENAI_URL", "\"${OPENAI_URL}\""
-        buildConfigField "String", "GEMINI_URL_AND_TOKEN", "\"${GEMINI_URL_AND_TOKEN}\""
+        buildConfigField "String", "GEMINI_URL", "\"${GEMINI_URL}\""
+        buildConfigField "String", "GEMINI_TOKEN", "\"${GEMINI_TOKEN}\""
     }
 
     buildFeatures {

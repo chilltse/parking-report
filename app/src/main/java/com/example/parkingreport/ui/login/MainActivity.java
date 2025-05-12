@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         // Create User
         createDefaultUser();
 
-        // —— 在这里设置默认选中 “User” ——
         toggleButtonUser.setChecked(true);
         toggleButtonAdmin.setChecked(false);
         loginAs = User.USER;

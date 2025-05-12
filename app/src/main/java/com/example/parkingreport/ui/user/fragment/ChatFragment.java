@@ -18,9 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkingreport.LLM.ChatAdapter;
 import com.example.parkingreport.LLM.ChatMessage;
-import com.example.parkingreport.LLM.GeminiLLMClient;
 import com.example.parkingreport.LLM.LLMClient;
-import com.example.parkingreport.LLM.OpenAILLMClient;
+import com.example.parkingreport.LLM.LLMClientFactory;
 import com.example.parkingreport.R;
 
 public class ChatFragment extends Fragment {
@@ -50,40 +49,38 @@ public class ChatFragment extends Fragment {
 
         inputEditText = view.findViewById(R.id.inputEditText);
         recyclerView = view.findViewById(R.id.chatRecyclerView);
-        Spinner sortSpinner = view.findViewById(R.id.sortSpinner);
+        Spinner modelSpinner = view.findViewById(R.id.sortSpinner);
+        Button sendButton = view.findViewById(R.id.sendButton);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         chatAdapter = new ChatAdapter();
         recyclerView.setAdapter(chatAdapter);
 
-        // 初始化 Spinner 数据
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+        // 初始化 Spinner 选项
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item,
                 new String[]{"Gemini", "OpenAI"});
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sortSpinner.setAdapter(adapter);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        modelSpinner.setAdapter(spinnerAdapter);
 
-        // 默认使用 HuggingFace
-        llmClient = new GeminiLLMClient();
+        // 默认使用 Gemini
+        llmClient = LLMClientFactory.createLLMClient("gemini");
 
-        // 切换模型逻辑
-        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        // 切换 LLM 模型
+        modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    llmClient = new GeminiLLMClient();
-                } else if (position == 1) {
-                    llmClient = new OpenAILLMClient();
-                }
+                String selectedModel = position == 0 ? "gemini" : "openai";
+                llmClient = LLMClientFactory.createLLMClient(selectedModel);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // 默认不处理
+                // 不处理
             }
         });
 
-        Button sendButton = view.findViewById(R.id.sendButton);
-
+        // 发送消息
         sendButton.setOnClickListener(v -> {
             String message = inputEditText.getText().toString().trim();
             if (!message.isEmpty()) {
