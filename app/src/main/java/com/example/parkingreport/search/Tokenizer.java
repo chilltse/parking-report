@@ -1,5 +1,7 @@
 package com.example.parkingreport.search;
 
+import static com.ctc.wstx.shaded.msv_core.driver.textui.Debug.debug;
+
 import android.util.Log;
 
 import com.example.parkingreport.data.local.entities.User;
@@ -13,8 +15,6 @@ public class Tokenizer {
      */
     public static class Tokens {
         public List<Token> tokens = new ArrayList<>();
-//        public List<Token> userNameTokens = new ArrayList<>();
-//        public List<Token> carPlateTokens = new ArrayList<>();
     }
 
 
@@ -32,34 +32,19 @@ public class Tokenizer {
             part = part.trim();
             Token token = null;
             if (part.isEmpty()) continue;
-            // 处理前缀
+            // handle the prefix
             try{
                 token = prefixHandle(part, role);
                 Log.d("prefixHandle_result", token.toString());
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("invalid input：" + part);
             }
-            // 检查是否重复，我重写了token的equal，只要type和value值一样，token就一样，而contain会用equal来比较
+            // Check if it's repeated, as long as type and value are the same, token is the same. And contain will be compare by equal.
             if(!tokens.tokens.contains(token)){
-                // 只有不重复时才添加到token中，这样不会重复查找
+                // Only add to tokens if it's not repeated.
                 tokens.tokens.add(token);
             }
-//            switch (token.type){
-//                case Token.USERNAME:
-//                    if(!tokens.userNameTokens.contains(token)){
-//                        // 只有不重复时才添加到token中，这样不会重复查找
-//                        tokens.userNameTokens.add(token);
-//                    }
-//                    break;
-//                case Token.CARPLATE:
-//                    if(!tokens.carPlateTokens.contains(token)){
-//                        // 只有不重复时才添加到token中，这样不会重复查找
-//                        tokens.carPlateTokens.add(token);
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
+
 
         }
         return tokens;
@@ -76,7 +61,7 @@ public class Tokenizer {
 
         String type = classify(value, role);
 
-        // debug
+         //debug
         if(type != null){
             Log.d("classify_type",type);
         }
@@ -105,15 +90,15 @@ public class Tokenizer {
     private static String classify(String value, String role) {
         String prefix = null;
         String upper = value.toUpperCase();
-        Boolean checkFlag = false; // 是否匹配上前缀
+        Boolean checkFlag = false; //Check if the prefix is valid
 
         boolean isUser = upper.startsWith("U:");
         if (isUser && role.equals(User.ADMIN)){
             prefix = upper.substring(0, 1); // only get first char.
             checkFlag = true;
         }
-        // 仅仅当未匹配到前缀时才再进行比较
-        if(checkFlag == false){
+        // Only compare if the prefix is not matched.
+        if(!checkFlag){
             boolean isCarplate = upper.startsWith("P:");
             if (isCarplate) {
                 prefix = upper.substring(0, 1); // only get first char.

@@ -42,9 +42,6 @@ public class ReportRepository {
         return Instance;
     }
 
-//    public List<Report> getAllReportLive() {
-//        return allReportLive;
-//    }
 
     public List<Integer> getIdsByUser(int userId) {
         return reportDao.getIdsByUser(userId);
@@ -85,38 +82,6 @@ public class ReportRepository {
         return id;
     }
 
-
-//    public void deleteReport(int reportId){
-//        if(reportDao.checkReportExists(reportId) == 0)
-//            return;
-//        reportDao.deleteReport(reportId);
-//    }
-
-//    /**
-//     *  Handle report,
-//     * @param reportId the Id of report that we want to handle.
-//     * @param status  the status(Approve or decline) that we want to set for this report.
-//     */
-//    public void handleReport(int reportId, int userId, String status){
-//        //check report exists
-//        if(reportDao.checkReportExists(reportId) == 0)
-//            return;
-//        //check if status are legal (approve or decline)
-//        if(!status.equals(Report.APPROVED) && !status.equals(Report.DECLINED))
-//            return;
-//        //check if current status is wait for review
-//        if(!reportDao.checkReportStatus(reportId).equals(Report.WAIT_FOR_REVIEW))
-//            return;
-//        //only current status is wait for review can be review
-//        reportDao.handleReport(reportId, status);
-//
-//        // insert reportLog
-//        if(status == Report.APPROVED){
-//            reportLogRepository.insertLog(new ReportLog(reportId, userId, ReportLog.APPROVE));
-//        }else{
-//            reportLogRepository.insertLog(new ReportLog(reportId, userId, ReportLog.DECLINE));
-//        }
-//    }
 
 
     public boolean replyReport(int ID, boolean isApproved, String feedBack){

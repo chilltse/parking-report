@@ -25,8 +25,8 @@ public class Token {
 
     @Override
     public boolean equals(@Nullable Object o) {
-        if (this == o) return true;  // 同一个对象
-        if (o == null || getClass() != o.getClass()) return false;  // 类型不符
+        if (this == o) return true;  // The same object
+        if (o == null || getClass() != o.getClass()) return false;  // Not the same type
         Token token = (Token) o;
         return this.type.equals(((Token) o).type) && this.value.equals(((Token) o).value);
     }

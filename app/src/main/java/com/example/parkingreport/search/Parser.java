@@ -18,8 +18,8 @@ public class Parser {
     public static List<Report> evaluateTokens(List<Token> tokens, boolean isWaitStatus, String role, int userID, ReportRepository reportRepository, UserRepository userRepository) {
         List<Report> userNameResult = new ArrayList<>();
         List<Report> carPlateResult = new ArrayList<>();
-        Boolean userNameFlag = false; // 用于判断用户是否查询了userName
-        Boolean carPlateFlag = false; // 用于判断用户是否查询了carPlate
+        Boolean userNameFlag = false; //Check if user has query userName
+        Boolean carPlateFlag = false; //Check if user has query carPlate
 
         for (Token token : tokens) {
             String type = token.getType();
@@ -35,7 +35,7 @@ public class Parser {
                 // find detail and add to results
                 for (Integer id : ids) {
                     Report find = reportRepository.findReport(id, isWaitStatus);
-                    // same type之间是“或”查询
+                    //Between same type use 'OR' to search
                     if(!userNameResult.contains(find) && find != null){
                         userNameResult.add(find);
                     }
@@ -49,7 +49,7 @@ public class Parser {
                 // find detail and add to results
                 for (Integer id : rids) {
                     Report find = reportRepository.findReport(id, isWaitStatus);
-                    // same type之间是“或”查询
+                    //Between same type use 'OR' to search
                     if(!carPlateResult.contains(find) && find != null){
                         carPlateResult.add(find);
                     }
@@ -65,7 +65,7 @@ public class Parser {
             // find detail and add to results
             for (Integer id : ids) {
                 Report find = reportRepository.findReport(id, isWaitStatus);
-                // same type之间是“或”查询
+                //Between same type use 'OR' to search
                 if(!userNameResult.contains(find) && find != null){
                     userNameResult.add(find);
                 }
@@ -82,17 +82,17 @@ public class Parser {
             }
         }
 
-        // different type 之间是“与”查询，same type之间是“或”查询
-        // “与”查询，使用List里的retainAll()方法实现
+        // Between different type us "OR" for searching, between same type use "AND" for searching
+        // "OR" searching, use retainALL() method to implement
         if(!userNameFlag || !carPlateFlag){
-            // 用户只查询了一种，不需要与操作
+            // User only searched one type, no need to check
             if(userNameFlag){
                 return userNameResult;
             }else {
                 return carPlateResult;
             }
         }else {
-            // 查询了两者，需要与操作
+            // User searched two types, need to check
             userNameResult.retainAll(carPlateResult);
             return userNameResult;
         }
