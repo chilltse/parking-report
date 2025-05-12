@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkingreport.LLM.ChatAdapter;
 import com.example.parkingreport.LLM.ChatMessage;
-import com.example.parkingreport.LLM.HuggingFaceLLMClient;
+import com.example.parkingreport.LLM.GeminiLLMClient;
 import com.example.parkingreport.LLM.LLMClient;
 import com.example.parkingreport.LLM.OpenAILLMClient;
 import com.example.parkingreport.R;
@@ -58,19 +58,19 @@ public class ChatFragment extends Fragment {
         // 初始化 Spinner 数据
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item,
-                new String[]{"HuggingFace", "OpenAI"});
+                new String[]{"Gemini", "OpenAI"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
 
         // 默认使用 HuggingFace
-        llmClient = new HuggingFaceLLMClient();
+        llmClient = new GeminiLLMClient();
 
         // 切换模型逻辑
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    llmClient = new HuggingFaceLLMClient();
+                    llmClient = new GeminiLLMClient();
                 } else if (position == 1) {
                     llmClient = new OpenAILLMClient();
                 }
