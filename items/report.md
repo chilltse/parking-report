@@ -1,19 +1,5 @@
 # [G05 - Team 55FiftyFive] Report
 
-The following is a report template to help your team successfully provide all the details necessary for your report in a structured and organised manner. Please give a straightforward and concise report that best demonstrates your project. Note that a good report will give a better impression of your project to the reviewers.
-
-Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submission (like the current sentence), otherwise it hampers the professionality in your documentation.
-
-*Here are some tips to write a good report:*
-
-* `Bullet points` are allowed and strongly encouraged for this report. Try to summarise and list the highlights of your project (rather than give long paragraphs).*
-
-* *Try to create `diagrams` for parts that could greatly benefit from it.*
-
-* *Try to make your report `well structured`, which is easier for the reviewers to capture the necessary information.*
-
-*We give instructions enclosed in square brackets [...] and examples for each sections to demonstrate what are expected for your project report. Note that they only provide part of the skeleton and your description should be more content-rich. Quick references about markdown by [CommonMark](https://commonmark.org/help/)*
-
 ## Table of Contents
 
 1. [Team Members and Roles](#team-members-and-roles)
@@ -29,133 +15,106 @@ Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submis
 
 ## Administrative
 
-*Instruction: please place the CORRECT link to your firebase repository here (with comp21006442@gmail.com added as an Editor)*
-
 - Firebase Repository Link:I do not use Firebase
    - Confirm: [ ] I have already added comp21006442@gmail.com as a Editor to the Firebase project prior to due date.
 - Two user accounts for markers' access are usable on the app's APK (do not change the username and password unless there are exceptional circumstances. Note that they are not real e-mail addresses in use):
-   - Username: comp2100@anu.edu.au	Password: comp2100 [x] // TODO: check if done
-   - Username: comp6442@anu.edu.au	Password: comp6442 [x] // TODO: check if done
+   - Username: comp2100@anu.edu.au	Password: comp2100 [x] 
+   - Username: comp6442@anu.edu.au	Password: comp6442 [x] 
 
 ## Team Members and Roles
-The key area(s) of responsibilities for each member
 
-| UID               |     Name      |                                                                                              Role |
-|:------------------|:-------------:|--------------------------------------------------------------------------------------------------:|
-| [u7807744]        | [Larry Wang]  | [Map module lead (GPS integration, no-parking zone detection, zone highlighting, UI alert logic)] |
-| [u7807670]        |  [Eden Tian]  |                                           [[UI/UX designer (user profile display, layout flow)] ] |
-| [u7864325]  | [Weimiao Sun] |                                  [Backend and storage logic lead (JSON structure, log mechanism)] |
-| [u7937030]    | [Yudong Qiu]  |                             [Frontend developer (user/admin interface, frontend data integration] |
-| [u8016457]     | [Nanxuan Xie] |                       [Technical lead (merge resolution, search function, data structure design)] |
+| UID        | Name         | Role                | Description                                                               |
+|------------|--------------|---------------------|---------------------------------------------------------------------------|
+| u7807744   | Larry Wang   | Map Module Lead     | Responsible for spatial location features and map interactions            |
+| u7807670   | Eden Tian    | UI/UX Designer      | Focused on visual layout design, user interaction and team administration |
+| u7864325   | Weimiao Sun  | Backend Developer   | In charge of data management, storage design, and system logic            |
+| u7937030   | Yudong Qiu   | Frontend Developer  | Implements and connects UI elements for both user/admin views             |
+| u8016457   | Nanxuan Xie  | Technical Lead      | Oversees codebase quality, structure, and integration strategy            |
+
 
 
 ## Summary of Individual Contributions
-
-Specific details of individual contribution of each member to the project.
-
-Each team member is responsible for writing **their own subsection**.
-
-A generic summary will not be acceptable and may result in a significant lose of marks.
-
-*[Summarise the contributions made by each member to the project, e.g. code implementation, code design, UI design, report writing, etc.]*
-
-*[Code Implementation. Which features did you implement? Which classes or methods was each member involved in? Provide an approximate proportion in pecentage of the contribution of each member to the whole code implementation, e.g. 30%.]*
-
-*you should ALSO provide links to the specified classes and/or functions*
-Note that the core criteria of contribution is based on `code contribution` (the technical developing of the App).
-
-*Here is an example: (Note that you should remove the entire section (e.g. "others") if it is not applicable)*
-
-1. **UID1, Name1**  I have 30% contribution, as follows: <br>
-  - **Code Contribution in the final App**
-    - Feature A1, A2, A3 - class Dummy: [Dummy.java](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java)
-    - XYZ Design Pattern -  class AnotherClass: [functionOne()](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43), [function2()](the-URL)
-    - ... (any other contribution in the code, including UI and data files) ... [Student class](../src/path/to/class/Student.java), ..., etc.*, [LanguageTranslator class](../src/path/to/class/LanguageTranslator.java): function1(), function2(), ... <br><br>
-
-  - **Code and App Design** 
-    - [What design patterns, data structures, did the involved member propose?]*
-    - [UI Design. Specify what design did the involved member propose? What tools were used for the design?]* <br><br>
-
-  - **Others**: (only if significant and significantly different from an "average contribution") 
-    - [Report Writing?] [Slides preparation?]*
-    - [You are welcome to provide anything that you consider as a contribution to the project or team.] e.g., APK, setups, firebase* <br><br>
-
 1. **u7807670,EdenTian**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
-    - Basic Feature [UIUX] – TODO:Link to be added
-    - Custom Feature [Data-Profile]- TODO:Link to be added
+    - Basic Feature [UIUX] – [layout.xml](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/res/layout)
+    - Custom Feature [DataStream]- TODO:Link to be added
 
 - **Code and App Design**
-    - Designed all UI components with Canva: [Canva Design Link](https://www.canva.com/design/DAGkT1Vehbg/Flnu_jIR4qnpe40JJucXzg/edit?utm_content=DAGkT1Vehbg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+    - Designed all UI components with Canva- [Canva Design Link](https://www.canva.com/design/DAGkT1Vehbg/Flnu_jIR4qnpe40JJucXzg/edit?utm_content=DAGkT1Vehbg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
     - Designed App Logo and colour scheme
 
 - **Others**
-    - Report Writing and Checkpoint admin files preparation- TODO:Link to be added
-    - Slides Preparation- TODO:Link to be added
-    - Meeting notes drafting.- TODO:Link to be added
+    - Execute tests for [Search] feature - [Test/Search.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/androidTest/java/com/example/parkingreport/search)
+    - Report writing and checkpoint admin files preparation- [Report.md](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/items/report.md)
+    - Draft Manual - [Manual.pdf](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/items/Manual.pdf)
+    - Slides preparation and MinuteMadness presentation - [MinuteMadness.pptx](https://anu365-my.sharepoint.com/:p:/r/personal/u3223587_anu_edu_au/Documents/Teaching/2025/COMP2100/Semester%201%202025/MM/MinuteMadness.S1.2025.pptx?d=w7bf8296bc94b4da6b311f118b9379b15&csf=1&web=1&e=LLSC2V)
   
-2. **u7807744,LarryWang**  I have 20% contribution, as follows: <br>
+2. **u7807744,LarryWang**  I have 20% contribution, as follows: 
 - **Code Contribution in the final App**
-    - Basic Feature [Search] – TODO:Link to be added
-    - Basic Feature [DataStream] - TODO:Link to be added
-    - Custom Feature [Data-GPS]- TODO:Link to be added
+    - Basic Feature [Search] – [search.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/search)
+    - Custom Feature [Data-GPS]- [GPS.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/utils/GPS.java?ref_type=heads) [MapFragment.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/ui/user/fragment/MapFragment.java?ref_type=heads)
 
 - **Code and App Design**
-    - Proposed Google API GPS integration strategy and zone validation logic – TODO:Link to be added
-    - Designed visual structure of map overlays and feedback interactions – TODO:Link to be added
+    - Proposed Google API GPS integration strategy and zone validation logic 
+    - Designed visual structure of map overlays and feedback interactions 
+    - Designed grammer of tokenizer and parser
+
+- **Others**
+    - Execute tests for data and map function - TODO
+
 
 3. **u7864325,Weimiao Sun**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
-    - Basic Feature [DataFiles] – TODO:Link to be added
-    - Basic Feature [LoadShowData] - TODO:Link to be added
-    - Custom Feature [Doc-History-Log]- TODO:Link to be added
+    - Basic Feature [DataFiles] – [data/local.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/data?ref_type=heads)
+    - Basic Feature [LoadShowData] - [data/local.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/data?ref_type=heads)
+    - Custom Feature [Doc-History-Log]- [ViewModel.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/data/local/viewModel)
 
 - **Code and App Design**
-    - Designed [DAO] for all user and admin data - TODO:Link to be added
+    - Designed [DAO] for all user and admin data - [dao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/data/local/dao?ref_type=heads)
     - Proposed performance upgrade: switch from `ArrayList` to AVL Tree + `HashMap`
 
 - **Others**
-    - Added test cases and refined UML model structure– TODO:Link to be added
+    - Added test cases and refined UML model structure– [UML.pdf](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/ParkingReportUML-1.0.pdf?ref_type=heads)
 
 4. **u8016457,Nanxuan Xie**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
-    - Basic Feature [LogIn] – TODO:Link to be added
-    - Basic Feature [Process-Permission] - TODO:Link to be added
+    - Basic Feature [LogIn] – [login.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/login?ref_type=heads)
+    - Basic Feature [Process-Permission] - [admin.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/admin?ref_type=heads)
   
 - **Code and App Design**
-    - Designed AVL Tree-based search structure and tokenizer grammar
-    - Applied [Factory Method] for notifications function - TODO:Link to be added
-    - Applied [Singleton] for login function - TODO:Link to be added
+    - Designed AVL Tree-based search structure and tokenizer grammar - [AVLTree.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/utils/structures?ref_type=heads)
+    - Applied [Factory Method] for notifications function - [service.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/service?ref_type=heads)
+    - Applied [Singleton] for login function - [LogIn] – [login.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/login?ref_type=heads)
 
 - **Others**
     - Coordinated all member's merge requests and resolved backend conflicts
+    - Impletmented 2500+ local report data.
 
 5. **u7937030,Yudong Qiu**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
-    - Basic Feature [UIFeedback] – TODO:Link to be added
-    - Basic Feature [UI-Layout] - TODO:Link to be added
+    - Basic Feature [UIFeedback] – [ui.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui?ref_type=heads)
+    - Basic Feature [UI-Layout] - [layout.xml](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/res/layout?ref_type=heads)
+    - Surprise Feature [LLM Model] - [LLM.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/LLM?ref_type=heads)
 
 - **Code and App Design**
-    - Designed fragment layout switching and adaptive UI logic
+    - Designed fragment layout switching and adaptive UI logic - [MyFragment.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/admin/fragment?ref_type=heads)
     - Applied responsive design rules for various screen sizes
 
 - **Others**
-    - Frontend and Backend integration- TODO:Link to be added
+    - Frontend and Backend integration
 
-
-
+    
 ## Application Description
 
 ParkReport is a dual-role mobile application designed to promote civic engagement in maintaining urban traffic order by reporting illegal parking incidents. It leverages GPS, real-time data capture, and a searchable reporting system to connect users and local council administrators in managing public parking compliance.
 
 ### Problem Statement
 
-Illegal parking significantly disrupts urban traffic flow and pedestrian safety. While councils actively issue fines, the enforcement coverage is limited by human resources. According to 9News and NSW government data:
+Illegal parking remains a persistent issue in urban environments, significantly disrupting traffic flow, compromising pedestrian safety, and straining municipal enforcement resources. While councils actively issue fines to deter violations, enforcement coverage is limited by manpower and surveillance reach.
 
-In the 2023/24 fiscal year, Sydney councils issued 822,310 paperless parking fines — a 49% increase from the previous year — generating over AUD $226 million in revenue (an average of $25,798 per hour).
+According to official data and media reports, Sydney councils issued 822,310 paperless parking fines in the 2023/24 fiscal year — a 49% increase from the previous year — generating over AUD $226 million in revenue, or approximately $25,798 per hour (9News, 2024; Yahoo News, 2024). Despite these figures, many illegal parking incidents remain unnoticed or unreported, particularly in residential or less-patrolled zones.
 
-Despite this, many violations go unnoticed or unreported. ParkReport addresses this gap by empowering citizens to report incidents with photo evidence in violation zones. This initiative not only increases enforcement efficiency but also promotes community involvement in upholding public order
-
+To bridge this enforcement gap, ParkReport empowers everyday citizens to participate in urban traffic governance. By allowing users to report illegal parking through location-verified, photo-based submissions in designated no-parking zones, the app enhances enforcement efficiency while promoting civic engagement in maintaining public order.
 
 ### Application Use Cases and/or Examples
 
@@ -220,44 +179,30 @@ The system follows an MVVM-inspired layered architecture with modular decomposit
 ### Data Structures
 
 1. *AVLTree*
-    * *Objective: used to store and retrieve all reports (`reportTree`) and pending review reports (`waitingReportTree`) to support fast insertion, deletion, and sorted traversal in the report module.*
-    * *Code Locations: defined in [AVLTree.java](../src/utils/structures/AVLTree.java); integrated in [JsonReportDao.java](../src/data/local/dao/JsonReportDao.java); referenced in [ReportRepository.java](../src/data/local/repository/ReportRepository.java).*
+    * *Objective: used to store and retrieve all reports (`reportTree`), and users (`userTree`) to support fast insertion, deletion, and sorted traversal.*
+    * *Code Locations: defined in [AVLTree.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/utils/structures?ref_type=heads); integrated in [JsonReportDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonReportDao.java?ref_type=heads), [JsonUserDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonUserDao.java?ref_type=heads); referenced in [ReportRepository.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/data/local/repository?ref_type=heads).*
     * *Reasons:*
         * *Balanced binary search tree ensures O(log n) time for insert, delete, and lookup.*
-        * *Used to keep reports in order of timestamp or ID for efficient admin review.*
-        * *Enables deterministic performance for potentially large datasets without full database integration.*
+        * *Used to keep both reports and users sorted by ID and support real-time query within large in-memory datasets.*
+        * *Preferred over TreeMap or sorted lists due to custom comparator control and strict balancing.*
+        * *User and report trees are reused in multiple modules (reporting, login, admin management), improving consistency across DAO and repository layers.*
 
 2. *HashMap*
     * *Objective: used for fast reverse lookups of reports by user ID (`userIdMap`) and car plate number (`plateMap`).*
-    * *Code Locations: defined in [JsonReportDao.java](../src/data/local/dao/JsonReportDao.java); integrated in search filter logic of [SearchEngine.java](../src/search/SearchEngine.java).*
+    * *Code Locations: defined in [JsonReportDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonReportDao.java?ref_type=heads), [JsonUserDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonUserDao.java?ref_type=heads); integrated in search filter logic of [Search.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/search?ref_type=heads).*
     * *Reasons:*
-        * *Provides O(1) access to report ID lists by key.*
-        * *Essential for efficient search/filter implementation via user input.*
-        * *Allows instant result aggregation by user or plate, which improves admin usability.*
+        * *Provides O(1) access to report or user data by unique key (email, plate).*
+        * *Essential for efficient user search, duplication checks, and filtering reports in admin view.*
+        * *Allows direct mapping from input tokens to IDs, minimizing lookup time and avoiding list scans.*
 
-3. *LiveData*
-    * *Objective: enables real-time reactive updates of UI when backend data changes, particularly for report and log updates.*
-    * *Code Locations: defined in ViewModel classes like [ReportLogViewModel.java](../src/data/local/viewModel/ReportLogViewModel.java); connected to UI through `LiveData<List<...>>` observers in fragment/activity classes.*
+3. *ArrayList*
+    * *Objective: used to store full JSON-loaded objects (users, reports, logs) and search result sets for UI rendering.*
+    * *Code Locations: [JsonReportDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonReportDao.java?ref_type=heads), [JsonUserDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonUserDao.java?ref_type=heads)
     * *Reasons:*
-        * *Automatically updates UI when data changes, reducing manual refreshes.*
-        * *Lifecycle-aware and suitable for Android MVVM pattern.*
-        * *Improves maintainability by separating data and presentation layers.*
-
-4. *Thread Pool Executor & Handler*
-    * *Objective: supports background execution of data tasks such as insert/delete in JSON files without blocking UI.*
-    * *Code Locations: `Executor` and `Handler` defined in [ReportLogViewModel.java](../src/data/local/viewModel/ReportLogViewModel.java) and other ViewModel classes.*
-    * *Reasons:*
-        * *Ensures thread safety when mutating JSON data.*
-        * *Avoids `NetworkOnMainThreadException` and ensures smooth UI transitions.*
-        * *Provides flexible, reusable async execution logic via a unified `executeAsync()` method.*
-
-5. *Append-only Log Structure*
-    * *Objective: implements immutable audit logs for user and admin operations for traceability and history tracking.*
-    * *Code Locations: implemented in [LogManager.java](../src/data/local/dao/JsonUserLogDao.java) and related classes in the `log` module; accessed through [UserLogRepository.java](../src/data/local/repository/UserLogRepository.java).*
-    * *Reasons:*
-        * *Only insertion is allowed – no deletion – which provides a clear, verifiable action trail.*
-        * *Supports changelog generation for each user/report.*
-        * *Helpful for meeting `Doc-History-Log` feature requirements and demonstrating data integrity.*
+        * *Chosen over LinkedList or TreeSet due to O(1) append performance and minimal memory overhead.*
+        * *Used as intermediate buffers for reading from and writing to disk in JSON DAOs.*
+        * *Supports sequential traversal and index-based access, allowing UI components like RecyclerView to bind cleanly.*
+        * *Search results and recent reports are reversed (using O(n)) to show newest entries first, benefiting user experience.*
 
 
 <hr>
@@ -265,7 +210,7 @@ The system follows an MVVM-inspired layered architecture with modular decomposit
 ### Design Patterns
 1. *Factory Method Pattern*
     * *Objective: used for instantiating `Notification` objects (e.g., Email, SMS) based on notification type without hard-coding their concrete classes.*
-    * *Code Locations: defined in [NotificationFactory.java](../src/service/api/NotificationFactory.java); used in [AdminActivity.java](../src/ui/admin/AdminActivity.java) and service logic like [EmailService.java](../src/service/api/EmailService.java).*
+    * *Code Locations: defined in [NotificationFactory.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/service/NotificationFactory.java?ref_type=heads); used in [SignUpActivity.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/ui/login/SignUpActivity.java?ref_type=heads) and service logic like [EmailService.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/service?ref_type=heads).*
     * *Reasons:*
         * *Provides flexible and decoupled creation of notification handlers (e.g., `EMAIL`, `SMS`).*
         * *Supports future extension with new notification types without modifying existing logic.*
@@ -273,23 +218,15 @@ The system follows an MVVM-inspired layered architecture with modular decomposit
 
 2. *Singleton Pattern*
     * *Objective: ensures a single instance of repository classes (e.g., `UserRepository`, `ReportRepository`) and DAOs for consistent access to in-memory and file-based storage.*
-    * *Code Locations: `getInstance()` methods in [UserRepository.java](../src/data/local/repository/UserRepository.java), [ReportLogRepository.java](../src/data/local/repository/ReportLogRepository.java), [JsonUserDao.java](../src/data/local/dao/JsonUserDao.java).*
+    * *Code Locations: `getInstance()` methods in [UserRepository.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/repository/UserRepository.java?ref_type=heads), [ReportLogRepository.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/repository/ReportLogRepository.java?ref_type=heads).*
     * *Reasons:*
         * *Avoids repeated object creation and ensures shared state across ViewModels and fragments.*
         * *Improves resource management and testing stability.*
         * *Enables safe access to shared file I/O (e.g., JSON) across multiple threads.*
 
-3. *Model-View-ViewModel (MVVM) Pattern*
-    * *Objective: separates concerns between UI, data logic, and presentation state using LiveData and ViewModel.*
-    * *Code Locations: ViewModels such as [UserViewModel.java](../src/data/local/viewModel/UserViewModel.java), [ReportLogViewModel.java](../src/data/local/viewModel/ReportLogViewModel.java); DAOs like [UserDao.java](../src/data/local/dao/UserDao.java); UI fragments like [HomeFragment.java](../src/ui/user/fragment/HomeFragment.java).*
-    * *Reasons:*
-        * *Improves maintainability and testability of UI components.*
-        * *Allows reactive UI updates through `LiveData` binding.*
-        * *Adheres to Android Jetpack architectural best practices.*
-
-4. *Data Access Object (DAO) Pattern*
+3. *Data Access Object (DAO) Pattern*
     * *Objective: abstracts and encapsulates access to persistent storage (JSON file).*
-    * *Code Locations: interfaces and implementations in [JsonUserDao.java](../src/data/local/dao/JsonUserDao.java), [JsonReportDao.java](../src/data/local/dao/JsonReportDao.java), and [UserDao.java](../src/data/local/dao/UserDao.java).*
+    * *Code Locations: [data/local/dao,Entire File](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/service?ref_type=heads)
     * *Reasons:*
         * *Encapsulates all file I/O operations, ensuring clear separation of concerns.*
         * *Facilitates mockable and testable data layers.*
@@ -302,61 +239,78 @@ The system follows an MVVM-inspired layered architecture with modular decomposit
 ### <u>Grammar(s)</u>
 
 **Purpose:**  
-The grammar is designed to allow users (especially admin users) to search reports based on license plate numbers and usernames. It also supports negation using the `!` prefix, enabling flexible inclusion/exclusion of users or plates. The grammar allows either a single query or a binary expression with a `+` operator indicating logical OR between two tokens.
+The grammar allows admin users to search reports based on `username` and `car plate`, using an explicit prefix-based syntax (`U:` or `P:`). This facilitates intuitive and structured queries such as `U:Alice+P:ABC123`.
 
 **Production Rules:**
 ```
 <query> ::= <term> | <term> + <term>
 <term> ::= <token>
-<token> ::= !<value> | <value>
-<value> ::= <plate> | <name>
-<plate> ::= any string containing at least one digit
-<name> ::= alphabetic string only (A–Z, a–z)
+<token> ::= U:<string> | P:<string>
 ```
+**Notes:**
+- `<string>` is not formally constrained. Both `plate` and `name` are treated as raw strings.
+- It is the **admin's responsibility** to input valid queries (e.g., `U:John` or `P:ABC123`).
+- Admins are permitted to query by username; normal users are not.
+- `+` represents a logical **OR** between token types.
 
 **Advantages:**
-- Compact and human-readable grammar that covers both username and license plate filtering.
-- Allows future expansion (e.g., adding `AND`, parentheses, fuzzy matching).
-- Enables basic natural language-style search expressions without building a full parser generator (e.g., ANTLR).
+- Prefixes (`U:` / `P:`) make the query system clear and extensible.
+- Grammar remains simple: avoids regex or external parser dependencies.
+- Future-friendly: can support `AND`, parentheses, or fuzzy search if needed.
 
-### <u>Tokenizers and Parsers</u>
 
 **Tokenizer Design:**
 
-- **Where used:**  
-  Tokenizer is used to process the raw input from admin users in the report search screen (e.g., searching reports by "JohnDoe + ABC123" or "!JaneSmith").
+- **Used in:**  
+  The `Tokenizer` is invoked in the report search interface for admin users.
 
-- **How built:**  
-  The `Tokenizer` class first splits the input at the `+` symbol into two parts (`leftTokens` and `rightTokens`), and then parses each part using `parsePart()` which:
-    - Detects optional negation with `!`
-    - Classifies the token as either `"name"`, `"plate"` or `"invalid"` via regex
-    - Returns a `Token` object with `type` and `value`
+- **Logic:**
+    - Input string is split by `+` into components.
+    - Each component is processed via `prefixHandle()`:
+        - Validates prefix: must be `U:` or `P:`
+        - Constructs a `Token` with `type` (`USERNAME` or `CARPLATE`) and raw `value` (as-is string)
+        - Uses `equals()` to deduplicate tokens
 
-- **Core logic implemented in:**  
-  [`Tokenizer.java`](../src/search/Tokenizer.java) – methods:
-    - `tokenize(String input)`
-    - `parsePart(String value)`
-    - `classify(String input)`
+- **Source file:**  
+  [`Tokenizer.java`](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/search/Tokenizer.java?ref_type=heads)  
+  Core methods:
+    - `tokenize(String input, String role)`
+    - `prefixHandle(String value, String role)`
+    - `classify(String value, String role)`
+
 
 **Parser Design:**
 
-- **Where used:**  
-  The `Parser` receives the `TokenPair` object from the tokenizer and wraps it into a structured `QueryResult` object that splits left-hand and right-hand token lists.
+- **Used in:**  
+  The `Parser.evaluateTokens()` method processes tokens and retrieves matching reports from the database.
 
-- **How built:**  
-  The `Parser` does not re-interpret the token but prepares it for the `SearchEngine` to process. It separates the parsing stage from evaluation logic, improving modularity.
+- **Logic:**
+    - If the token type is `USERNAME`:
+        - Retrieves `userId` from `UserRepository`
+        - Looks up associated reports via `getIdsByUser()`
+    - If the token type is `CARPLATE`:
+        - Uses `getIdsByPlate()` to fetch report IDs
+    - Combines results:
+        - Same-type tokens = OR logic
+        - Different-type tokens = AND logic (via `retainAll`)
 
-- **Implemented in:**  
-  [`Parser.java`](../src/search/Parser.java)
+- **Special Cases:**
+    - If the role is `USER`, only that user’s reports are shown.
+    - If the admin sends no query, all reports are returned.
 
-**Advantages of Design:**
-- Clear separation between **lexical analysis (tokenizer)**, **syntactic structuring (parser)**, and **semantic evaluation (search engine)**.
-- Easily testable components and modularity make the system maintainable and extensible.
-- Avoids coupling query parsing logic with business logic (e.g., database or view updates).
-- Grammar rules are simple enough to be implemented manually (without external parser libraries).
+- **Source file:**  
+  [`Parser.java`](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/search/Parser.java?ref_type=heads)  
+  Main method:
+    - `evaluateTokens(List<Token>, boolean, String, int, ReportRepository, UserRepository)`
 
+---
 
-<hr>
+**Design Advantages:**
+
+- Keeps parsing and evaluation layers modular and testable.
+- Query logic is fully decoupled from UI and backend storage.
+- Easy to extend with new token types or query syntax.
+- Compatible with both unit tests and Android instrumented tests.
 
 ### Others
 
@@ -366,44 +320,44 @@ The grammar is designed to allow users (especially admin users) to search report
 <hr>
 
 ## Implemented Features
-//TODO add screenshot to demonstrate
 
 ### Basic Features
 
-1. [LogIn]. Supports admin login functionality using existing credentials (comp2100@anu.edu.au / comp2100). (easy)
-    * Code: [LoginRepository.java](../app/src/main/java/com/example/parkingreport/data/local/repository/LoginRepository.java), [LoginActivity.java](../app/src/main/java/com/example/parkingreport/ui/login/LoginActivity.java)
-    * Description of feature: Allows admins to log in securely and access the administrative interface.
-    * Description of your implementation: Used Singleton pattern for login session management; login data validated from JSON-stored user credentials.
+1. [LogIn]. The app must support user login functionality using existing credentials. User registration (sign-up) is not required.(easy)
+    * Code: [Login, Entire File](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/login?ref_type=heads)
+    * Description of feature: Our app supports both user and admin login functionality using existing credentials (comp2100@anu.edu.au / comp2100). Allows users and admins to securely log in and access different interfaces based on their role.
+    * Description of your implementation: Used Singleton pattern for login session management; login credentials validated from `JsonUserDao`. Account registration supports role assignment, and verification logic (via email/username checks) ensures valid user creation.
 
-2. [DataFiles]. Maintains dataset of user profiles, reports, logs, and metadata. (easy)
-    * Code to the Data File: [user.json](../app/src/main/assets/user.json), [report.json](../app/src/main/assets/report.json), [log.json](../app/src/main/assets/log.json)
-    * Description of feature: JSON-formatted dataset simulates persistent storage and provides at least 2,500+ entries.
-    * Description of your implementation: Used GSON for serialization/deserialization; structured files into append-only formats with log tracking.
+2. [DataFiles].The application must utilize a dataset — either provided or created by the development team — where each entry represents a meaningful piece of information relevant to the app’s functionality. The dataset must be stored in a structured format, consistent with the representations taught in the course (e.g., JSON, XML). It must include a minimum of 2,500 valid entries. (easy)
+    * Code: [report.json](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/assets/reports.json?ref_type=heads), [report_log.json](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/assets/report_logs.json?ref_type=heads)
+    * Description of feature: Our app dynamically reads from these files to display user and report data in real-time without requiring remote servers.Maintains dataset of user profiles, reports, logs, and metadata.JSON-formatted dataset simulates persistent storage and provides at least 2,500+ entries.
+    * Description of your implementation: Used GSON for serialization/deserialization; files managed in append-only format with timestamped logs. LiveData guarantees broadcast to UI when file updates occur.
 
-3. [LoadShowData]. Loads and displays dataset records. (easy)
-    * Code: [UserStorage.java](../app/src/main/java/com/example/parkingreport/data/local/storage/UserStorage.java), [ReportAdapter.java](../app/src/main/java/com/example/parkingreport/ui/adapter/ReportAdapter.java)
-    * Description of feature: Dynamically loads user and report data to UI.
-    * Description of your implementation: LiveData + ViewModel used for observing local data changes; adapter renders report entries to RecyclerView.
+3. [LoadShowData]. The app must load and display data instances from the data set. Data must be retrieved from either a local file (e.g., JSON, XML) or Firebase. (easy)
+    * Code: [JsonUserDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonUserDao.java?ref_type=heads), [ReportAdapter.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/reportManager?ref_type=heads)
+    * Description of feature: Our app displays the latest reports immediately on screen load and preserves scroll position even when the orientation changes. Dynamically loads user and report data into UI for both user and admin.
+    * Description of your implementation: ViewModel combined with LiveData ensures that screen rotations (landscape/portrait) do not disrupt or reload data. Reports are reversed (latest first) and mapped into the adapter with reactive UI update support.
 
-4. [DataStream]. Simulates live data updates from background service. (medium)
-    * Code: [ReportLogViewModel.java](../app/src/main/java/com/example/parkingreport/data/local/viewModel/ReportLogViewModel.java), [ReportLogRepository.java](../app/src/main/java/com/example/parkingreport/data/local/repository/ReportLogRepository.java)
-    * Description of feature: Emulates background data push (e.g., admin approval) reflected in UI.
-    * Description of your implementation: Custom executor with Android Handler used to simulate async updates; auto-refresh of report status triggered.
+4. [DataStream]. The app must simulate user interactions through data streams. These data streams must be used to feed the app so that when a user is logged in (or enters a specific activity), the data is loaded at regular time intervals and the app is updated automatically. (medium)
+    * Code: [dataStream, Entire File](/Users/larrywang/data streaming/app/src/main/java/com/example/parkingreport/dataStream),[AndroidTest/dataStream, Entire File](/Users/larrywang/data streaming/app/src/androidTest/java/com/example/parkingreport/dataStream)
+    * Description of feature: Our app allows admins and users to observe updated report logs or counts in real-time without needing to manually refresh the view.Emulates a backend “push” of live data changes—e.g. when an admin reviews or a user submits a report, those changes are reflected automatically in the UI at regular intervals without manual refresh.
+    * Description of your implementation: In ReportStreamManager.start() we call executor.scheduleAtFixedRate(…) to invoke UserReportStatusTask.run() and AdminReportCountTask.run() on separate schedules. Inside UserReportStatusTask.run() we use ReportRepository.fetchStatusSync(reportId) and LiveData.postValue() on ReportStatusLiveData, while AdminReportCountTask.run() calls ReportRepository.fetchAllReportsCountSync() and postValue() on ReportCountLiveData. ReportLogViewModel (and other ViewModels) observe these LiveData streams so their UI observers automatically refresh whenever new data arrives.
 
-5. [Search]. Allows admin to search by license plate or username using structured grammar. (medium)
-    * Code: [SearchEngine.java](../app/src/main/java/com/example/parkingreport/search/SearchEngine.java), [Tokenizer.java](../app/src/main/java/com/example/parkingreport/search/Tokenizer.java), [Parser.java](../app/src/main/java/com/example/parkingreport/search/Parser.java)
-    * Description of feature: Enables token-based search with negation and dual-query support (e.g. "JohnDoe + !XYZ789").
-    * Description of your implementation: Designed formal grammar; implemented tokeniser/parser to handle input logic and mapped results to UI via adapter.
 
-6. [UXUI]. Ensures cohesive layout and theme consistency. (easy)
-    * Code: [AdminFragment.java](../app/src/main/java/com/example/parkingreport/ui/admin/AdminFragment.java), [activity_main.xml](../app/src/main/res/layout/activity_main.xml)
-    * Description of feature: Maintains visual consistency across screens, everything designed on Canva in advance
-    * Description of your implementation: Canva-based layout design; consistent padding, font, and colour styles applied throughout app.
+5. [Search]. The app must allow users to search for information. Based on the user's input, adhering to pre-defined grammar(s), a query processor must interpret the input and retrieve relevant information matching the user's query. The implementation of this functionality should align with the app’s theme. The application must incorporate a tokenizer and parser utilizing a formal grammar created specifically for this purpose. (medium)
+    * Code: [Search, Entire File](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/search?ref_type=heads)
+    * Description of feature: Our app allows admin users to locate specific report records efficiently from thousands of entries using flexible keyword rules.Enables token-based search and multi-field query support as admin role (e.g. "u:john@example.com + p:XYZ789").
+    * Description of your implementation:Implemented a custom `Tokenizer` and `Parser` pipeline that processes queries according to a defined grammar. Tokens are classified with prefixes (`U:` for username, `P:` for plate), deduplicated, and evaluated using a two-phase logic:Same-type tokens (e.g. `U:Alice + U:Bob`) → 'OR' logic; different-type tokens** (e.g. `U:Alice + P:ABC123`) → 'AND logic' The `Parser` matches the token sets to stored reports using `UserRepository` and `ReportRepository`. All results are dynamically fetched and displayed within the admin's UI view. The search functionality is fully tested with Android instrumented tests to verify correctness and integration with the local database.
 
-7. [UIFeedback]. Provides responsive feedback on actions (e.g., errors, empty results). (easy)
-    * Code: [ReportAdapter.java](../app/src/main/java/com/example/parkingreport/ui/adapter/ReportAdapter.java), [ToastHelper.java](../app/src/main/java/com/example/parkingreport/util/ToastHelper.java)
-    * Description of feature: Guides users/admins with toasts or visual cues.
-    * Description of your implementation: Toasts and button state feedback added across fragments and views.
+6. [UXUI]. The app must maintain a consistent design language throughout, including colors, fonts, and UI element styles, to provide a cohesive user experience. The app must also handle orientation changes (portrait to landscape and vice versa) gracefully, ensuring that the layout adjusts appropriately. (easy)
+    * Code: [canva file](https://www.canva.com/design/DAGkT1Vehbg/Flnu_jIR4qnpe40JJucXzg/edit?utm_content=DAGkT1Vehbg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton),[res, Entire File](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/res?ref_type=heads)
+    * Description of feature: Our app ensures all fragments and screens align with the same UI style guide, making transitions between user and admin views smooth and visually intuitive.We applied light orange, clean modern style for our app. Res file including file [color],[drawable],[layout] which contains elements fullfilling the initial canva design.Maintains visual consistency across screens, including layout, padding, and color scheme.
+    * Description of your implementation: Designed in Canva with clear wireframe flow; colors, margins, font size and button radius kept consistent; enhanced spacing and hierarchy using CardView and ConstraintLayout.
+
+7. [UIFeedback]. The UI must provide clear and informative feedback for user actions, including error messages to guide users effectively. (easy)
+    * Code: [ReportAdapter.java](../app/src/main/java/com/example/parkingreport/ui/adapter/ReportAdapter.java), [fragment,Entire File](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/user/fragment?ref_type=heads)
+    * Description of feature: Our app displays appropriate success/failure prompts to guide user decisions across multiple flows. Guides users/admins with toasts or visual cues.
+    * Description of your implementation: Toasts are triggered when invalid inputs or illegal actions occur (e.g., report outside no-parking zone). Button colors, toggle states, and submission results provide additional confirmation.
 
 ---
 
@@ -411,44 +365,49 @@ The grammar is designed to allow users (especially admin users) to search report
 
 **Feature Category: Location Awareness**
 
-1. [Data-GPS]. Detects user location and limits report submission to violation areas. (easy)
-    * Code: [MapFragment.java](../app/src/main/java/com/example/parkingreport/ui/map/MapFragment.java)
-    * Description of your implementation: Uses Google Maps API and location manager; overlays no-parking polygons and validates location before enabling camera button.
+1. [Data-GPS]. The app must utilize GPS information based on location data. (easy)
+    * Code: [MapFragment.java](../app/src/main/java/com/example/parkingreport/ui/map/MapFragment.java),[GPS.java]
+    * Description of our feature: Our app disables report submission unless the user is currently standing inside a no-parking zone according to users' real location (real virtual machine location).
+    * Description of your implementation: The `GPS` utility wraps Google’s `FusedLocationProviderClient`. It first calls `getLastLocation()` and validates the result; if it’s missing or stale, it issues a one-time high-accuracy `LocationRequest` (via `requestLocationUpdates`) to fetch a fresh fix. All calls honor runtime permission checks and deliver latitude/longitude through a simple `GpsCallback.onLocationReady(lat, lng)` interface.
 
 2. [Data-Profile]. Allows users to view/update avatar image in their profile. (easy)
-    * Code: [UserProfileFragment.java](../app/src/main/java/com/example/parkingreport/ui/user/UserProfileFragment.java)
-    * Description of your implementation: ImagePicker handles avatar update; profile info stored locally and visual changes reflected instantly.
+    * Code: [UserProfileFragment.java](../app/src/main/java/com/example/parkingreport/ui/user/UserProfileFragment.java), [JsonUserDao.java](../app/src/main/java/com/example/parkingreport/data/local/dao/JsonUserDao.java)
+    * Description of our feature:Our app enhances user personalization by displaying chosen avatars immediately after signup.
+    * Description of your implementation: On registration, user can pick an image using built-in ImagePicker; avatar is stored in profile and displayed after login; Glide handles rendering and path caching.
 
 ---
 
 **Feature Category: UI Design and Testing**
 
 3. [UI-Layout]. Supports both portrait and landscape screen orientations. (easy)
-    * Code: [MainActivity.java](../app/src/main/java/com/example/parkingreport/MainActivity.java), [layout-sw600dp](../app/src/main/res/layout-sw600dp)
-    * Description of your implementation: Used alternative layouts and resource qualifiers; handled fragment resizing and adapter recomposition on orientation changes.
+    * Code: [admin/fragment.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/admin/fragment?ref_type=heads),  [user/fragment.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/user/fragment?ref_type=heads)
+    * Description of our feature: Our app handles orientation change seamlessly by maintaining state through ViewModel and fragment communication.
+    * Description of your implementation: Smooth transition between orientations is achieved using layout resource qualifiers; fragment transactions and ViewModel sharing allow seamless communication (e.g. profile edits triggering UI updates).
 
 ---
 
 **Feature Category: Document Version Control**
 
 4. [Doc-History-Log]. Maintains append-only log of user/report changes. (medium)
-    * Code: [LogManager.java](../app/src/main/java/com/example/parkingreport/data/local/storage/LogManager.java), [ReportLog.java](../app/src/main/java/com/example/parkingreport/data/local/entities/ReportLog.java)
-    * Description of your implementation: All operations (insert, modify, delete) are logged with timestamps; logs displayed on admin interface via LiveData.
+    * Code: [JsonReportLogDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonReportLogDao.java?ref_type=heads), [ReportLog.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/ReportLogDao.java?ref_type=heads)
+    * Description of our feature: Our app allows admins to track all previous states of each report submission through audit logs.
+    * Description of your implementation: Log is using append-only logic. Every approval or update creates a new ReportLog entry with timestamp and status; UI automatically reflects history logs; supports undo-free audit.
 
 ---
 
 **Feature Category: Creating Processes**
 
 5. [Process-Permission]. Enforces role-based visibility between user and admin. (easy)
-    * Code: [LoginRepository.java](../app/src/main/java/com/example/parkingreport/data/local/repository/LoginRepository.java), [RoleManager.java](../app/src/main/java/com/example/parkingreport/util/RoleManager.java)
-    * Description of your implementation: User role determined on login; fragment visibility and access routes tailored to role.
+    * Code: [User.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/entities/User.java?ref_type=heads)
+    * Description of our feature: Our app ensures strict separation between user-submitted data and admin dashboard, reflecting real-world access control policies.
+    * Description of your implementation: Admin has access to all user reports for moderation; users can only view their own history. Role is evaluated at login and drives logic for fragment visibility, data scope, and permission paths.
 
+---
 
 <hr>
 
 ### Surprise Feature
 
-//TODO
 *Instructions:*
 - If implemented, explain how your solution addresses the task (any detail requirements will be released with the surprise feature specifications).
 - State that "Surprise feature is not implemented" otherwise.
@@ -458,21 +417,28 @@ The grammar is designed to allow users (especially admin users) to search report
 
 ## Testing Summary
 
-//TODO
-*[What features have you tested? What is your testing coverage?]*
-*Please provide details (see rubrics) including some screenshots of your testing summary, showing the achieved testing coverage. Feel free to provide further details on your tests.*
+### Tests for [Search]
 
-*Here is an example:*
+- **Code:**  
+  [TokenizerTest Class, entire file](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/androidTest/java/com/example/parkingreport/search/TokenizerTest.java)  
+  for the [Tokenizer Class, entire file](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/search/Tokenizer.java)
 
-1. Tests for Search
-   - Code: [TokenizerTest Class, entire file](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java) for the [Tokenizer Class, entire file](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43)
-   - *Number of test cases: ...*
-   - *Code coverage: ...*
-   - *Types of tests created and descriptions: ...*
+  [ParserTest Class, entire file](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/androidTest/java/com/example/parkingreport/search/ParserTest.java)  
+  for the [Parser Class, entire file](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/search/Parser.java)
 
-2. xxx
+- **Number of test cases:** 8
+    - TokenizerTest: **4** unit test cases
+    - ParserTest: **4** functional test cases — covering username, plate number, and their intersection logic
 
-...
+- **Code coverage:**  
+  Covers core logic in both Tokenizer and Parser: input splitting, token classification, deduplication, type filtering, and token evaluation with report repository.  
+  Coverage of logic paths: **>90%** of search-related branches.
+
+- **Types of tests created and descriptions:**
+    - **Functionality tests:** Validate correct parsing and classification of prefixed search strings (`U:` and `P:`).
+    - **Integration tests with database:** All `ParserTest` methods evaluate tokens against a real `ReportRepository` and `UserRepository` using local JSON-based storage.
+    - **Edge case testing:** Includes scenarios with no match, multiple matches (OR), and combined constraints (AND).
+    - Tests use `ApplicationProvider.getApplicationContext()` and `InstrumentationRegistry.getInstrumentation().runOnMainSync()` to ensure LiveData and I/O can run safely inside `androidTest`.
 
 <br> <hr>
 
@@ -530,4 +496,7 @@ This shall include an agreed procedure for situations including (but not limited
 - A member is unreachable (didn't respond messages in your agreed communication channels and emails in two days).
 - The team have different understandings toward the requirement of the assignment.
 
+### Reference
+1. 9News. (2024, December 1). Sydney councils rake in $226 million in parking fines in just one year. https://www.9news.com.au/national/sydney-councils-parking-fines-millions-worth-of-fines-to-drivers-in-past-year/d7c4d64e-8824-4732-9bbf-138a7396128a
+2. Yahoo News. (2024, September 18). Ticketless parking fines to be banned after councils rake in $158 million. https://au.news.yahoo.com/ticketless-parking-fines-to-be-banned-after-councils-rake-in-158-million-010200116.html
 
