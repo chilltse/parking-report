@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
                     .load(resId)
                     .override(120, 120)      // 强制加载尺寸
                     .centerCrop()            // 居中裁剪显示
-                    //.circleCrop()         // 如果你想显示圆形头像，取消这行注释
+                    //.circleCrop()
                     .into(imageView);
         } else {
             Log.e("icon", "资源未找到: " + resourceName);

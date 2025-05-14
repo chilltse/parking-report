@@ -39,12 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private TextView textViewSignUp;
     private UserViewModel viewModel;
-    private ReportViewModel reportViewModel; //test
-    private UserLogViewModel userLogViewModel; //test
-    private ReportLogViewModel reportLogViewModel; //test
-
     private String loginAs;
-
     private MediaPlayer mediaPlayer;
 
 
@@ -69,15 +64,18 @@ public class MainActivity extends AppCompatActivity {
 
         // default value for loginAs
 //        loginAs = User.USER;
-        viewModel =  new ViewModelProvider(this)
+        viewModel = new ViewModelProvider(this)
                 .get(UserViewModel.class);
 
         // TEST
-        reportViewModel = new ViewModelProvider(this)
+        //test
+        ReportViewModel reportViewModel = new ViewModelProvider(this)
                 .get(ReportViewModel.class);
-        userLogViewModel = new ViewModelProvider(this)
+        //test
+        UserLogViewModel userLogViewModel = new ViewModelProvider(this)
                 .get(UserLogViewModel.class);
-        reportLogViewModel = new ViewModelProvider(this)
+        //test
+        ReportLogViewModel reportLogViewModel = new ViewModelProvider(this)
                 .get(ReportLogViewModel.class);
 
         // Create User
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 // Navigate to the next Activity based on user role
                 int userId = viewModel.findIdByName(username);
                 Intent intent = loginAs.equals(User.USER) ?
-                        new Intent(MainActivity.this, UserActivity.class):
+                        new Intent(MainActivity.this, UserActivity.class) :
                         new Intent(MainActivity.this, AdminActivity.class);
                 intent.putExtra("userId", userId);
                 Log.d(TAG, " ####logining as " + loginAs);
@@ -146,34 +144,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void createDefaultUser(){
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_1, BuildConfig.DEFAULT_USER_EMAIL_1, BuildConfig.DEFAULT_USER_PASSWORD_1,User.DEFAULT_PROFILE_PIC ,User.USER, true));
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_2, BuildConfig.DEFAULT_USER_EMAIL_2, BuildConfig.DEFAULT_USER_PASSWORD_2,User.DEFAULT_PROFILE_PIC, User.USER, true));
-        viewModel.insertUser(new User(BuildConfig.DEFAULT_ADMIN_NAME, BuildConfig.DEFAULT_ADMIN_EMAIL, BuildConfig.DEFAULT_ADMIN_PASSWORD,User.DEFAULT_PROFILE_PIC, User.ADMIN, true));
+    private void createDefaultUser() {
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_1, BuildConfig.DEFAULT_USER_EMAIL_1, BuildConfig.DEFAULT_USER_PASSWORD_1, User.DEFAULT_PROFILE_PIC, User.USER, true));
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_USER_NAME_2, BuildConfig.DEFAULT_USER_EMAIL_2, BuildConfig.DEFAULT_USER_PASSWORD_2, User.DEFAULT_PROFILE_PIC, User.USER, true));
+        viewModel.insertUser(new User(BuildConfig.DEFAULT_ADMIN_NAME, BuildConfig.DEFAULT_ADMIN_EMAIL, BuildConfig.DEFAULT_ADMIN_PASSWORD, User.DEFAULT_PROFILE_PIC, User.ADMIN, true));
 
     }
 
-    private void createDefaultReport(){
+    private void createDefaultReport() {
         listAssets();
         File dir = getFilesDir();
+
         File logFile = new File(dir, "report_logs.json");
         if (!logFile.exists()) {
-            // 如果你把文件放在 assets/data/ 子文件夹，下行要改成 "data/report_logs.json"
+            // Copy default report_logs.json to internal storage if not exists
             copyAssetToInternal("report_logs.json", logFile);
-            Log.d(TAG, "report_logs.json不存在，已经复制过来");
-        }else{
-            Log.d(TAG, "report_logs.json已经存在");
+            Log.d(TAG, "report_logs.json does not exist, copied successfully");
+        } else {
+            Log.d(TAG, "report_logs.json already exists");
         }
+
         File reportFile = new File(dir, "reports.json");
         if (!reportFile.exists()) {
-            // 如果你把文件放在 assets/data/ 子文件夹，下行要改成 "data/report_logs.json"
+            // Copy default reports.json to internal storage if not exists
             copyAssetToInternal("reports.json", reportFile);
-            Log.d(TAG, "reports.json不存在，已经复制过来");
+            Log.d(TAG, "reports.json does not exist, copied successfully");
         }
-
-
     }
-
 
 
     @Override
@@ -184,22 +181,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        // Clear input fields when activity restarts
         editTextUsername.setText("");
         editTextPassword.setText("");
-        // 不用再次 setOnClickListener(loginBtn...)
     }
 
-
+    /**
+     * List all files and folders in the assets root directory.
+     */
     private void listAssets() {
         try {
             String[] list = getAssets().list("");
-            Log.d("MainActivity", "根目录 assets 列表: " + Arrays.toString(list));
+            Log.d("MainActivity", "Assets root directory list: " + Arrays.toString(list));
         } catch (IOException e) {
-            Log.e("MainActivity", "列出 assets 失败", e);
+            Log.e("MainActivity", "Failed to list assets", e);
         }
     }
 
-
+    /**
+     * Copy a file from assets to internal storage.
+     *
+     * @param assetName Name of the asset file
+     * @param outFile   Destination file in internal storage
+     */
     private void copyAssetToInternal(String assetName, File outFile) {
         try (InputStream is = getAssets().open(assetName);
              OutputStream os = new FileOutputStream(outFile)) {
@@ -211,44 +215,47 @@ public class MainActivity extends AppCompatActivity {
             }
             os.flush();
         } catch (IOException e) {
-            Log.e("MainActivity", "拷贝 asset 文件失败: " + assetName, e);
+            Log.e("MainActivity", "Failed to copy asset file: " + assetName, e);
         }
     }
 
+    /**
+     * Copy a raw resource image to internal storage under the 'images' directory.
+     */
     private void copyRawImageToImagesDir() {
-        // 1. 获取内部存储 files 目录下的 images 子目录
+        // 1. Get the 'images' directory under internal storage files directory
         File imagesDir = new File(getFilesDir(), "images");
         if (!imagesDir.exists()) {
-            // 如果 images/ 不存在，就创建它
+            // If 'images/' does not exist, create it
             boolean ok = imagesDir.mkdirs();
             if (!ok) {
-                Log.d("MainActivity", "Can't create images/");
+                Log.d("MainActivity", "Failed to create 'images/' directory");
                 return;
             }
         }
 
-        // 2. 准备目标文件
+        // 2. Prepare the target file
         File outFile = new File(imagesDir, "default_parking.png");
         if (outFile.exists()) {
-            // 已经存在，就不再重复拷贝
+            // If file already exists, do not copy again
             return;
         }
 
-        // 3. 打开 raw 资源并写入到目标文件
+        // 3. Open raw resource and write it to the target file
         try (InputStream is = getResources().openRawResource(R.raw.default_parking);
              OutputStream os = new FileOutputStream(outFile)) {
 
-            byte[] buffer = new byte[8 * 1024]; // 8KB 缓冲
+            byte[] buffer = new byte[8 * 1024]; // 8KB buffer
             int len;
             while ((len = is.read(buffer)) != -1) {
                 os.write(buffer, 0, len);
             }
             os.flush();
-            Log.d("MainActivity", "已拷贝 default_parking.png 到 " + outFile.getAbsolutePath());
+            Log.d("MainActivity", "Copied default_parking.png to " + outFile.getAbsolutePath());
         } catch (IOException e) {
-            Log.e("MainActivity", "拷贝 default_parking.png 失败", e);
+            Log.e("MainActivity", "Failed to copy default_parking.png", e);
         }
     }
-
 }
+
 

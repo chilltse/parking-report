@@ -34,18 +34,24 @@ import java.util.Random;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    // UI components
     private Button buttonFinish, buttonSendCode;
     private EditText editTextUsername, editTextEmail, editTextPassword, editTextCode;
+
+    // User input variables
     private String username, emailAdress, password, verificationCode, currentVerificationCode = "";
     private static final String TAG = "SignUpActivity";
+
     private UserViewModel viewModel;
     private boolean isCodeValid = false;
 
+    // Avatar resource IDs for selection
     private final int[] avatarResIds = {
             R.drawable.dog, R.drawable.dog2, R.drawable.chicken,
             R.drawable.cat, R.drawable.panda, R.drawable.rabbit
     };
 
+    // Selected avatar
     private int selectedAvatarResId = -1;
     private ImageView lastSelectedView = null;
 
@@ -55,8 +61,10 @@ public class SignUpActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
 
+        // Initialize ViewModel
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
+        // Bind UI elements
         buttonFinish = findViewById(R.id.buttonFinish);
         buttonSendCode = findViewById(R.id.buttonSendCode);
         editTextUsername = findViewById(R.id.editTextNewUsername);
@@ -65,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
         editTextCode = findViewById(R.id.editTextNewCode);
         GridLayout avatarGrid = findViewById(R.id.avatarGrid);
 
-        // Load avatar selector
+        // Load avatar selection grid
         for (int resId : avatarResIds) {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(resId);
@@ -83,10 +91,13 @@ public class SignUpActivity extends AppCompatActivity {
             avatarGrid.addView(imageView);
         }
 
+        // Send verification code button click
         buttonSendCode.setOnClickListener(view -> {
             emailAdress = editTextEmail.getText().toString();
             username = editTextUsername.getText().toString();
+
             if (isValidEmail(emailAdress)) {
+                // Check if username or email already exists
                 viewModel.isUserOrEmailExists(username, emailAdress, new UserViewModel.UserCheckCallback() {
                     @Override
                     public void onResult(boolean exists) {
@@ -108,6 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        // Complete registration button click
         buttonFinish.setOnClickListener(view -> {
             username = editTextUsername.getText().toString();
             emailAdress = editTextEmail.getText().toString();
@@ -119,6 +131,7 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
+            // Check again if username or email already exists
             viewModel.isUserOrEmailExists(username, emailAdress, new UserViewModel.UserCheckCallback() {
                 @Override
                 public void onResult(boolean exists) {
@@ -126,6 +139,7 @@ public class SignUpActivity extends AppCompatActivity {
                         editTextUsername.setError("Username or email already registered");
                         Toast.makeText(getApplicationContext(), "Username or email already registered", Toast.LENGTH_SHORT).show();
                     } else {
+                        // Validate form and verify code
                         if (validateForm() && verifyCode()) {
                             // Save avatar to SharedPreferences
                             String resourceName = getResources().getResourceEntryName(selectedAvatarResId);
@@ -138,7 +152,7 @@ public class SignUpActivity extends AppCompatActivity {
                             String drawablePath = "android.resource://" + getPackageName() + "/drawable/" + resourceName;
                             Log.d(TAG, "Avatar resource path: " + drawablePath);
 
-                            // Registration successful, save user info
+                            // Save new user info into database
                             viewModel.insertUser(new User(username, emailAdress, password, drawablePath, User.USER, true));
                             Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
                             Toast.makeText(getApplicationContext(), "Avatar saved: " + drawablePath, Toast.LENGTH_LONG).show();
@@ -157,6 +171,7 @@ public class SignUpActivity extends AppCompatActivity {
             });
         });
 
+        // Handle system insets for better UI layout
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signUp), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -164,6 +179,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Validate form fields are not empty and email is valid.
+     */
     private boolean validateForm() {
         if (username.isEmpty() || emailAdress.isEmpty() || password.isEmpty() || verificationCode.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please fill in all information", Toast.LENGTH_SHORT).show();
@@ -172,11 +190,15 @@ public class SignUpActivity extends AppCompatActivity {
         return isValidEmail(emailAdress);
     }
 
+    /**
+     * Send a verification code to user's email and start countdown timer.
+     */
     private void sendVerificationCode() {
         currentVerificationCode = String.format("%06d", new Random().nextInt(999999));
         isCodeValid = true;
         Log.d(TAG, "Verification code: " + currentVerificationCode);
 
+        // Send verification code via email service
         INotificationService emailService = NotificationFactory.createService(
                 "email", getApplicationContext(), NotificationType.REGISTRATION,
                 new HashMap<String, String>() {{
@@ -185,6 +207,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }});
         emailService.sendMsg(emailAdress);
 
+        // Disable send button and start 2-minute countdown
         new CountDownTimer(120000, 1000) {
             public void onTick(long millisUntilFinished) {
                 buttonSendCode.setText(String.valueOf(millisUntilFinished / 1000));
@@ -199,10 +222,16 @@ public class SignUpActivity extends AppCompatActivity {
         }.start();
     }
 
+    /**
+     * Verify if the entered code matches the current code and is still valid.
+     */
     private boolean verifyCode() {
         return isCodeValid && currentVerificationCode.equals(verificationCode);
     }
 
+    /**
+     * Validate if the provided email has a valid format.
+     */
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
