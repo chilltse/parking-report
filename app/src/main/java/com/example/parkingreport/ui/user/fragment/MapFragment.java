@@ -1,5 +1,6 @@
 package com.example.parkingreport.ui.user.fragment;
 
+import static com.example.parkingreport.utils.GPS.requestFreshLocation;
 import static com.example.parkingreport.utils.PolygonUtil.isPointInPolygon;
 
 import android.content.Context;
@@ -52,7 +53,6 @@ import java.util.Arrays;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap gMap;
     private Marker currentMarker;
-    private Button button;
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
     private User user;
@@ -188,6 +188,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         .title("You're here"));
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
             });
+            GPS.requestFreshLocation(
+                    requireContext(),
+                    client,
+                    (lat, lng) -> {
+                        LatLng fresh = new LatLng(lat, lng);
+                        placeOrMoveUserMarker(fresh);
+                    }
+            );
+
         } else {
             // Apply to Fragment without permission
             requestPermissions(

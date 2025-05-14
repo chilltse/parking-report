@@ -4,8 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.parkingreport.BuildConfig;
-
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,27 +11,82 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+
 /**
- * An implementation of the LLMClient interface using Google's Gemini API
- * to send prompts and receive generated text.
+ * @author Yudong Qiu u7937030
+
+ * - GeminiLLMClient implements the LLMClient interface to integrate with Google Gemini API.
+ * - Sends user input to Gemini API using OkHttp and processes JSON responses.
+ * - Supports asynchronous network requests with callbacks for handling results.
+ * - Parses Gemini's response structure (candidates -> content -> parts -> text).
+ * - Provides error handling for network failures and JSON parsing exceptions.
  */
 public class GeminiLLMClient implements LLMClient {
 
-    private static final String TAG = "LLM";
-    private static final String API_URL = BuildConfig.GEMINI_URL_AND_TOKEN;
-    private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
+    private static final String TAG = "GeminiLLMClient";
+    private static final MediaType JSON = MediaType.parse("application/json");
+
+    private final String apiUrl;
+    private final String token;
     private final OkHttpClient client = new OkHttpClient();
 
-    /**
-     * Sends a text prompt to the Gemini model and handles the asynchronous response.
-     *
-     * @param inputText The input prompt to send to the LLM.
-     * @param callback  Callback interface for handling the result.
-     */
+    public GeminiLLMClient(String apiUrl, String token) {
+        this.apiUrl = apiUrl;
+        this.token = token;
+    }
+
     @Override
     public void askQuestion(String inputText, LLMCallback callback) {
+        String fullUrl = apiUrl + "?key=" + token;
+
+        JSONObject requestBody = buildRequestBody(inputText);
+        Request request = new Request.Builder()
+                .url(fullUrl)
+                .post(RequestBody.create(JSON, requestBody.toString()))
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onResponse("Gemini Network Error: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    callback.onResponse("Gemini API Request Failed: " + response.code());
+                    return;
+                }
+
+                try {
+                    String responseData = response.body().string();
+                    JSONObject jsonResponse = new JSONObject(responseData);
+                    JSONArray candidates = jsonResponse.optJSONArray("candidates");
+
+                    if (candidates != null && candidates.length() > 0) {
+                        JSONObject firstCandidate = candidates.getJSONObject(0);
+                        JSONObject content = firstCandidate.getJSONObject("content");
+                        JSONArray parts = content.optJSONArray("parts");
+
+                        if (parts != null && parts.length() > 0) {
+                            String generatedText = parts.getJSONObject(0).getString("text");
+                            callback.onResponse(generatedText);
+                        } else {
+                            callback.onResponse("Gemini Response: No content returned.");
+                        }
+                    } else {
+                        callback.onResponse("Gemini Response: No candidates returned.");
+                    }
+                } catch (JSONException e) {
+                    callback.onResponse("Gemini JSON Parsing Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    private JSONObject buildRequestBody(String inputText) {
         try {
-            // Construct the JSON request body
             JSONObject requestBody = new JSONObject();
             JSONArray contentsArray = new JSONArray();
             JSONObject contentObject = new JSONObject();
@@ -44,63 +97,13 @@ public class GeminiLLMClient implements LLMClient {
             partsArray.put(partObject);
             contentObject.put("parts", partsArray);
             contentsArray.put(contentObject);
+
             requestBody.put("contents", contentsArray);
 
-            RequestBody body = RequestBody.create(MEDIA_TYPE, requestBody.toString());
-
-            Request request = new Request.Builder()
-                    .url(API_URL)
-                    .post(body)
-                    .addHeader("Content-Type", "application/json")
-                    .build();
-
-            // Execute the request asynchronously
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    callback.onResponse("Network error: " + e.getMessage());
-                    Log.e(TAG, "Network error", e);
-                }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        String responseData = response.body().string();
-                        try {
-                            // Parse the JSON response
-                            JSONObject jsonResponse = new JSONObject(responseData);
-                            JSONArray candidates = jsonResponse.getJSONArray("candidates");
-
-                            if (candidates.length() > 0) {
-                                JSONObject firstCandidate = candidates.getJSONObject(0);
-                                JSONObject content = firstCandidate.getJSONObject("content");
-                                JSONArray parts = content.getJSONArray("parts");
-                                if (parts.length() > 0) {
-                                    JSONObject part = parts.getJSONObject(0);
-                                    String generatedText = part.getString("text");
-
-                                    callback.onResponse(generatedText);
-                                    Log.d(TAG, "Response: " + generatedText);
-                                } else {
-                                    callback.onResponse("No content returned.");
-                                }
-                            } else {
-                                callback.onResponse("No candidates returned.");
-                            }
-                        } catch (JSONException e) {
-                            callback.onResponse("JSON parsing failed: " + e.getMessage());
-                            Log.e(TAG, "Failed to parse JSON", e);
-                        }
-                    } else {
-                        callback.onResponse("Request failed, status code: " + response.code());
-                        Log.e(TAG, "Error: " + response.code());
-                    }
-                }
-            });
-
+            return requestBody;
         } catch (JSONException e) {
-            callback.onResponse("Failed to create JSON request: " + e.getMessage());
-            Log.e(TAG, "JSON construction error", e);
+            Log.e(TAG, "Failed to build request body: " + e.getMessage());
+            return new JSONObject();
         }
     }
 }

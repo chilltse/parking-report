@@ -1,4 +1,4 @@
-package com.example.parkingreport.ui.user.fragment;
+package com.example.parkingreport.ui.admin.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,33 +20,37 @@ import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 /**
- * Personal reports page
  * @author Yudong Qiu u7937030
+ * - UnreReportsFragment displays the admin's list of unreviewed reports.
+ * - Allows searching through pending reports using keywords.
+ * - Loads report data via ReportViewModel and UserViewModel.
+ * - Displays search results in a RecyclerView using ReportAdapter.
+ * - Refreshes data when fragment is resumed for up-to-date results.
  */
-public class MyReportFragment extends Fragment {
+public class UnreReportsFragment extends Fragment {
 
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
+
     private RecyclerView recyclerView;
     private EditText searchInput;
 
-    public MyReportFragment() {
+    public UnreReportsFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Initialize ViewModels shared with Activity
+        // Initialize ViewModels shared with the hosting Activity
         reportViewModel = new ViewModelProvider(requireActivity()).get(ReportViewModel.class);
         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-        // Inflate fragment layout
-        return inflater.inflate(R.layout.fragment_my_report, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_unreview_list, container, false);
     }
 
     @Override
@@ -54,18 +58,15 @@ public class MyReportFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Bind UI components
+        recyclerView = view.findViewById(R.id.recycle2);
         searchInput = view.findViewById(R.id.searchEditText);
         Button searchBtn = view.findViewById(R.id.searchButton);
-        recyclerView = view.findViewById(R.id.recycle);
 
-        // Setup RecyclerView with linear layout
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Load all unreviewed reports initially
+        updateReports();
 
-        // Load and display all reports for current user
-        loadReports();
-
-        // Setup search button click listener
-        searchBtn.setOnClickListener(v -> updateSearchResult());
+        // Set search button click listener to update search results
+        searchBtn.setOnClickListener(view1 -> updateSearchResult());
     }
 
     @Override
@@ -76,53 +77,41 @@ public class MyReportFragment extends Fragment {
     }
 
     /**
-     * Load all reports submitted by the current user and display in RecyclerView.
+     * Load and display all unreviewed reports.
      */
-    private void loadReports() {
-        // Get current user ID from ViewModel
-        int userId = viewModel.getUser().getID();
-
-        // Get report IDs submitted by current user
-        List<Integer> reportIds = reportViewModel.getIdsByUser(userId);
-
-        // Retrieve full report objects by ID
-        List<Report> reportList = new ArrayList<>();
-        for (int id : reportIds) {
-            reportList.add(reportViewModel.findReport(id, false));
-        }
-
-        // Sort reports in reverse chronological order
-        reportList.sort(Collections.reverseOrder());
-
-        // Bind data to adapter and set to RecyclerView
-        ReportAdapter adapter = new ReportAdapter(reportList, getContext(), viewModel.getUser().getRole());
+    private void updateReports() {
+        List<Report> allReports = reportViewModel.getAllWaitingReportsLive();
+        ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
 
     /**
-     * Perform search based on user input and update RecyclerView.
-     * If input is invalid, show error.
+     * Search unreviewed reports based on user input and update RecyclerView.
+     * If no valid result is found, display an input error.
+     * Sort results in descending order before displaying.
      */
     private void updateSearchResult() {
         String searchContent = searchInput.getText().toString();
 
-        // Search reports for current user matching search content
+        // Search for reports matching input, filter: waiting review (true)
         List<Report> searchResult = reportViewModel.searchReports(
-                searchContent, false,
+                searchContent,
+                true,  // true indicates searching for unreviewed reports
                 viewModel.getUser().getRole(),
                 viewModel.getUser().getID()
         );
 
-        // Handle invalid search input
+        // Handle invalid search result
         if (searchResult == null) {
-            searchInput.setError("Invalid Input!!!");
+            searchInput.setError("Invalid Input!");
             searchResult = new ArrayList<>();
         } else {
             // Sort search results in reverse chronological order
             searchResult.sort(Collections.reverseOrder());
         }
 
-        // Update adapter with search results
+        // Display search results
         ReportAdapter adapter = new ReportAdapter(searchResult, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);

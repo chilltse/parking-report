@@ -18,6 +18,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * @author Nanxuan Xie u8016457
+ * SmsService implements INotificationService to send SMS notifications via Twilio API.
+ * It loads a text template, replaces placeholders, and sends the SMS asynchronously.
+ */
 public class SmsService implements INotificationService {
     private static final String TAG = "SmsService";
     private String templateFileName;

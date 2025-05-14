@@ -18,87 +18,97 @@ import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-
 import com.example.parkingreport.ui.reportManager.ReportAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+/**
+ * @author Yudong Qiu u7937030
 
-public class UnreFragment extends Fragment {
+ * - AllReportsFragment displays a list of all user reports for admin management.
+ * - Supports searching reports by keywords and refreshing search results.
+ * - Utilizes RecyclerView with ReportAdapter to display report items.
+ * - Interacts with ReportViewModel and UserViewModel for data retrieval.
+ * - Automatically updates search results when the fragment is resumed.
+ */
+public class AllReportsFragment extends Fragment {
 
-    private UserViewModel viewModel;
-    private ReportViewModel reportViewModel;
-    private RecyclerView recyclerView;
-
-    private EditText searchInput;
-    private Button searchBtn;
-
-
-    public UnreFragment() {
+    public AllReportsFragment() {
         // Required empty public constructor
     }
+    private ReportViewModel reportViewModel;
+    private UserViewModel viewModel;
+    private RecyclerView recyclerView;
+    private EditText searchInput;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        reportViewModel = new ViewModelProvider(requireActivity())
-                .get(ReportViewModel.class);
-        viewModel =  new ViewModelProvider(requireActivity())
-                .get(UserViewModel.class);
-        return inflater.inflate(R.layout.fragment_unreview_list, container, false);
+        // Initialize ViewModels (shared with Activity)
+        reportViewModel = new ViewModelProvider(requireActivity()).get(ReportViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+
+        // Inflate fragment layout
+        return inflater.inflate(R.layout.fragment_review_list, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // 初始化 RecyclerView
-        recyclerView = view.findViewById(R.id.recycle2);
 
+        // Initialize UI components
+        recyclerView = view.findViewById(R.id.recycle);
         searchInput = view.findViewById(R.id.searchEditText);
-        searchBtn = view.findViewById(R.id.searchButton);
+        Button searchBtn = view.findViewById(R.id.searchButton);
 
+        // Display all reports initially
         updateReports();
 
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateSearchResult();
-            }
-        });
-
-//         List<Report> allReports =  reportViewModel.getAllWaitingReportsLive();
-//
-//
-//        ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(adapter);
+        // Set up search button click listener
+        searchBtn.setOnClickListener(view1 -> updateSearchResult());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        updateReports();
+        // Refresh search results when fragment is resumed
         updateSearchResult();
     }
 
+    /**
+     * Load and display all reports in the RecyclerView.
+     */
     private void updateReports() {
-        // 初始化 RecyclerView
-        List<Report> allReports =  reportViewModel.getAllWaitingReportsLive();
+        List<Report> allReports = reportViewModel.getAllReportsLive();
         ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Search reports based on user input and update RecyclerView.
+     * If input is invalid, display an error.
+     * Sort results in reverse order before displaying.
+     */
     private void updateSearchResult() {
         String searchContent = searchInput.getText().toString();
 
-        List<Report> searchResult =  reportViewModel.searchReports(searchContent,true, viewModel.getUser().getRole(), viewModel.getUser().getID());
-        if(searchResult == null){
-            searchInput.setError("Invalid Input!!!");
+        List<Report> searchResult = reportViewModel.searchReports(
+                searchContent, false,
+                viewModel.getUser().getRole(),
+                viewModel.getUser().getID()
+        );
+
+        if (searchResult == null) {
+            searchInput.setError("Invalid Input!");
             searchResult = new ArrayList<>();
-        }else{
-            Collections.sort(searchResult, Collections.reverseOrder());
+        } else {
+            // Sort search results in descending order
+            searchResult.sort(Collections.reverseOrder());
         }
+
+        // Display search results
         ReportAdapter adapter = new ReportAdapter(searchResult, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);

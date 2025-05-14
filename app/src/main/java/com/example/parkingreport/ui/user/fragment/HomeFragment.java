@@ -21,7 +21,10 @@ import com.bumptech.glide.request.target.ViewTarget;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-
+/**
+ * The user profile
+ * @author Yudong Qiu u7937030
+ */
 public class HomeFragment extends Fragment {
 
     private UserViewModel viewModel;
@@ -60,15 +63,15 @@ public class HomeFragment extends Fragment {
         Log.d("Fragment","path:"+path);
         Log.d("Fragment","user.getEmail():"+user.getEmail());
         Uri uri = Uri.parse(path);
-        String resourceName = uri.getLastPathSegment();  // 提取 "panda"
+        String resourceName = uri.getLastPathSegment();
 
         int resId = getResources().getIdentifier(resourceName, "drawable", requireContext().getPackageName());
         if (resId != 0) {
             ViewTarget<ImageView, Drawable> into = Glide.with(requireContext())
                     .load(resId)
-                    .override(120, 120)      // 强制加载尺寸
-                    .centerCrop()            // 居中裁剪显示
-                    //.circleCrop()         // 如果你想显示圆形头像，取消这行注释
+                    .override(120, 120)
+                    .centerCrop()
+                    //.circleCrop()
                     .into(imageView);
         } else {
             Log.e("icon", "资源未找到: " + resourceName);
@@ -79,7 +82,7 @@ public class HomeFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requireActivity().finish();   // ① 结束当前 Activity
+                requireActivity().finish();
             }
         });
 

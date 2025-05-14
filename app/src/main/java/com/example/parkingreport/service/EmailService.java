@@ -19,6 +19,11 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
+/**
+ * EmailService implements INotificationService to send email notifications.
+ * It loads an HTML template, replaces placeholders, and sends emails asynchronously.
+ * @author Nanxaun Xie u8016457
+ */
 public class EmailService implements INotificationService {
     private static final String TAG = "EmailService";
     private static final String CODE_TEMPLATE = "code_template.html";
@@ -34,6 +39,12 @@ public class EmailService implements INotificationService {
     private final Map<String, String> replacements;
     private final Session session;
 
+    /**
+     * Constructs an EmailService with context, notification type, and placeholder data.
+     * @param context the Android context for loading template assets
+     * @param emailType the type of email notification (e.g., REGISTRATION)
+     * @param replacements key-value pairs for replacing placeholders in the template
+     */
     public EmailService(Context context, NotificationType emailType, Map<String, String> replacements) {
         this.context = context;
         this.replacements = replacements;
@@ -49,6 +60,10 @@ public class EmailService implements INotificationService {
         }
     }
 
+    /**
+     * Synchronized method to create and configure a JavaMail Session.
+     * @return a configured Session object for sending emails
+     */
     private static synchronized Session getSession() {
         Properties props = new Properties();
         props.put("mail.smtp.host", SMTP_HOST);
@@ -64,6 +79,10 @@ public class EmailService implements INotificationService {
         });
     }
 
+    /**
+     * Sends an email message to the specified recipient.
+     * @param to the recipient's email address
+     */
     @Override
     public void sendMsg(String to) {
         try {
@@ -78,6 +97,12 @@ public class EmailService implements INotificationService {
         }
     }
 
+    /**
+     * Replaces placeholders in the HTML content with actual values.
+     * Placeholders use the format ${key}.
+     * @param content the original HTML template content
+     * @return the HTML content with placeholders replaced
+     */
     private String replacePlaceholders(String content) {
         String result = content;
         for (Map.Entry<String, String> entry : replacements.entrySet()) {
@@ -88,6 +113,13 @@ public class EmailService implements INotificationService {
         return result;
     }
 
+    /**
+     * Creates a MimeMessage object and sets the sender, recipient, subject, and HTML content.
+     * @param to the recipient's email address
+     * @param content the HTML content of the email
+     * @return a configured MimeMessage ready for sending
+     * @throws MessagingException if message creation fails
+     */
     private MimeMessage createMessage(String to, String content) throws MessagingException {
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(USERNAME));
@@ -97,6 +129,11 @@ public class EmailService implements INotificationService {
         return message;
     }
 
+    /**
+     * Sends the email in a separate thread to avoid blocking the main thread.
+     * @param message the MimeMessage to send
+     * @param to the recipient's email address for logging purposes
+     */
     private void sendEmailAsync(MimeMessage message, String to) {
         new Thread(() -> {
             try {

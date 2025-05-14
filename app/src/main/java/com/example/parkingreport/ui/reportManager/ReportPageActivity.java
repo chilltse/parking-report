@@ -20,9 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
-import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
-import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.utils.GPS;
 
 import java.io.File;
@@ -33,44 +31,46 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 
+/**
+ * @author Yudong Qiu u7937030
+ */
 public class ReportPageActivity extends AppCompatActivity {
 
-    private UserViewModel viewModel;
+//    private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
-    private User user;
-    private String lastPhotoPath = null;
-    private LinearLayout selectFileLayout;
-    private LinearLayout takePhotoLayout;
+    private String lastPhotoPath = null; // Store path of selected or captured image
 
     private ActivityResultLauncher<String> pickImageLauncher;
     private ActivityResultLauncher<Uri> takePhotoLauncher;
 
-    private Uri cameraImageUri; // 拍照用到的uri临时保存
+    private Uri cameraImageUri; // Temporary URI storage for camera photo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_page);
 
-        Intent intent = getIntent();
-        reportViewModel = new ViewModelProvider(this)
-                .get(ReportViewModel.class);
+        // Initialize ViewModel
+        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
 
+        // Get current timestamp for report time field
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1; // 月份从0开始
+        int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         int second = calendar.get(Calendar.SECOND);
-        @SuppressLint("DefaultLocale") String currentTime = String.format("%04d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second);
-        selectFileLayout = findViewById(R.id.selectFileLayout);
-        takePhotoLayout = findViewById(R.id.takePhotoLayout);
+        @SuppressLint("DefaultLocale") String currentTime
+                = String.format("%04d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second);
+
+        LinearLayout selectFileLayout = findViewById(R.id.selectFileLayout);
+        LinearLayout takePhotoLayout = findViewById(R.id.takePhotoLayout);
 
         EditText dateInput = findViewById(R.id.dateInput);
         dateInput.setText(currentTime);
 
-        // 选择图片
+        // Initialize image selection launcher
         pickImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
@@ -80,15 +80,15 @@ public class ReportPageActivity extends AppCompatActivity {
                             String newPath = copyToInternalStorage(realPath, "selected_" + System.currentTimeMillis() + ".jpg");
                             if (newPath != null) {
                                 lastPhotoPath = newPath;
-                                Toast.makeText(this, "图片已保存至: " + newPath, Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, "Image saved to: " + newPath, Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(this, "无法获取真实路径！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Failed to get real path!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
-// 拍照
+        // Initialize photo capture launcher
         takePhotoLauncher = registerForActivityResult(
                 new ActivityResultContracts.TakePicture(),
                 success -> {
@@ -98,78 +98,64 @@ public class ReportPageActivity extends AppCompatActivity {
                             String newPath = copyToInternalStorage(realPath, "captured_" + System.currentTimeMillis() + ".jpg");
                             if (newPath != null) {
                                 lastPhotoPath = newPath;
-                                Toast.makeText(this, "照片已保存至: " + newPath, Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, "Photo saved to: " + newPath, Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(this, "无法获取拍照图片真实路径！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Failed to get photo real path!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
-        // 点击选择文件
-        selectFileLayout.setOnClickListener(v -> {
-            pickImageLauncher.launch("image/*");
-        });
+        // Click event to select image file
+        selectFileLayout.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
 
-        // 点击拍照
-        takePhotoLayout.setOnClickListener(v -> {
-            startCamera();
-        });
+        // Click event to take photo with camera
+        takePhotoLayout.setOnClickListener(v -> startCamera());
 
-
-        // User info related
-        intent = getIntent();
-        int    userId   = intent.getIntExtra("userId", -1);
+        // Retrieve user info from intent
+        Intent intent = getIntent();
+        int userId = intent.getIntExtra("userId", -1);
         String userName = intent.getStringExtra("userName");
 
+        // Submit button logic
         Button button = findViewById(R.id.submitButton);
         button.setOnClickListener(v -> {
             boolean isOK = true;
 
-            String gpsLocation = ((TextView) findViewById(R.id.locationInput))
-                    .getText().toString().trim();
-            String date = ((TextView) findViewById(R.id.dateInput))
-                    .getText().toString().trim();
-            String carPlate1 = ((TextView) findViewById(R.id.carPlateInput1))
-                    .getText().toString().trim();
-            String carPlate2 = ((TextView) findViewById(R.id.carPlateInput2))
-                    .getText().toString().trim();
+            String gpsLocation = ((TextView) findViewById(R.id.locationInput)).getText().toString().trim();
+            String carPlate1 = ((TextView) findViewById(R.id.carPlateInput1)).getText().toString().trim();
+            String carPlate2 = ((TextView) findViewById(R.id.carPlateInput2)).getText().toString().trim();
 
-            // 1. 非空校验
+            // 1. Validate inputs are not empty
             if (carPlate1.isEmpty()) {
-                ((TextView) findViewById(R.id.carPlateInput1))
-                        .setError("请输入车牌号");
+                ((TextView) findViewById(R.id.carPlateInput1)).setError("Please enter license plate number");
                 isOK = false;
             }
             if (carPlate2.isEmpty()) {
-                ((TextView) findViewById(R.id.carPlateInput2))
-                        .setError("请再次输入车牌号");
+                ((TextView) findViewById(R.id.carPlateInput2)).setError("Please re-enter license plate number");
                 isOK = false;
             }
 
-            // 2. 相等性校验（只有在都非空时才做）
+            // 2. Validate both plate inputs match
             if (isOK && !carPlate1.equals(carPlate2)) {
-                ((TextView) findViewById(R.id.carPlateInput2))
-                        .setError("两次输入不一致");
+                ((TextView) findViewById(R.id.carPlateInput2)).setError("Inputs do not match");
                 isOK = false;
             }
 
-            // 3. 勾选框校验
+            // 3. Confirm checkbox validation
             CheckBox confirmCb = findViewById(R.id.confirmCheckbox);
             if (!confirmCb.isChecked()) {
-                Toast.makeText(getApplicationContext(),
-                        "请勾选确认框", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Please check the confirmation box", Toast.LENGTH_SHORT).show();
                 isOK = false;
             }
 
-            // 4. 图片校验
+            // 4. Validate image selected or taken
             if (lastPhotoPath == null) {
-                Toast.makeText(getApplicationContext(),
-                        "请先选择图片或拍照", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Please select an image or take a photo first", Toast.LENGTH_SHORT).show();
                 isOK = false;
             }
 
-            // 最终 OK 时写入
+            // If all validations passed, submit report
             if (isOK) {
                 Report report = new Report(
                         userId,
@@ -183,35 +169,38 @@ public class ReportPageActivity extends AppCompatActivity {
                 finish();
             }
         });
-        GPS.getCurrentLocation(this, new GPS.GpsCallback() {
-            @Override
-            public void onLocationReady(double lat, double lng) {
-                String locationText = lat + ", " + lng;
-                ((TextView) findViewById(R.id.locationInput)).setText(locationText);
-            }
-        });
 
+        // Auto-fill current GPS location
+        GPS.getCurrentLocation(this, (lat, lng) -> {
+            String locationText = lat + ", " + lng;
+            ((TextView) findViewById(R.id.locationInput)).setText(locationText);
+        });
     }
 
+    /**
+     * Start camera to take a photo and save to a temporary URI.
+     */
     private void startCamera() {
-        // 创建一条空的图片uri，用来存储拍照的照片
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DISPLAY_NAME, "IMG_" + System.currentTimeMillis() + ".jpg");
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+
         cameraImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
         if (cameraImageUri != null) {
             takePhotoLauncher.launch(cameraImageUri);
         } else {
-            Toast.makeText(this, "无法创建图片文件", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed to create image file", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // 将Uri转换成真实路径
+    /**
+     * Convert a content Uri to a real file path.
+     */
     private String getRealPathFromUri(Uri uri) {
         String filePath = null;
         if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { MediaStore.Images.Media.DATA };
+            String[] projection = {MediaStore.Images.Media.DATA};
             try (android.database.Cursor cursor = getContentResolver().query(uri, projection, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
                     int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -224,18 +213,17 @@ public class ReportPageActivity extends AppCompatActivity {
         return filePath;
     }
 
+    /**
+     * Copy the selected or captured image to the app's internal storage directory.
+     */
     private String copyToInternalStorage(String sourcePath, String fileName) {
         File srcFile = new File(sourcePath);
 
-
         File subDir = new File(getFilesDir(), "images");
-        if (!subDir.exists()) {
-            if (!subDir.mkdirs()) {
-                Toast.makeText(this, "创建文件夹失败", Toast.LENGTH_SHORT).show();
-                return null;
-            }
+        if (!subDir.exists() && !subDir.mkdirs()) {
+            Toast.makeText(this, "Failed to create directory", Toast.LENGTH_SHORT).show();
+            return null;
         }
-
 
         File destFile = new File(subDir, fileName);
 
@@ -248,10 +236,10 @@ public class ReportPageActivity extends AppCompatActivity {
                 out.write(buffer, 0, length);
             }
 
-            return destFile.getAbsolutePath(); // 返回完整路径
+            return destFile.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "复制失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Copy failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             return null;
         }
     }

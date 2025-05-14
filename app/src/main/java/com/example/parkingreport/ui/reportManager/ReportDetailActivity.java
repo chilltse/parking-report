@@ -1,9 +1,9 @@
 package com.example.parkingreport.ui.reportManager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +18,6 @@ import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
-import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.service.NotificationFactory;
 import com.example.parkingreport.service.NotificationType;
 import com.example.parkingreport.service.api.INotificationService;
@@ -27,31 +26,31 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.example.parkingreport.utils.FileLoader.readPlatePhone;
 
+/**
+ * @author Nanxuan Xie u8016457
+ */
 public class ReportDetailActivity extends AppCompatActivity {
-
-    private UserViewModel viewModel;
-    private User user;
     private ReportViewModel reportViewModel;
     private ToggleButton approveButton;
     private ToggleButton rejectButton;
-    private TextView feedbackTextViewShow;
     private EditText feedbackTextViewInput;
     private final String PLATE_PHONE_FILE = "plate_phone_2500.csv";
-    private ImageView priUrl;
 
-
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        reportViewModel = new ViewModelProvider(this)
-                .get(ReportViewModel.class);
+        // Initialize ReportViewModel
+        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
 
+        // Get data passed from previous activity
         Intent intent = getIntent();
-        int reportId = intent.getIntExtra("reportId", -1);   // 新增：接收 id，默认-1
+        int reportId = intent.getIntExtra("reportId", -1);
         String plate = intent.getStringExtra("plate");
         String status = intent.getStringExtra("status");
         String time = intent.getStringExtra("time");
@@ -61,16 +60,17 @@ public class ReportDetailActivity extends AppCompatActivity {
         String loginAs = intent.getStringExtra("loginAs");
         String picUrl = intent.getStringExtra("picUrl");
 
-        // 判断启用哪一个xml
-        Log.d("Review_list", "status:" + status);
-        Log.d("Review_list", "R.layout.activity_unreview_list_deatil:" + R.layout.activity_unreview_list_deatil);
-        Log.d("Review_list", "R.layout.activity_report_detail:" + R.layout.activity_report_detail);
-        int layoutId = status.equals(Report.WAIT_FOR_REVIEW) && loginAs.equals(User.ADMIN)?
-                R.layout.activity_unreview_list_deatil:
-                R.layout.activity_report_detail;
+        // Determine which layout to use based on report status and user role
+        assert status != null;
+        int layoutId = status.equals(Report.WAIT_FOR_REVIEW) && Objects.equals(loginAs, User.ADMIN)
+                ? R.layout.activity_unreview_list_deatil
+                : R.layout.activity_report_detail;
         setContentView(layoutId);
-        Log.d("Review_list", "layoutId:" + layoutId);
 
+        // Debug log for layout selection
+        Log.d("ReportDetailActivity", "Selected layoutId: " + layoutId);
+
+        // Bind basic information views
         TextView carPlateView = findViewById(R.id.valueCarPlate);
         TextView locationView = findViewById(R.id.valueLocation);
         TextView timeView = findViewById(R.id.valueTime);
@@ -78,93 +78,85 @@ public class ReportDetailActivity extends AppCompatActivity {
         TextView reportIdView = findViewById(R.id.valueReportId);
         TextView statusView = findViewById(R.id.valueStatus);
 
-
-
-//        titleView.setText(title);
+        // Set values to views
         carPlateView.setText(plate);
         locationView.setText(location);
         timeView.setText(time);
         reporterNameView.setText(reporterName);
         reportIdView.setText(String.format("%d", reportId));
-//        reportIdView.setText(reportId);
         statusView.setText(status);
 
-        // 对于审批的report，设置监听器
-        if(layoutId == R.layout.activity_unreview_list_deatil){
+        // If it's an unreviewed report and admin is logged in, setup review actions
+        if (layoutId == R.layout.activity_unreview_list_deatil) {
             approveButton = findViewById(R.id.approveButton);
             rejectButton = findViewById(R.id.rejectButton);
             feedbackTextViewInput = findViewById(R.id.messageField);
+
             setupToggleButtonListeners();
 
+            findViewById(R.id.submitButton).setOnClickListener(view -> {
+                String feedbackInput = feedbackTextViewInput.getText().toString();
 
+                // Update report status based on approve/reject selection
+                reportViewModel.replyReport(reportId, approveButton.isChecked(), feedbackInput);
 
-            findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    String isApproved = approveButton.isChecked() ? Report.APPROVED : Report.DECLINED;
-                    String feedback = feedbackTextViewInput.getText().toString();
-
-                    // Change the status of the report, so the reporter can see the difference.
-                    reportViewModel.replyReport(reportId,approveButton.isChecked(),feedback);
-
-                    // If this report has been approved, then it will send sms msg to the corresponding car owner.
-                    if(approveButton.isChecked()){
-                        String phone;
-                        try {
-                            Map<String, String> map = readPlatePhone(getApplicationContext(), PLATE_PHONE_FILE);
-                            phone = map.get(plate);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        if(phone==null){
-                            Toast.makeText(getApplicationContext(), "Can not find the plate user, canceled alarm msg!", Toast.LENGTH_SHORT).show();
-                        }else{
-                            INotificationService smsService = NotificationFactory.createService(
-                                    "sms", getApplicationContext(), NotificationType.ALARM,
-                                    new HashMap<String, String>() {{
-                                        put("plate", plate);
-                                    }});
-                            //TODO COMMENT OUT FOR NOW
-//                            smsService.sendMsg(phone);
-                            Toast.makeText(getApplicationContext(), "Sent alarm msg to car owner.", Toast.LENGTH_SHORT).show();
-                        }
+                // If approved, attempt to send an SMS to car owner
+                if (approveButton.isChecked()) {
+                    String phone;
+                    try {
+                        Map<String, String> map = readPlatePhone(getApplicationContext(), PLATE_PHONE_FILE);
+                        phone = map.get(plate);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
 
-                    finish();
+                    if (phone == null) {
+                        Toast.makeText(getApplicationContext(), "Cannot find phone number for this plate. Alarm canceled.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        INotificationService smsService = NotificationFactory.createService(
+                                "sms", getApplicationContext(), NotificationType.ALARM,
+                                new HashMap<>() {{
+                                    put("plate", plate);
+                                }});
+                        // Uncomment to actually send SMS
+                        smsService.sendMsg(phone);
+                        Toast.makeText(getApplicationContext(), "Alarm message sent to car owner.", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+                finish();
             });
         }
 
-
-        //设置相关的图片
-        priUrl = findViewById(R.id.imageView4);
+        // Load and display report image
+        ImageView priUrl = findViewById(R.id.imageView4);
         assert picUrl != null;
         Glide.with(this).load(new File(picUrl)).into(priUrl);
 
-        if(layoutId == R.layout.activity_report_detail) {
-            feedbackTextViewShow = findViewById(R.id.valueFeedback);
+        // For normal report detail, show feedback message
+        if (layoutId == R.layout.activity_report_detail) {
+            TextView feedbackTextViewShow = findViewById(R.id.valueFeedback);
             feedbackTextViewShow.setText(feedback);
         }
-
-
     }
 
+    /**
+     * Setup mutual exclusion for approve and reject buttons.
+     */
     private void setupToggleButtonListeners() {
-
         approveButton.setChecked(true);
         rejectButton.setChecked(false);
+
         approveButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 rejectButton.setChecked(false);
             }
         });
 
         rejectButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 approveButton.setChecked(false);
             }
         });
     }
 }
-
-
