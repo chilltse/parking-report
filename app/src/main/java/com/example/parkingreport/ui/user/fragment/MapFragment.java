@@ -15,8 +15,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Looper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +28,6 @@ import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.reportManager.ReportPageActivity;
 import com.example.parkingreport.utils.GPS;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -49,6 +41,13 @@ import android.Manifest;
 
 import java.util.Arrays;
 
+/**
+ * Fragment responsible for displaying the map interface.
+ * Integrates GPS location, renders illegal parking zones as polygons,
+ * handles tap-to-report logic, and updates map camera and markers accordingly.
+ *
+ * Authored by Larry Wang u7807744
+ */
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap gMap;
@@ -57,14 +56,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
     private User user;
-    private static final int REQUEST_LOCATION = 1;
+    public static final int REQUEST_LOCATION = 1;
 
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.gMap = googleMap;
 
-        attemptLocate();
+        attemptLocate(); // check GPS permission and attempt to locate user's location
         setUpIllegalZone();// Draw all illegal parking areas and instantiate them.
         setUpZoneClickable();//make illegal parking areas clickable.
         setupMapListeners();//Wherever you click, the marker will follow and display the coordinate information
@@ -75,10 +74,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        // Data
         viewModel =  new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
-
 
         return inflater.inflate(R.layout.fragment_map, container, false);
 
@@ -87,7 +84,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //create map view.
         super.onViewCreated(view, savedInstanceState);
-
 
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.map);
@@ -99,24 +95,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         button = view.findViewById(R.id.button);
         //Added logic to allow taking photos only in illegal parking areas
         button.setOnClickListener(v -> {
-
             Context context = requireContext();
             boolean hasFineLocation = ActivityCompat.checkSelfPermission(
                     context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
             boolean hasCoarseLocation = ActivityCompat.checkSelfPermission(
                     context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
             if (!hasFineLocation || !hasCoarseLocation) {
-                LayoutInflater inflater = getLayoutInflater();
-                View layout = inflater.inflate(R.layout.custom_toast, null);
-
-                TextView text = layout.findViewById(R.id.toast_text);
-                text.setText("Please enable GPS permission in phone setting to report");
-
-                Toast toast = new Toast(requireContext());
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.setView(layout);
-                toast.setGravity(Gravity.CENTER, 0, 0);  // Center the message
-                toast.show();
+                popToast("Please enable GPS permission in phone setting to report");
                 return; // hint for open permission
             }
 
@@ -137,20 +122,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         User user = viewModel.getUser();
                         Intent intent = new Intent(getActivity(), ReportPageActivity.class);
                         intent.putExtra("userId", user.getID());
-                        intent.putExtra("userName", user.getName()); // 为了显示更清晰，report新增name field，这次也传递该参数
+                        intent.putExtra("userName", user.getName());
                         startActivity(intent);
                     } else {
-                        LayoutInflater inflater = getLayoutInflater();
-                        View layout = inflater.inflate(R.layout.custom_toast, null);
-
-                        TextView text = layout.findViewById(R.id.toast_text);
-                        text.setText("Not an illegal parking area, unable to report");
-
-                        Toast toast = new Toast(requireContext());
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.setView(layout);
-                        toast.setGravity(Gravity.CENTER, 0, 0);  // Center the message
-                        toast.show();
+                        popToast("Not an illegal parking area, unable to report");
                     }
                 }
             });
@@ -161,6 +136,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     private void setUpIllegalZone() {
+        // For each defined zone, draw polygon on the map in red
         for (IllegalParkingZone zone : IllegalParkingZone.values()) {
             Polygon polygon = gMap.addPolygon(new PolygonOptions()
                     .add(zone.getVertices())
@@ -176,23 +152,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         gMap.setOnPolygonClickListener(polygon -> {
             String zoneName = (String) polygon.getTag();  // Get polygon Tag
             if (zoneName != null) {
-                LayoutInflater inflater = getLayoutInflater();
-                View layout = inflater.inflate(R.layout.custom_toast, null);
-
-                TextView text = layout.findViewById(R.id.toast_text);
-                text.setText("NO PARKING HERE: " + zoneName);
-
-                Toast toast = new Toast(requireContext());
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.setView(layout);
-                toast.setGravity(Gravity.CENTER, 0, 0);  // Center the message
-                toast.show();
-
+                popToast("NO PARKING HERE: " + zoneName);
             }
         });
     }
 
     private void setupMapListeners() {
+        // Allows user to tap on the map and see a marker with lat/lng info
         gMap.setOnMapClickListener(latLng -> {
             if (currentMarker != null) {
                 currentMarker.remove();
@@ -220,20 +186,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (requestCode == REQUEST_LOCATION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 用户刚刚在权限弹窗里点了“允许”，
-                // 这里再调一次 setUpGPS()（或你用来定位+moveCamera的方法）
-                attemptLocate();
+                attemptLocate();//set up map if permitted
             } else {
-                Toast.makeText(getContext(),
-                                "Location permission denied",
-                                Toast.LENGTH_SHORT)
-                        .show();
+                popToast("Location permission denied");
             }
         }
     }
 
-    private void attemptLocate() {
-        // 如果已经有权限，直接走定位
+    public void attemptLocate() {
+        // Request GPS location or ask for permission if needed
         if (ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             GPS.getCurrentLocation(requireContext(), (lat, lng) -> {
@@ -244,12 +205,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
             });
         } else {
-            // 没有权限就向 Fragment 申请
+            // Apply to Fragment without permission
             requestPermissions(
                     new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },
                     REQUEST_LOCATION
             );
         }
+    }
+
+    //Helper : pop a toast at the middle of the screen
+    public void popToast(String string){
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, null);
+        TextView text = layout.findViewById(R.id.toast_text);
+        text.setText(string);
+        Toast toast = new Toast(requireContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.setGravity(Gravity.CENTER, 0, 0);  // Center the message
+        toast.show();
     }
 
 }
