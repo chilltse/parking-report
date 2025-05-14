@@ -16,8 +16,6 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <!-- TODO: Add a user-uploaded thumbnail or image on the left side here -->
-
         <!-- Vertical layout for report info on the right -->
         <LinearLayout
             android:layout_width="0dp"

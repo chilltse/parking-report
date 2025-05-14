@@ -38,39 +38,44 @@ public class ReportPageActivity extends AppCompatActivity {
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
     private User user;
-    private String lastPhotoPath = null;
+
+    private String lastPhotoPath = null; // Store path of selected or captured image
+
     private LinearLayout selectFileLayout;
     private LinearLayout takePhotoLayout;
 
     private ActivityResultLauncher<String> pickImageLauncher;
     private ActivityResultLauncher<Uri> takePhotoLauncher;
 
-    private Uri cameraImageUri; // Temporary URI storage for camera photos
+    private Uri cameraImageUri; // Temporary URI storage for camera photo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_page);
 
-        Intent intent = getIntent();
-        reportViewModel = new ViewModelProvider(this)
-                .get(ReportViewModel.class);
+        // Initialize ViewModel
+        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
 
+        // Get current timestamp for report time field
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        int second = calendar.get(Calendar.SECOND);
-        @SuppressLint("DefaultLocale") String currentTime = String.format("%04d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second);
+        @SuppressLint("DefaultLocale") String currentTime = String.format(
+                "%04d-%02d-%02dT%02d:%02d:%02d",
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1,
+                calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                calendar.get(Calendar.SECOND)
+        );
+
         selectFileLayout = findViewById(R.id.selectFileLayout);
         takePhotoLayout = findViewById(R.id.takePhotoLayout);
 
         EditText dateInput = findViewById(R.id.dateInput);
         dateInput.setText(currentTime);
 
-        // Select image
+        // Initialize image selection launcher
         pickImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
@@ -88,7 +93,7 @@ public class ReportPageActivity extends AppCompatActivity {
                     }
                 });
 
-        // Take photo
+        // Initialize photo capture launcher
         takePhotoLauncher = registerForActivityResult(
                 new ActivityResultContracts.TakePicture(),
                 success -> {
@@ -106,21 +111,18 @@ public class ReportPageActivity extends AppCompatActivity {
                     }
                 });
 
-        // Click to select file
-        selectFileLayout.setOnClickListener(v -> {
-            pickImageLauncher.launch("image/*");
-        });
+        // Click event to select image file
+        selectFileLayout.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
 
-        // Click to take photo
-        takePhotoLayout.setOnClickListener(v -> {
-            startCamera();
-        });
+        // Click event to take photo with camera
+        takePhotoLayout.setOnClickListener(v -> startCamera());
 
-        // User info
-        intent = getIntent();
+        // Retrieve user info from intent
+        Intent intent = getIntent();
         int userId = intent.getIntExtra("userId", -1);
         String userName = intent.getStringExtra("userName");
 
+        // Submit button logic
         Button button = findViewById(R.id.submitButton);
         button.setOnClickListener(v -> {
             boolean isOK = true;
@@ -130,7 +132,7 @@ public class ReportPageActivity extends AppCompatActivity {
             String carPlate1 = ((TextView) findViewById(R.id.carPlateInput1)).getText().toString().trim();
             String carPlate2 = ((TextView) findViewById(R.id.carPlateInput2)).getText().toString().trim();
 
-            // 1. Non-empty validation
+            // 1. Validate inputs are not empty
             if (carPlate1.isEmpty()) {
                 ((TextView) findViewById(R.id.carPlateInput1)).setError("Please enter license plate number");
                 isOK = false;
@@ -140,26 +142,26 @@ public class ReportPageActivity extends AppCompatActivity {
                 isOK = false;
             }
 
-            // 2. Equality validation
+            // 2. Validate both plate inputs match
             if (isOK && !carPlate1.equals(carPlate2)) {
                 ((TextView) findViewById(R.id.carPlateInput2)).setError("Inputs do not match");
                 isOK = false;
             }
 
-            // 3. Checkbox validation
+            // 3. Confirm checkbox validation
             CheckBox confirmCb = findViewById(R.id.confirmCheckbox);
             if (!confirmCb.isChecked()) {
                 Toast.makeText(getApplicationContext(), "Please check the confirmation box", Toast.LENGTH_SHORT).show();
                 isOK = false;
             }
 
-            // 4. Image validation
+            // 4. Validate image selected or taken
             if (lastPhotoPath == null) {
                 Toast.makeText(getApplicationContext(), "Please select an image or take a photo first", Toast.LENGTH_SHORT).show();
                 isOK = false;
             }
 
-            // Final submission
+            // If all validations passed, submit report
             if (isOK) {
                 Report report = new Report(
                         userId,
@@ -174,6 +176,7 @@ public class ReportPageActivity extends AppCompatActivity {
             }
         });
 
+        // Auto-fill current GPS location
         GPS.getCurrentLocation(this, new GPS.GpsCallback() {
             @Override
             public void onLocationReady(double lat, double lng) {
@@ -181,14 +184,16 @@ public class ReportPageActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.locationInput)).setText(locationText);
             }
         });
-
     }
 
+    /**
+     * Start camera to take a photo and save to a temporary URI.
+     */
     private void startCamera() {
-        // Create an empty image URI to store the photo taken
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DISPLAY_NAME, "IMG_" + System.currentTimeMillis() + ".jpg");
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+
         cameraImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
         if (cameraImageUri != null) {
@@ -198,7 +203,9 @@ public class ReportPageActivity extends AppCompatActivity {
         }
     }
 
-    // Convert Uri to real path
+    /**
+     * Convert a content Uri to a real file path.
+     */
     private String getRealPathFromUri(Uri uri) {
         String filePath = null;
         if ("content".equalsIgnoreCase(uri.getScheme())) {
@@ -215,15 +222,16 @@ public class ReportPageActivity extends AppCompatActivity {
         return filePath;
     }
 
+    /**
+     * Copy the selected or captured image to the app's internal storage directory.
+     */
     private String copyToInternalStorage(String sourcePath, String fileName) {
         File srcFile = new File(sourcePath);
 
         File subDir = new File(getFilesDir(), "images");
-        if (!subDir.exists()) {
-            if (!subDir.mkdirs()) {
-                Toast.makeText(this, "Failed to create directory", Toast.LENGTH_SHORT).show();
-                return null;
-            }
+        if (!subDir.exists() && !subDir.mkdirs()) {
+            Toast.makeText(this, "Failed to create directory", Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         File destFile = new File(subDir, fileName);

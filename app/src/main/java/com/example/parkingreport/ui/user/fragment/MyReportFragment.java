@@ -43,13 +43,12 @@ public class MyReportFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        reportViewModel = new ViewModelProvider(requireActivity())
-                .get(ReportViewModel.class);
-        viewModel =  new ViewModelProvider(requireActivity())
-                .get(UserViewModel.class);
-        // 返回 fragment 对应的布局
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Initialize ViewModels shared with Activity
+        reportViewModel = new ViewModelProvider(requireActivity()).get(ReportViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+
+        // Inflate fragment layout
         return inflater.inflate(R.layout.fragment_my_report, container, false);
     }
 
@@ -57,53 +56,76 @@ public class MyReportFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Bind UI components
         searchInput = view.findViewById(R.id.searchEditText);
         searchBtn = view.findViewById(R.id.searchButton);
-
         recyclerView = view.findViewById(R.id.recycle);
+
+        // Setup RecyclerView with linear layout
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Load and display all reports for current user
         loadReports();
 
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateSearchResult();
-            }
-        });
+        // Setup search button click listener
+        searchBtn.setOnClickListener(v -> updateSearchResult());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        loadReports();
+        // Refresh search results when fragment becomes active again
         updateSearchResult();
     }
 
+    /**
+     * Load all reports submitted by the current user and display in RecyclerView.
+     */
     private void loadReports() {
-        // 拿到当前用户 id
+        // Get current user ID from ViewModel
         int userId = viewModel.getUser().getID();
-        // 用你的原来逻辑来构造列表
+
+        // Get report IDs submitted by current user
         List<Integer> reportIds = reportViewModel.getIdsByUser(userId);
+
+        // Retrieve full report objects by ID
         List<Report> reportList = new ArrayList<>();
         for (int id : reportIds) {
             reportList.add(reportViewModel.findReport(id, false));
         }
+
+        // Sort reports in reverse chronological order
         Collections.sort(reportList, Collections.reverseOrder());
+
+        // Bind data to adapter and set to RecyclerView
         adapter = new ReportAdapter(reportList, getContext(), viewModel.getUser().getRole());
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Perform search based on user input and update RecyclerView.
+     * If input is invalid, show error.
+     */
     private void updateSearchResult() {
         String searchContent = searchInput.getText().toString();
 
-        List<Report> searchResult =  reportViewModel.searchReports(searchContent,false, viewModel.getUser().getRole(), viewModel.getUser().getID());
-        if(searchResult == null){
+        // Search reports for current user matching search content
+        List<Report> searchResult = reportViewModel.searchReports(
+                searchContent, false,
+                viewModel.getUser().getRole(),
+                viewModel.getUser().getID()
+        );
+
+        // Handle invalid search input
+        if (searchResult == null) {
             searchInput.setError("Invalid Input!!!");
             searchResult = new ArrayList<>();
-        }else{
+        } else {
+            // Sort search results in reverse chronological order
             Collections.sort(searchResult, Collections.reverseOrder());
         }
+
+        // Update adapter with search results
         ReportAdapter adapter = new ReportAdapter(searchResult, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);

@@ -139,7 +139,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         User user = viewModel.getUser();
                         Intent intent = new Intent(getActivity(), ReportPageActivity.class);
                         intent.putExtra("userId", user.getID());
-                        intent.putExtra("userName", user.getName()); // 为了显示更清晰，report新增name field，这次也传递该参数
+                        intent.putExtra("userName", user.getName());
                         startActivity(intent);
                     } else {
                         LayoutInflater inflater = getLayoutInflater();
