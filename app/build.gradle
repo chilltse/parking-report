@@ -146,5 +146,16 @@ dependencies {
     // location dependence for GPS
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
+    // unit test dependence
+    testImplementation 'junit:junit:4.13.2'
+
+    // Mockito, for JVM tests
+    testImplementation 'org.mockito:mockito-core:5.6.0'
+    androidTestImplementation 'org.mockito:mockito-android:5.6.0'
+    testImplementation "org.mockito:mockito-inline:5.+"     // support mockStatic
+
+    // Robolectric（mimic Android environment）
+    testImplementation 'org.robolectric:robolectric:4.10.3'
+
 
 }
