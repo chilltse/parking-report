@@ -29,7 +29,7 @@ public class PlatePhoneUtil {
         try (InputStream is = context.getAssets().open(CSV_FILE);
              BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             String line;
-            reader.readLine(); // 跳过表头
+            reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length == 2) {
@@ -40,7 +40,7 @@ public class PlatePhoneUtil {
             }
             initialized = true;
         } catch (IOException e) {
-            Log.e(TAG, "加载 CSV 数据失败", e);
+            Log.e(TAG, "Load CSV fails", e);
         }
     }
 

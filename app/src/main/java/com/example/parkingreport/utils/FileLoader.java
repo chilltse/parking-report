@@ -49,7 +49,6 @@ public class FileLoader {
      */
     public static Map<String, String> readPlatePhone(Context context, String fileName) throws IOException {
         Map<String, String> result = new HashMap<>();
-        // 用 AssetManager 打开
         try (InputStream is = context.getAssets().open(fileName);
              BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
             String line;
