@@ -1,4 +1,6 @@
 package com.example.parkingreport.LLM;
+
+//@author Yudong Qiu u7937030
 public class ChatMessage {
     public String sender; // "user" or "ai"
     public String message;

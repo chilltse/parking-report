@@ -11,6 +11,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+
+/**
+ * @author Yudong Qiu u7937030
+
+ * - GeminiLLMClient implements the LLMClient interface to integrate with Google Gemini API.
+ * - Sends user input to Gemini API using OkHttp and processes JSON responses.
+ * - Supports asynchronous network requests with callbacks for handling results.
+ * - Parses Gemini's response structure (candidates -> content -> parts -> text).
+ * - Provides error handling for network failures and JSON parsing exceptions.
+ */
 public class GeminiLLMClient implements LLMClient {
 
     private static final String TAG = "GeminiLLMClient";

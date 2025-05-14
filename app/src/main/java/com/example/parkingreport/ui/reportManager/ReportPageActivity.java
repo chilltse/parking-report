@@ -59,15 +59,14 @@ public class ReportPageActivity extends AppCompatActivity {
 
         // Get current timestamp for report time field
         Calendar calendar = Calendar.getInstance();
-        @SuppressLint("DefaultLocale") String currentTime = String.format(
-                "%04d-%02d-%02dT%02d:%02d:%02d",
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH) + 1,
-                calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                calendar.get(Calendar.SECOND)
-        );
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        @SuppressLint("DefaultLocale") String currentTime
+                = String.format("%04d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second);
 
         selectFileLayout = findViewById(R.id.selectFileLayout);
         takePhotoLayout = findViewById(R.id.takePhotoLayout);
