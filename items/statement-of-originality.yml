@@ -23,21 +23,6 @@ declaration: >-
   own work, with the following exceptions:
   
 
-# add as many "name+comment" entries as necessary
-# (or remove it altogether if you haven't collaborated with anyone outside your group)
-collaboration:
-  - name:
-    comment: >-
-  
-
-# add as many "url+licence+comment" entries as necessary
-# (or remove it altogether if you haven't used any external code)
-code:
-  - comment:
-    url:
-    licence:
-
-
 # add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
 assets:
@@ -49,30 +34,31 @@ assets:
 
 ### Questions (answer before final submission):
 1. You (as a group) completed this work (tick the most appropriate option):
-  - [ ] by yourself (as a group) without the help of others;
+  - [x] by yourself (as a group) without the help of others;
       [ ] with Gen AI tools (e.g., ChatGPT, Co-Pilot).
       [ ] using online resources (e.g., Stackoverflow, blogs)
 
 2. If not completed by yourself only, how did the use of Gen AI tools (and which ones), contribute to completing this assignment?
-  - Tool(s): <tools used here>
+  - Tool(s):
+  <ChatGPT>
   
 3. How did they contribute to the completion of this assignment?
-  - <your answer here>
+  - <ChatGPT used for class comments wording.>
 
 4. How long did it take to complete this assignment (approximately, in hours)?
-  - <your answer here> hours
+  - <280> hours
 
 
 
 # for each member, sign by inputting your name and uid here (remove any empty "name+uid" entries)
 members:
-  - name:
-    uid:
-  - name:
-    uid:
-  - name:
-    uid:
-  - name:
-    uid:
-  - name:
-    uid:
+  - name: Larry Wang
+    uid: u7807744
+  - name: Eden Tian
+    uid: u7807670
+  - name: Weimiao Sun
+    uid: u7864325
+  - name: Yudong Qiu
+    uid: u7937030
+  - name: Nanxuan Xie
+    uid: u8016457
