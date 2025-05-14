@@ -409,6 +409,8 @@ The grammar allows admin users to search reports based on `username` and `car pl
 
 ### Surprise Feature
 
+Due to the Hugging Face API frequently returning 404 errors during testing and being almost unusable, I adopted the Gemini API from Google, following the instructor's suggested alternative, to ensure the proper implementation and demonstration of the Surprise Feature. Additionally, I integrated OpenAI's API to facilitate testing with different LLM services.
+
 Our project implements a modular and replaceable LLM (Large Language Model) module using a combination of **Strategy Pattern** and **Factory Method Pattern**.
 
 **Design Pattern Justification**  
