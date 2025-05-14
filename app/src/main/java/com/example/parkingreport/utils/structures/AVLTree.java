@@ -6,8 +6,9 @@ import com.example.parkingreport.data.local.api.HasID;
 
 
 /**
- * 通用泛型AVL树，只要求存储的元素实现了Comparable接口
- * @param <T> 实现了Comparable的类型，比如User, Report等
+ * A generic AVL tree that only requires the stored elements to implement the Comparable interface.
+ * @param <T>
+ * @author Nanxuan Xie
  */
 public class AVLTree<T extends Comparable<T> & HasID> {
 
@@ -44,6 +45,12 @@ public class AVLTree<T extends Comparable<T> & HasID> {
         return list.toString();
     }
 
+    /**
+     * Recursive helper for insertion. Performs BST insert, updates heights, and balances the subtree.
+     * @param node the root of the current subtree
+     * @param data the element to insert
+     * @return the new root of the subtree
+     */
     private Node insert(Node node, T data) {
         if (node == null) return new Node(data);
 
@@ -61,6 +68,12 @@ public class AVLTree<T extends Comparable<T> & HasID> {
         return balance(node);
     }
 
+    /**
+     * Recursive helper for deletion. Performs BST delete, updates heights, and balances the subtree.
+     * @param node the root of the current subtree
+     * @param data the element to delete
+     * @return the new root of the subtree
+     */
     private Node delete(Node node, T data) {
         if (node == null) return null;
 
@@ -81,11 +94,22 @@ public class AVLTree<T extends Comparable<T> & HasID> {
         return balance(node);
     }
 
+    /**
+     * Find an ELEMENT ITSELF by its ID in the tree.
+     * @param id the ID to search for
+     * @return the element if found, otherwise null
+     */
     public T find(int id) {
         Node node = find(root, id);
         return node == null ? null : node.data;
     }
 
+    /**
+     * Recursive helper to search for a NODE by ID.
+     * @param node the root of the current subtree
+     * @param id the ID to search for
+     * @return the node containing the ID, or null if not found
+     */
     private Node find(Node node, int id) {
         if (node == null) return null;
 
@@ -120,6 +144,11 @@ public class AVLTree<T extends Comparable<T> & HasID> {
         return node == null ? 0 : height(node.left) - height(node.right);
     }
 
+    /**
+     * Balance the subtree rooted at node if it has become unbalanced.
+     * @param node the root of the subtree
+     * @return the new root after rotations if needed
+     */
     private Node balance(Node node) {
         int balance = getBalance(node);
 
@@ -140,6 +169,11 @@ public class AVLTree<T extends Comparable<T> & HasID> {
         return node;
     }
 
+    /**
+     * Perform a right rotation on the given subtree.
+     * @param y the root of the unbalanced subtree
+     * @return the new root after rotation
+     */
     private Node rotateRight(Node y) {
         Node x = y.left;
         Node T2 = x.right;
@@ -153,6 +187,11 @@ public class AVLTree<T extends Comparable<T> & HasID> {
         return x;
     }
 
+    /**
+     * Perform a left rotation on the given subtree.
+     * @param x the root of the unbalanced subtree
+     * @return the new root after rotation
+     */
     private Node rotateLeft(Node x) {
         Node y = x.right;
         Node T2 = y.left;
