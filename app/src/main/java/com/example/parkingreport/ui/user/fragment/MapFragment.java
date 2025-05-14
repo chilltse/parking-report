@@ -66,8 +66,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         attemptLocate(); // check GPS permission and attempt to locate user's location
         setUpIllegalZone();// Draw all illegal parking areas and instantiate them.
         setUpZoneClickable();//make illegal parking areas clickable.
-        //setupMapListeners();//Wherever you click, the marker will follow and display the coordinate information
-
     }
 
     @Override
@@ -93,7 +91,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         button = view.findViewById(R.id.button);
-        //Added logic to allow taking photos only in illegal parking areas
+        //Logic to allow taking photos only in illegal parking areas
         button.setOnClickListener(v -> {
             Context context = requireContext();
             boolean hasFineLocation = ActivityCompat.checkSelfPermission(
@@ -137,7 +135,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     private void setUpIllegalZone() {
-        // For each defined zone, draw polygon on the map in red
+        // For each defined zone in enum, draw polygon on the map in red
         for (IllegalParkingZone zone : IllegalParkingZone.values()) {
             Polygon polygon = gMap.addPolygon(new PolygonOptions()
                     .add(zone.getVertices())
@@ -150,6 +148,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void setUpZoneClickable() {
+        //make each polygon zone clickable
         gMap.setOnPolygonClickListener(polygon -> {
             String zoneName = (String) polygon.getTag();  // Get polygon Tag
             if (zoneName != null) {
@@ -161,6 +160,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     @Override
+    //check permission result
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -176,8 +176,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+
+    // Request GPS location or ask for permission if needed
     public void attemptLocate() {
-        // Request GPS location or ask for permission if needed
         if (ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             GPS.getCurrentLocation(requireContext(), (lat, lng) -> {
