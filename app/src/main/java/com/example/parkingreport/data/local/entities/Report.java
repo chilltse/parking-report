@@ -1,5 +1,22 @@
 package com.example.parkingreport.data.local.entities;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ * Represents a user-submitted parking violation report.
+ *
+ * Each Report includes key metadata such as:
+ * - Associated user information (ID and name)
+ * - Timestamp of submission
+ * - Vehicle license plate and location of violation
+ * - Optional picture URL, feedback from admin, and status
+ *
+ * Implements {Comparable} to support sorting by report ID.
+ * Also implements {HasID} to provide a consistent ID access pattern.
+ *
+ * Used across both frontend UI and backend storage systems.
+ */
+
+
 import com.example.parkingreport.data.local.api.HasID;
 
 import java.util.Date;

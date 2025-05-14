@@ -1,5 +1,20 @@
 package com.example.parkingreport.data.local.repository;
 
+
+/**
+ * @author @u7864325 Weimiao Sun
+ * Repository class that manages access to report log data.
+ *
+ * Responsibilities:
+ * - Provides a singleton interface for accessing and modifying report logs
+ * - Delegates storage operations to the underlying ReportLogDao (e.g., JsonReportLogDao)
+ * - Automatically generates unique log IDs before insertion
+ * - Exposes LiveData for observing log updates in real time
+ *
+ * This repository abstracts the data source and simplifies interaction for ViewModels or services.
+ */
+
+
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
@@ -61,7 +76,6 @@ public class ReportLogRepository {
      */
     private int generateNextAvailableID(List<ReportLog> currentReportLog){
         Set<Integer> ids = new HashSet<>();
-        //TODO 低效循环
         for (ReportLog rl : currentReportLog) {
             ids.add(rl.getLogId());
         }

@@ -1,5 +1,20 @@
 package com.example.parkingreport.data.local.repository;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ *
+ * Repository class that manages User-related operations and logging.
+ *
+ * Responsibilities:
+ * - Provides a singleton interface for interacting with the user data source
+ * - Handles user creation, deletion, password modification, and retrieval
+ * - Automatically assigns unique user IDs during insertion
+ * - Delegates data persistence to {UserDao} (e.g. JsonUserDao)
+ * - Integrates with {UserLogRepository} to record user activities
+ *
+ * This repository acts as a bridge between the UI/ViewModel layer and the data access layer.
+ */
+
 import android.content.Context;
 import android.util.Log;
 
@@ -130,19 +145,6 @@ public class UserRepository {
         userLogRepository.insertLog(new UserLog(userId,UserLog.CANCEL_ACCOUNT));
     }
 
-//    public void modifyUserName(int userId, String name){
-//        // check userId exist
-//        if(userDao.checkIdExists(userId) == 0)
-//            return;
-//        // check name exist, the new might already used by the others
-//        String email = "xx";
-//        if(checkUserExists(name,email))
-//            return;
-//        //modify it
-//        userDao.modifyUserName(userId, name);
-//        // insert UserLog
-//        userLogRepository.insertLog(new UserLog(userId,UserLog.MODIFY_NAME));
-//    }
 
     public void modifyUserPassword(int userId, String password){
         // check userId exist

@@ -1,5 +1,18 @@
 package com.example.parkingreport.data.local.entities;
-
+/**
+ *
+ * @author @u7864325 Weimiao Sun
+ * Represents a log entry recording actions taken on a specific report.
+ *
+ * Each ReportLog captures:
+ * - A unique log ID
+ * - Timestamp of the action
+ * - Associated report ID and user ID
+ * - A description of the action taken (e.g. submit, approve, decline)
+ *
+ * This class supports auditing and historical tracking of report-related events
+ * for both user and admin interactions.
+ */
 import java.util.Date;
 
 public class ReportLog {

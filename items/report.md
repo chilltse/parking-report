@@ -87,14 +87,17 @@
     - Applied [Singleton] for login function - [LogIn] – [login.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/login?ref_type=heads)
 
 - **Others**
-    - Coordinated all member's merge requests and resolved backend conflicts
+    - Coordinated all member's merge requests and resolved backend conflicts.
     - Impletmented 2500+ local report data.
+    - Record feature demo video.
 
 5. **u7937030,Yudong Qiu**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
     - Basic Feature [UIFeedback] – [ui.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui?ref_type=heads)
     - Basic Feature [UI-Layout] - [layout.xml](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/res/layout?ref_type=heads)
+    - Custom Feature [User Profile] - [UserProfileFragment.java](../app/src/main/java/com/example/parkingreport/ui/user/UserProfileFragment.java), [JsonUserDao.java](../app/src/main/java/com/example/parkingreport/data/local/dao/JsonUserDao.java)
     - Surprise Feature [LLM Model] - [LLM.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/LLM?ref_type=heads)
+
 
 - **Code and App Design**
     - Designed fragment layout switching and adaptive UI logic - [MyFragment.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/admin/fragment?ref_type=heads)
@@ -312,9 +315,7 @@ The grammar allows admin users to search reports based on `username` and `car pl
 - Easy to extend with new token types or query syntax.
 - Compatible with both unit tests and Android instrumented tests.
 
-### Others
 
-//TODO TBD
 
 <br>
 <hr>
@@ -366,7 +367,7 @@ The grammar allows admin users to search reports based on `username` and `car pl
 **Feature Category: Location Awareness**
 
 1. [Data-GPS]. The app must utilize GPS information based on location data. (easy)
-    * Code: [MapFragment.java](../app/src/main/java/com/example/parkingreport/ui/map/MapFragment.java),[GPS.java]
+    * Code: [MapFragment.java](../app/src/main/java/com/example/parkingreport/ui/map/MapFragment.java),[GPS.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/utils/GPS.java?ref_type=heads)
     * Description of our feature: Our app disables report submission unless the user is currently standing inside a no-parking zone according to users' real location (real virtual machine location).
     * Description of your implementation: The `GPS` utility wraps Google’s `FusedLocationProviderClient`. It first calls `getLastLocation()` and validates the result; if it’s missing or stale, it issues a one-time high-accuracy `LocationRequest` (via `requestLocationUpdates`) to fetch a fresh fix. All calls honor runtime permission checks and deliver latitude/longitude through a simple `GpsCallback.onLocationReady(lat, lng)` interface.
 
@@ -390,15 +391,15 @@ The grammar allows admin users to search reports based on `username` and `car pl
 
 4. [Doc-History-Log]. Maintains append-only log of user/report changes. (medium)
     * Code: [JsonReportLogDao.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/JsonReportLogDao.java?ref_type=heads), [ReportLog.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/dao/ReportLogDao.java?ref_type=heads)
-    * Description of our feature: Our app allows admins to track all previous states of each report submission through audit logs.
-    * Description of your implementation: Log is using append-only logic. Every approval or update creates a new ReportLog entry with timestamp and status; UI automatically reflects history logs; supports undo-free audit.
+    * Description of our feature: Our app allows both user- and report-related operations to be tracked through append-only log files, enabling traceable histories for each account and submission.
+    * Description of your implementation: Logs are maintained using an append-only strategy. When users create an account or update their password, an entry is recorded in `UserLog.json`. When reports are submitted, approved, or declined by admins, a new entry is appended to `ReportLog.json`. These logs are timestamped, immutable, and exposed to the UI via LiveData for administrative auditing without rollback mechanisms.
 
 ---
 
 **Feature Category: Creating Processes**
 
 5. [Process-Permission]. Enforces role-based visibility between user and admin. (easy)
-    * Code: [User.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/entities/User.java?ref_type=heads)
+    * Code: [User.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/data/local/entities/User.java?ref_type=heads), [MainActivity.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/ui/login/MainActivity.java?ref_type=heads)
     * Description of our feature: Our app ensures strict separation between user-submitted data and admin dashboard, reflecting real-world access control policies.
     * Description of your implementation: Admin has access to all user reports for moderation; users can only view their own history. Role is evaluated at login and drives logic for fragment visibility, data scope, and permission paths.
 
@@ -408,9 +409,17 @@ The grammar allows admin users to search reports based on `username` and `car pl
 
 ### Surprise Feature
 
-*Instructions:*
-- If implemented, explain how your solution addresses the task (any detail requirements will be released with the surprise feature specifications).
-- State that "Surprise feature is not implemented" otherwise.
+Our project implements a modular and replaceable LLM (Large Language Model) module using a combination of **Strategy Pattern** and **Factory Method Pattern**.
+
+**Design Pattern Justification**  
+To ensure LLM service flexibility and maintainability, we define a unified interface `LLMClient`, which abstracts interaction methods like `askQuestion()`. Each LLM provider (e.g., Gemini, OpenAI) implements this interface and encapsulates its API logic (request construction, error handling, response parsing). This decouples business logic from specific implementations and adheres to the Open-Closed Principle. A `LLMClientFactory` is also introduced to dynamically create the correct implementation at runtime based on configuration. This design eliminates hard-coded dependencies and simplifies future extensions to support more LLMs such as HuggingFace. As a result, the LLM module becomes highly extensible, pluggable, and testable.
+
+**License Choice**  
+We adopt the **Apache License 2.0** due to its permissiveness, legal clarity, and suitability for integration-heavy projects. Unlike copyleft licenses (e.g., GPL), Apache 2.0 permits commercial use and redistribution without imposing reciprocal obligations. This makes it ideal for applications like ours, which rely on third-party LLM APIs. Apache 2.0 explicitly covers patent rights and contributor responsibilities, helping prevent legal disputes when deploying AI modules that aggregate external APIs. It also mandates attribution and disclaimer clauses, aligning with our project's use of public service information (e.g., government FAQs). These legal safeguards ensure that downstream users and collaborators understand their rights and limitations, promoting safe and transparent reuse.
+
+**Ethical Concern**  
+A key ethical concern is the **risk of misinformation** from LLM-generated answers regarding government services. Inaccurate responses may mislead users and violate the IEEE Code of Ethics’ principles of “avoiding harm to others” and “improving public understanding of technology.” To mitigate this, we include clear UI-level disclaimers like “AI-generated content is for reference only” and recommend users consult official sources. Although automatic source verification is not implemented, this practice reduces the risk of user misunderstanding and sets transparent expectations about the nature of LLM output.
+
 
 <br> <hr>
 
@@ -440,24 +449,88 @@ The grammar allows admin users to search reports based on `username` and `car pl
     - **Edge case testing:** Includes scenarios with no match, multiple matches (OR), and combined constraints (AND).
     - Tests use `ApplicationProvider.getApplicationContext()` and `InstrumentationRegistry.getInstrumentation().runOnMainSync()` to ensure LiveData and I/O can run safely inside `androidTest`.
 
-<br> <hr>
+### Tests for [Map]
+- **Code:**
+  [GPSTest Class, entire file](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/test/java/com/example/parkingreport/MapTest/GPSTest.java)
+  for the [GPS Class, partial file](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/utils/GPS.java)
 
+  [isPointInPolygon Class, entire file](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/test/java/com/example/parkingreport/MapTest/isPointInPolygon.java)
+  for the [PolygonUtil Class, method `isPointInPolygon(...)`](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/utils/PolygonUtil.java)
+
+- **Number of test cases:** 7
+  - GPSTest: **4** unit test cases
+  - isPointInPolygon: **3** unit test cases
+
+- **Code coverage:**
+  Covers logic that determines whether a `Location` is valid (`GPS.isValidLocation`) and whether a point falls within a no-parking polygon (`PolygonUtil.isPointInPolygon`).
+  Coverage includes input filtering (null, zero-coordinates, excluded areas) and boundary-aware geometric calculation.
+  **100% method-level test coverage** for both methods.
+
+- **Types of tests created and descriptions:**
+
+  - **Validity logic tests (GPSTest):** Verifies four scenarios of location rejection:
+        * Null input
+        * (0, 0) coordinate (uninitialized)
+        * Known invalid "San Jose" area
+        * Normal coordinate in Australia
+  - **Polygon containment logic tests (isPointInPolygon):**
+        * Point strictly inside the square returns true
+        * Point exactly on the edge returns true (inclusive policy)
+        * Point outside the square returns false
+    - **Edge case testing:** Includes lower bound of coordinate space (0.0), real-world filtering for erroneous GPS defaults, and edge behavior of point-in-polygon.
+    - All tests run as standard **unit tests** in the `test/` directory (no Android-specific APIs involved). Mockito is used to mock `Location` objects in `GPSTest`.
+
+### Tests for [DataStream]
+- **Code:**
+  [ReportRepositoryInstrumentedTest.java](app/src/androidTest/java/com/example/parkingreport/dataStream/ReportRepositoryInstrumentedTest.java)
+  for exercising the core `ReportRepository` methods (`insertReport()`, `replyReport()`, `findReport()`, `getAllReportsLive()`).
+
+  [ReportStreamManagerTest.java](app/src/test/java/com/example/parkingreport/dataStream/ReportStreamManagerTest.java)
+  for validating the `ReportStreamManager` scheduling logic (`start()`, `stop()`, internal use of `scheduleAtFixedRate()`).
+
+- **Number of test cases:** 4
+
+  - **ReportRepositoryInstrumentedTest:** 2 instrumented tests
+
+        1. Verify a new report’s default status is `WAIT_FOR_REVIEW` and flips to `APPROVED` after `replyReport()`.
+        2. Verify `getAllReportsLive().size()` increments correctly after multiple `insertReport()` calls.
+    - **ReportStreamManagerTest:** 2 pure-JVM unit tests
+
+        1. Assert the “user” task runs periodically at the injected `userPeriodMs`.
+        2. Assert the “admin” task runs periodically at the injected `adminPeriodMs`.
+
+- **Code coverage:**
+  Achieves **>95%** coverage of all data-stream branches, including both repository interactions and scheduler setup. Exercises every path in `ReportRepository` (JSON load/save, LiveData updates) and both constructors and scheduling calls in `ReportStreamManager`.
+
+- **Types of tests created and descriptions:**
+
+  - **Instrumented integration tests:**
+      `ReportRepositoryInstrumentedTest` runs on-device with `ApplicationProvider.getApplicationContext()` and `InstrumentationRegistry.getInstrumentation().runOnMainSync()` to safely initialize `ReportRepository` and manipulate its backing JSON store.
+    * **Pure-JVM scheduling tests:**
+      `ReportStreamManagerTest` injects a custom `ScheduledExecutorService` and lambda `Runnable`s to count invocations of `userTask` and `adminTask` at ultra-short intervals, verifying that `start()`/`stop()` and `scheduleAtFixedRate()` are wired correctly.
+    * **Edge-case handling:**
+      Both test suites begin by deleting the existing `reports.json` and resetting the singleton instance to guarantee a clean slate for each scenario.
+
+      
+<br> <hr>
 
 
 ## Summary of Known Errors and Bugs
 
-//TODO
-*[Where are the known errors and bugs? What consequences might they lead to?]*
-*List all the known errors and bugs here. If we find bugs/errors that your team does not know of, it shows that your testing is not thorough.*
+1. **Bug 1: Incomplete avatar display on low-resolution screens**
+    - On devices with screen height below 720dp (e.g., certain older Android phones), the avatar selection grid during registration does not fully render, causing the last row of selectable images to be cut off.
+    - This affects the user experience during account creation and may confuse users who think there are no more avatar options available.
 
-*Here is an example:*
+2. **Bug 2: No night mode / dark theme support**
+    - The application does not include a night mode or dark theme configuration, which could cause discomfort when used in low-light environments.
+    - This may lead to visual fatigue or usability issues, especially for users accustomed to system-wide dark themes.
 
-1. *Bug 1:*
-    - *A space bar (' ') in the sign in email will crash the application.*
-    - ...
+3. **Bug 3: No accessibility mode for visually impaired users**
+    - The current colour scheme (particularly the orange accent colour used for highlights and buttons) does not meet WCAG contrast recommendations for accessibility.
+    - There is no high-contrast mode or screen reader optimization. This makes the app difficult or impossible to use for visually impaired users or colour-blind individuals.
 
-2. *Bug 2:*
-3. ...
+> These known issues do not directly affect core functionality but highlight the need for improved adaptive design, accessibility compliance, and UX scalability across a wider range of devices.
+
 
 <br> <hr>
 
@@ -481,20 +554,56 @@ Each meeting focused on milestone planning, integration tasks, bug triage, and r
 
 <hr>
 
-### Conflict Resolution Protocol
 
-//TODO will summarize after project finished
-*[Write a well defined protocol your team can use to handle conflicts. That is, if your group has problems, what is the procedure for reaching consensus or solving a problem?
-(If you choose to make this an external document, link to it here)]*
+## Conflict Resolution Protocol
 
-*If your group has issues, how will your group reach consensus or solve the problem?*
-*- e.g., if a member gets sick, what is the solution? Alternatively, what is your plan to mitigate the impact of unforeseen incidents for this 6-to-8-week project?*
+Our team recognises that effective collaboration and clear communication are essential for the success of this 6–8 week project. We have established the following protocol to handle potential conflicts and unforeseen events:
 
-This shall include an agreed procedure for situations including (but not limited to):
-- A member is sick in the final week of the project.
-- A member didn't complete the assigned task which should've been completed before the checkpoint, and the checkpoint is approaching.
-- A member is unreachable (didn't respond messages in your agreed communication channels and emails in two days).
-- The team have different understandings toward the requirement of the assignment.
+### Early Project Phase – Shared Responsibility & Overlap
+
+In the early stages of the project, we encountered some overlapping contributions due to an unclear architectural direction. For example, 2–3 members occasionally worked on similar features (e.g.layout fragments), which led to Git merge conflicts and inconsistent code.
+
+To resolve this, we appointed **one dedicated Technical Lead** (Nanxuan Xie) who took responsibility for:
+
+- Defining and communicating module ownership
+- Approving and managing all GitLab merge requests
+- Coordinating codebase structure and avoiding conflict-prone commits
+
+This helped clarify responsibilities and streamline collaboration in the later weeks of the project.
+
+---
+
+### General Conflict Handling Procedure
+
+For ongoing development, we agreed to follow this structured resolution protocol:
+
+1. **Task Incompletion Before Checkpoints**
+    - The team member must notify others in advance if they anticipate delays.
+    - The Technical Lead will help redistribute tasks or delegate hotfixes to unblock the milestone delivery.
+
+2. **Absence Due to Sickness or Emergencies**
+    - If a member becomes sick, the remaining team members will prioritise essential integration tasks first.
+    - Whenever possible, backup tasks or documentation will be reassigned temporarily by the Technical Lead.
+
+3. **Unresponsiveness (48+ hours)**
+    - If a member is unreachable via group chat or email for more than 2 days, the team will escalate through personal message or alternative contact.
+    - The Technical Lead may temporarily reassign their work if deadlines are at risk.
+
+4. **Disagreement on Requirements or Implementation**
+    - All feature or architecture misunderstandings are to be raised during weekly meetings or on GitLab issues.
+    - Team decisions will be made by consensus, with the Technical Lead guiding technical feasibility discussions.
+    - If consensus is not reached, the decision with the least downstream conflict (technical or timeline) will be chosen.
+
+**Additional Scenarios** 
+In addition to major conflict cases, our team proactively addressed several recurring coordination challenges:
+
+- Overlapping contributions during early development (e.g., layout or DAO clashes) were resolved by assigning a module owner and enforcing GitLab merge reviews.
+- Unforeseen technical errors (e.g., rebase mistakes, device-specific layout bugs) were mitigated using version control recovery and temporary freezes on non-critical features.
+- Insufficient meeting frequency during frontend-backend integration phase was addressed by scheduling extended weekly co-working sessions (7–8 hours) in library study rooms, allowing real-time debugging, pair testing, and design clarification.
+
+---
+
+
 
 ### Reference
 1. 9News. (2024, December 1). Sydney councils rake in $226 million in parking fines in just one year. https://www.9news.com.au/national/sydney-councils-parking-fines-millions-worth-of-fines-to-drivers-in-past-year/d7c4d64e-8824-4732-9bbf-138a7396128a

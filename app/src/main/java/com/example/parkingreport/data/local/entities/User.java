@@ -1,5 +1,25 @@
 package com.example.parkingreport.data.local.entities;
 
+
+/**
+ * @author @u7864325 Weimiao Sun
+ *
+ * Represents a registered user in the parking report system.
+ *
+ * Each User contains:
+ * - A unique user ID
+ * - Personal credentials (name, email, password)
+ * - Profile picture URL
+ * - Role (either "User" or "Admin")
+ * - An 'alive' flag indicating whether the account is active
+ *
+ * Implements {@link Comparable} to support sorting by ID,
+ * and {@link HasID} to provide unified ID access across entities.
+ *
+ * This class is used for both authentication and authorisation contexts.
+ */
+
+
 import com.example.parkingreport.data.local.api.HasID;
 
 public class User implements Comparable<User>, HasID {

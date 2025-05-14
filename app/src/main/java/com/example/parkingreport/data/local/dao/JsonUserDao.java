@@ -26,8 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DAO implementation for {@link User} backed by a JSON file and an in‑memory
- * {@link AVLTree} for fast ID look‑ups.
+ * @author u7864325 Weimiao Sun
+ * DAO implementation for {User} backed by a JSON file and an in‑memory
+ * {AVLTree} for fast ID look‑ups.
  */
 public class JsonUserDao implements UserDao {
 

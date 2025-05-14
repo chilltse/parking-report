@@ -10,6 +10,7 @@ import java.util.*;
 
 public class Tokenizer {
     /**
+     * @author @u7807744 Larry Wang
      * A helper class representing two sets of tokens split by an operator (e.g., 'NOT' or 'OR').
      * Typically used to distinguish left-hand side and right-hand side of a query expression.
      */

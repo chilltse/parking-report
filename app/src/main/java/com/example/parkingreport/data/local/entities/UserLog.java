@@ -1,5 +1,20 @@
 package com.example.parkingreport.data.local.entities;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ *
+ * Represents a user-related action log entry.
+ *
+ * Each UserLog captures:
+ * - A unique log ID
+ * - The timestamp of the user activity
+ * - The ID of the user performing the action
+ * - A description indicating the type of activity (e.g. registration, cancellation, password change)
+ *
+ * Used for auditing, tracking user events, and maintaining system accountability.
+ */
+
+
 import java.util.Date;
 
 public class UserLog {

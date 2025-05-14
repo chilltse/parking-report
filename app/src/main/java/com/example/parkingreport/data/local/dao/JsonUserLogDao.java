@@ -23,6 +23,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ *
+ * A JSON-based implementation of the UserLogDao interface that manages
+ * persistent storage and live access of user log entries using local file storage.
+ *
+ * This class handles:
+ * - Loading user logs from a JSON file during initialization
+ * - Saving logs to disk upon insertion or clearing
+ * - Exposing logs through LiveData for UI observation and reactivity
+ *
+ * Thread-safe operations are ensured via synchronized methods, and updates
+ * are posted to the main thread using a Handler to keep the UI in sync.
+ */
 public class JsonUserLogDao implements UserLogDao{
     private final File file;
     private final MutableLiveData<List<UserLog>> liveData = new MutableLiveData<>();

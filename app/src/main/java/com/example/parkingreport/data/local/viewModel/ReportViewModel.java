@@ -1,5 +1,20 @@
 package com.example.parkingreport.data.local.viewModel;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ * ViewModel class for managing Report-related data and business logic.
+ *
+ * Responsibilities:
+ * - Acts as an intermediary between the UI and the ReportRepository/UserRepository
+ * - Handles insertion, update, filtering, and search of reports
+ * - Manages asynchronous background execution using a single-threaded Executor
+ * - Exposes LiveData for report selection and UI data-binding
+ * - Integrates token-based search via Tokenizer and Parser for advanced filtering
+ *
+ * This ViewModel ensures thread safety and UI lifecycle awareness while handling
+ * complex report interaction and filtering logic.
+ */
+
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
@@ -63,17 +78,6 @@ public class ReportViewModel extends AndroidViewModel {
     }
 
 
-//    public void deleteReport(int reportId){
-//        executeAsync(() -> {
-//            reportRepository.deleteReport(reportId);
-//        });
-//    }
-
-//    public void handleReport(int reportId, int userId, String status){
-//        executeAsync(() -> {
-//            reportRepository.handleReport(reportId, userId, status);
-//        });
-//    }
 
     public List<Integer> getIdsByUser(int userId) {
         return reportRepository.getIdsByUser(userId);
@@ -96,14 +100,14 @@ public class ReportViewModel extends AndroidViewModel {
         return report;
     }
 
-    // 新增search功能，在这里调用token和parser
+    // Add new search function, use token and parser here
     public List<Report> searchReports(String input, boolean isWaitStatus, String role, int userID){
         List<Report> result = new ArrayList<>();
         Tokenizer.Tokens allToken = null;
         try {
             allToken = Tokenizer.tokenize(input, role);
         } catch (IllegalArgumentException e) {
-            // 暂时设置为有错误返回null来提示， 这样后台exception不会打断程序运行
+            //Temporarily set it to return null if there is an error, so that background exceptions will not interrupt the program running
             Log.d("IllegalArgs", "IllegalArgs");
             return null;
         }
@@ -120,7 +124,8 @@ public class ReportViewModel extends AndroidViewModel {
         return result;
     }
 
-    // 通用异步执行方法
+
+    // General asynchronous execution method
     private void executeAsync(Runnable task) {
         executor.execute(() -> {
             try {
@@ -134,11 +139,11 @@ public class ReportViewModel extends AndroidViewModel {
 
     // User
     private final MutableLiveData<Report> reportLive = new MutableLiveData<>();
-    // 主线程
+    // Main thread
     public void setReport(Report report) {
         reportLive.setValue(report);
     }
-    // 任意线程
+    // Any thread
     public void postReport(Report report) {
         reportLive.postValue(report);
     }
