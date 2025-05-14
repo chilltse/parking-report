@@ -1,7 +1,6 @@
 package com.example.parkingreport.ui.login;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,9 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.parkingreport.BuildConfig;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
-import com.example.parkingreport.data.local.viewModel.ReportLogViewModel;
-import com.example.parkingreport.data.local.viewModel.ReportViewModel;
-import com.example.parkingreport.data.local.viewModel.UserLogViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.admin.AdminActivity;
 import com.example.parkingreport.ui.user.UserActivity;
@@ -33,6 +29,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
+/**
+ * @author Nanxuan Xie
+ * The login page.
+ */
 public class MainActivity extends AppCompatActivity {
     EditText editTextUsername, editTextPassword;
     Button buttonLogin;
@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewSignUp;
     private UserViewModel viewModel;
     private String loginAs;
-    private MediaPlayer mediaPlayer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,20 +61,8 @@ public class MainActivity extends AppCompatActivity {
         copyRawImageToImagesDir();
 
         // default value for loginAs
-//        loginAs = User.USER;
         viewModel = new ViewModelProvider(this)
                 .get(UserViewModel.class);
-
-        // TEST
-        //test
-        ReportViewModel reportViewModel = new ViewModelProvider(this)
-                .get(ReportViewModel.class);
-        //test
-        UserLogViewModel userLogViewModel = new ViewModelProvider(this)
-                .get(UserLogViewModel.class);
-        //test
-        ReportLogViewModel reportLogViewModel = new ViewModelProvider(this)
-                .get(ReportLogViewModel.class);
 
         // Create User
         createDefaultUser();
@@ -85,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         toggleButtonAdmin.setChecked(false);
         loginAs = User.USER;
         textViewSignUp.setVisibility(View.VISIBLE);
-        // ————————————————
 
         toggleButtonUser.setOnClickListener(v -> {
             toggleButtonUser.setChecked(true);
@@ -103,12 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Sign up
-        textViewSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
-                startActivity(intent);
-            }
+        textViewSignUp.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+            startActivity(intent);
         });
 
         // Login
@@ -136,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         new Intent(MainActivity.this, UserActivity.class) :
                         new Intent(MainActivity.this, AdminActivity.class);
                 intent.putExtra("userId", userId);
-                Log.d(TAG, " ####logining as " + loginAs);
+                Log.d(TAG, "Login as:" + loginAs);
                 startActivity(intent);
             } else {
                 editTextPassword.setError("Invalid username or password");

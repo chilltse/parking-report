@@ -31,6 +31,14 @@ import com.example.parkingreport.service.api.INotificationService;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * @author Nanxuan Xie
+ * Activity for user(reporter) sign-up:
+ * - Displays form for username, email, password, and verification code
+ * - Generates and validates email verification code
+ * - Allows avatar selection from predefined images
+ * - Persists new user to Json
+ */
 public class SignUpActivity extends AppCompatActivity {
 
     // UI components
@@ -185,7 +193,10 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    // Validate all form inputs (username, email, password, code)
+    /**
+     * Validates all form inputs and shows errors on invalid fields.
+     * @return true if all fields are valid, false otherwise
+     */
     private boolean validateForm() {
         boolean isValid = true;
 

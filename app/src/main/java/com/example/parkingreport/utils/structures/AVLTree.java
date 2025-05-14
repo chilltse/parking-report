@@ -1,5 +1,7 @@
 package com.example.parkingreport.utils.structures;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import com.example.parkingreport.data.local.api.HasID;
@@ -39,6 +41,7 @@ public class AVLTree<T extends Comparable<T> & HasID> {
         return result;
     }
 
+    @NonNull
     @Override
     public String toString() {
         List<T> list = inorderList();

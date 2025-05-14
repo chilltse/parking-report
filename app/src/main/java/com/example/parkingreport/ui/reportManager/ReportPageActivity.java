@@ -20,9 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
-import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
-import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.utils.GPS;
 
 import java.io.File;
@@ -33,16 +31,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 
+/**
+ * @author Yudong Qiu
+ */
 public class ReportPageActivity extends AppCompatActivity {
 
-    private UserViewModel viewModel;
+//    private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
-    private User user;
-
     private String lastPhotoPath = null; // Store path of selected or captured image
-
-    private LinearLayout selectFileLayout;
-    private LinearLayout takePhotoLayout;
 
     private ActivityResultLauncher<String> pickImageLauncher;
     private ActivityResultLauncher<Uri> takePhotoLauncher;
@@ -69,8 +65,8 @@ public class ReportPageActivity extends AppCompatActivity {
                 calendar.get(Calendar.SECOND)
         );
 
-        selectFileLayout = findViewById(R.id.selectFileLayout);
-        takePhotoLayout = findViewById(R.id.takePhotoLayout);
+        LinearLayout selectFileLayout = findViewById(R.id.selectFileLayout);
+        LinearLayout takePhotoLayout = findViewById(R.id.takePhotoLayout);
 
         EditText dateInput = findViewById(R.id.dateInput);
         dateInput.setText(currentTime);
@@ -128,7 +124,6 @@ public class ReportPageActivity extends AppCompatActivity {
             boolean isOK = true;
 
             String gpsLocation = ((TextView) findViewById(R.id.locationInput)).getText().toString().trim();
-            String date = ((TextView) findViewById(R.id.dateInput)).getText().toString().trim();
             String carPlate1 = ((TextView) findViewById(R.id.carPlateInput1)).getText().toString().trim();
             String carPlate2 = ((TextView) findViewById(R.id.carPlateInput2)).getText().toString().trim();
 
@@ -177,12 +172,9 @@ public class ReportPageActivity extends AppCompatActivity {
         });
 
         // Auto-fill current GPS location
-        GPS.getCurrentLocation(this, new GPS.GpsCallback() {
-            @Override
-            public void onLocationReady(double lat, double lng) {
-                String locationText = lat + ", " + lng;
-                ((TextView) findViewById(R.id.locationInput)).setText(locationText);
-            }
+        GPS.getCurrentLocation(this, (lat, lng) -> {
+            String locationText = lat + ", " + lng;
+            ((TextView) findViewById(R.id.locationInput)).setText(locationText);
         });
     }
 

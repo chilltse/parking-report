@@ -21,7 +21,10 @@ import com.bumptech.glide.request.target.ViewTarget;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-
+/**
+ * The user profile
+ * @author Yudong Qiu
+ */
 public class HomeFragment extends Fragment {
 
     private UserViewModel viewModel;

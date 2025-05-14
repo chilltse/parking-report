@@ -1,9 +1,9 @@
 package com.example.parkingreport.ui.reportManager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +18,6 @@ import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
-import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.service.NotificationFactory;
 import com.example.parkingreport.service.NotificationType;
 import com.example.parkingreport.service.api.INotificationService;
@@ -27,21 +26,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.example.parkingreport.utils.FileLoader.readPlatePhone;
 
+/**
+ * @author Nanxuan Xie
+ */
 public class ReportDetailActivity extends AppCompatActivity {
-
-    private UserViewModel viewModel;
-    private User user;
     private ReportViewModel reportViewModel;
     private ToggleButton approveButton;
     private ToggleButton rejectButton;
-    private TextView feedbackTextViewShow;
     private EditText feedbackTextViewInput;
     private final String PLATE_PHONE_FILE = "plate_phone_2500.csv";
-    private ImageView priUrl;
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +61,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         String picUrl = intent.getStringExtra("picUrl");
 
         // Determine which layout to use based on report status and user role
-        int layoutId = status.equals(Report.WAIT_FOR_REVIEW) && loginAs.equals(User.ADMIN)
+        assert status != null;
+        int layoutId = status.equals(Report.WAIT_FOR_REVIEW) && Objects.equals(loginAs, User.ADMIN)
                 ? R.layout.activity_unreview_list_deatil
                 : R.layout.activity_report_detail;
         setContentView(layoutId);
@@ -115,11 +115,11 @@ public class ReportDetailActivity extends AppCompatActivity {
                     } else {
                         INotificationService smsService = NotificationFactory.createService(
                                 "sms", getApplicationContext(), NotificationType.ALARM,
-                                new HashMap<String, String>() {{
+                                new HashMap<>() {{
                                     put("plate", plate);
                                 }});
                         // Uncomment to actually send SMS
-                        // smsService.sendMsg(phone);
+                        smsService.sendMsg(phone);
                         Toast.makeText(getApplicationContext(), "Alarm message sent to car owner.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -129,12 +129,13 @@ public class ReportDetailActivity extends AppCompatActivity {
         }
 
         // Load and display report image
-        priUrl = findViewById(R.id.imageView4);
+        ImageView priUrl = findViewById(R.id.imageView4);
+        assert picUrl != null;
         Glide.with(this).load(new File(picUrl)).into(priUrl);
 
         // For normal report detail, show feedback message
         if (layoutId == R.layout.activity_report_detail) {
-            feedbackTextViewShow = findViewById(R.id.valueFeedback);
+            TextView feedbackTextViewShow = findViewById(R.id.valueFeedback);
             feedbackTextViewShow.setText(feedback);
         }
     }

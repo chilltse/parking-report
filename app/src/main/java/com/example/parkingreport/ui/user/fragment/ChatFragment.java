@@ -21,7 +21,10 @@ import com.example.parkingreport.LLM.ChatMessage;
 import com.example.parkingreport.LLM.LLMClient;
 import com.example.parkingreport.LLM.LLMClientFactory;
 import com.example.parkingreport.R;
-
+/**
+ * The AI bot fragment
+ * @author Yudong Qiu
+ */
 public class ChatFragment extends Fragment {
 
     private ChatAdapter chatAdapter;

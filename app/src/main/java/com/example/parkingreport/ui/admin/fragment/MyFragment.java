@@ -15,17 +15,15 @@ import android.widget.TextView;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
-
+/**
+ * The admin profile
+ * @author Yudong Qiu
+ */
 public class MyFragment extends Fragment {
-
     private User user;
 
     public MyFragment() {
         // Required empty public constructor
-    }
-
-    public static MyFragment newInstance() {
-        return new MyFragment();
     }
 
     @Override
@@ -35,7 +33,7 @@ public class MyFragment extends Fragment {
         // Initialize ViewModel and retrieve user information
         UserViewModel viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         user = viewModel.getUser();
-        Log.d("Fragment", "User: " + user);
+        Log.d("MyFragment", "User: " + user);
     }
 
     @Override
@@ -52,11 +50,8 @@ public class MyFragment extends Fragment {
 
         // Logout button click event
         Button logoutButton = view.findViewById(R.id.btn_logout);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requireActivity().finish(); // Close current Activity
-            }
+        logoutButton.setOnClickListener(view1 -> {
+            requireActivity().finish(); // Close current Activity
         });
 
         return view;

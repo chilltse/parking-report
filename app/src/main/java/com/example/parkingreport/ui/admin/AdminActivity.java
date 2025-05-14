@@ -12,14 +12,15 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
-import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class AdminActivity extends AppCompatActivity {
 
-    private UserViewModel viewModel;
-    private ReportViewModel reportViewModel;
+/**
+ * The admin page
+ * @author Yudong Qiu
+ */
+public class AdminActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,7 @@ public class AdminActivity extends AppCompatActivity {
         Log.e("AdminActivity", "before setContentView");
 
         // Initialize ViewModels (scoped to this Activity)
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+        UserViewModel viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         // Get userId from the Intent that started this activity
         Intent intent = getIntent();
@@ -50,18 +50,11 @@ public class AdminActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView2);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragmentContainerView5);
+        assert navHostFragment != null;
         NavController navController = navHostFragment.getNavController();
 
         // Bind BottomNavigationView with NavController to handle navigation events
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.e("AdminActivity", "Destroyed!!!");
-        super.onDestroy();
-
-        // Optional cleanup if needed (currently commented out)
-        // viewModel.setUser(null);
-    }
 }
