@@ -1,5 +1,19 @@
 package com.example.parkingreport.data.local.viewModel;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ * ViewModel class for managing User data and operations.
+ *
+ * Responsibilities:
+ * - Interfaces with the {UserRepository} to perform user-related data actions
+ * - Supports asynchronous insertion, deletion, password modification, and existence checks
+ * - Exposes selected user info via {LiveData} for UI binding
+ * - Provides identity verification and duplicate checking for login or registration flows
+ *
+ * This ViewModel ensures thread-safe, lifecycle-aware operations to prevent memory leaks
+ * and UI blocking during user management processes.
+ */
+
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,17 +40,17 @@ public class UserViewModel extends AndroidViewModel {
     private UserRepository userRepository;
     LiveData<List<User>> allUserLive;
 
-    // 线程管理工具
+    // Thread Management Method
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     // User
     private final MutableLiveData<User> userLive = new MutableLiveData<>();
-    // 主线程
+    // Main thread
     public void setUser(User user) {
         userLive.setValue(user);
     }
-    // 任意线程
+    // Main thread
     public void postUser(User user) {
         userLive.postValue(user);
     }
@@ -50,9 +64,6 @@ public class UserViewModel extends AndroidViewModel {
         allUserLive = userRepository.getAllUserLive();
     }
 
-//    public LiveData<List<User>> getAllUserLive() {
-//        return allUserLive;
-//    }
 
     public void clearUser(){
         executeAsync(() -> {
@@ -90,19 +101,13 @@ public class UserViewModel extends AndroidViewModel {
     }
 
 
-
-//    public void modifyUserName(int userId, String name) {
-//        executeAsync(() -> {
-//            userRepository.modifyUserName(userId, name);
-//        });
-//    }
-
     public void modifyUserPassword(int userId, String password) {
         executeAsync(() -> {
             userRepository.modifyUserPassword(userId, password);
         });
     }
-    // 通用异步执行方法
+
+    // General synchronous execution method
     private void executeAsync(Runnable task) {
         executor.execute(() -> {
             try {
@@ -151,7 +156,5 @@ public void validateUser(String username, String password, String role, Consumer
         }
     });
 }
-
-
 
 }

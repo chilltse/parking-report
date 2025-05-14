@@ -1,5 +1,19 @@
 package com.example.parkingreport.data.local.repository;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ * Repository class that manages Report-related operations.
+ *
+ * Responsibilities:
+ * - Acts as a unified interface between the data layer (DAO) and higher-level components (e.g. ViewModel)
+ * - Handles insertion, lookup, and update of reports
+ * - Automatically generates unique report IDs
+ * - Delegates report logging to {ReportLogRepository} when reports are submitted or reviewed
+ * - Supports filtering reports by user ID or license plate
+ *
+ * This class uses a singleton pattern to ensure a single shared data access point across the app.
+ */
+
 import android.content.Context;
 import android.util.Log;
 
@@ -87,7 +101,7 @@ public class ReportRepository {
     public boolean replyReport(int ID, boolean isApproved, String feedBack){
         Log.d("ReportRepository", "feedBack:"+feedBack);
         Report report = reportDao.findReport(ID, true);
-        // 只有当报告存在且状态是待处理的才OK
+        // Only when the report exists and the status is waiting for review
         if(report!=null && report.getStatus().equals(Report.WAIT_FOR_REVIEW)){
             Report newReport = reportDao.copyReport(report);
             newReport.setStatus(isApproved ? Report.APPROVED : Report.DECLINED);

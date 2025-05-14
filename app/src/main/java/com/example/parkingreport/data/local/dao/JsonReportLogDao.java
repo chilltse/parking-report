@@ -22,6 +22,16 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ * A JSON-based implementation of the ReportLogDao interface that manages
+ * reading and writing report logs to a local file using Gson serialization.
+ * This class handles:
+ * Loading report logs from a JSON file on initialization
+ * Persisting new logs and updates to the file
+ * Providing a LiveData stream of current logs for UI observation
+ * It ensures thread-safety via synchronized methods and posts updates to the main thread using a Handler to support real-time UI refresh.
+ */
 public class JsonReportLogDao implements ReportLogDao{
     private final File file;
     private final MutableLiveData<List<ReportLog>> liveData = new MutableLiveData<>();

@@ -1,5 +1,21 @@
 package com.example.parkingreport.data.local.dao;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ *
+ * Data Access Object (DAO) interface for managing Report entities in the system.
+ *
+ * Defines the contract for interacting with report data, including:
+ * - Insertion and update of reports
+ * - Querying reports by ID, user ID, or license plate
+ * - Checking report existence and status
+ * - Retrieving all or pending (waiting) reports
+ *
+ * Implementations may vary in storage method (e.g., JSON file, database),
+ * but must fulfil all method contracts defined in this interface.
+ */
+
+
 import androidx.lifecycle.LiveData;
 
 import com.example.parkingreport.data.local.entities.Report;

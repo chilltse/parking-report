@@ -1,5 +1,19 @@
 package com.example.parkingreport.data.local.repository;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ * Repository class that manages UserLog-related operations.
+ *
+ * Responsibilities:
+ * - Provides a singleton interface for accessing and modifying user activity logs
+ * - Delegates persistence to a UserLogDao implementation (e.g. JsonUserLogDao)
+ * - Automatically assigns unique log IDs before insertion
+ * - Exposes LiveData for observing user logs in real time
+ *
+ * This class serves as the bridge between the data layer and higher-level components
+ * such as ViewModels or UI controllers.
+ */
+
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;

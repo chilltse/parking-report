@@ -3,6 +3,7 @@ package com.example.parkingreport.search;
 import androidx.annotation.Nullable;
 
 /**
+ * @author @u7807744 Larry Wang
  * Represents a token with a specific type and value.
  * Used in search parsing to represent parsed units (e.g., plate numbers, names).
  */

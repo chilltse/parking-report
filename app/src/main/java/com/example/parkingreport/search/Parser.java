@@ -11,6 +11,7 @@ import java.util.*;
 public class Parser {
 
     /**
+     * @author @u7807744 Larry Wang
      * Converts a TokenPair into a QueryResult.
      * This is essentially a wrapper that assigns parsed tokens
      * into a structured result object.

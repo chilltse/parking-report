@@ -1,5 +1,18 @@
 package com.example.parkingreport.data.local.viewModel;
 
+/**
+ * @author @u7864325 Weimiao Sun
+ * ViewModel for managing and exposing ReportLog data to the UI layer.
+ *
+ * Responsibilities:
+ * - Provides lifecycle-aware access to report logs via LiveData
+ * - Delegates data operations to the ReportLogRepository
+ * - Manages background threading using Executor for non-blocking insert/clear operations
+ *
+ * This ViewModel ensures that UI components such as Activities or Fragments
+ * can observe data without worrying about application context leaks or threading concerns.
+ */
+
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,7 +32,7 @@ public class ReportLogViewModel extends AndroidViewModel {
     private ReportLogRepository reportLogRepository;
     LiveData<List<ReportLog>> allReportLogLive;
 
-    // 线程管理工具
+    // Thread Management Tools
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -50,7 +63,7 @@ public class ReportLogViewModel extends AndroidViewModel {
         });
     }
 
-    // 通用异步执行方法
+    // General asynchronous execution method
     private void executeAsync(Runnable task) {
         executor.execute(() -> {
             try {
