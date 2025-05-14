@@ -29,6 +29,8 @@ import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.reportManager.ReportPageActivity;
 import com.example.parkingreport.utils.GPS;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -52,6 +54,7 @@ import java.util.Arrays;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap gMap;
+    private Marker userMarker;  // GPS marker
     private Marker currentMarker;
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
@@ -90,7 +93,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
 
-        button = view.findViewById(R.id.button);
+        Button button = view.findViewById(R.id.button);
         //Logic to allow taking photos only in illegal parking areas
         button.setOnClickListener(v -> {
             Context context = requireContext();
@@ -176,9 +179,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
     // Request GPS location or ask for permission if needed
     public void attemptLocate() {
+        FusedLocationProviderClient client =
+                LocationServices.getFusedLocationProviderClient(requireContext());
         if (ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             GPS.getCurrentLocation(requireContext(), (lat, lng) -> {
@@ -204,6 +208,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     REQUEST_LOCATION
             );
         }
+    }
+
+
+    private void placeOrMoveUserMarker(LatLng ll) {
+        if (userMarker == null) {
+            userMarker = gMap.addMarker(new MarkerOptions()
+                    .position(ll)
+                    .title("You're here"));
+        } else {
+            userMarker.setPosition(ll);
+        }
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 17));
     }
 
     //Helper : pop a toast at the middle of the screen

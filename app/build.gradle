@@ -92,18 +92,16 @@ android {
 
 dependencies {
 
-    // 使用 jakarta.mail 替换 android-mail
+    // For mail notification
     implementation 'com.sun.mail:jakarta.mail:2.0.1'
 
-    // Twilio SDK
+    // For sms notification
     implementation 'com.twilio.sdk:twilio:10.6.0'  // 可检查是否有更新版本
 
-    // 必要的 JAXB 和 Activation 依赖
+    // Others
     implementation 'com.sun.activation:jakarta.activation:1.2.2'
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
     implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.5'
-
-    // 其他依赖
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'org.slf4j:slf4j-simple:1.7.36'
@@ -111,19 +109,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
-
-    // ROOM for DB
-//    implementation "androidx.room:room-runtime:2.4.0"
     implementation libs.play.services.maps
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     implementation libs.legacy.support.v4
-//    annotationProcessor "androidx.room:room-compiler:2.4.0"
-//    implementation "androidx.room:room-ktx:2.4.0" // optional - Kotlin Extensions
 
-    // 新增的Gson 库
+    // Gson library for Json file.
     implementation 'com.google.code.gson:gson:2.10.1'
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
