@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author @u7807670 Eden Tian
- *
  * Manages periodic execution of report-related streaming tasks for both admin and user views.
  *
  * <p>This class schedules two {@link Runnable} tasks:
@@ -18,8 +17,8 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>Supports two usage modes:
  * <ul>
- *   <li>📱 <b>Production mode</b>: accepts Android context to create a live instance with real repository access.</li>
- *   <li>🧪 <b>Test mode</b>: accepts injected executor and tasks for fast, headless JVM testing or mocking.</li>
+ *   <li> <b>Production mode</b>: accepts Android context to create a live instance with real repository access.</li>
+ *   <li> <b>Test mode</b>: accepts injected executor and tasks for fast, headless JVM testing or mocking.</li>
  * </ul>
  *
  * Tasks are scheduled at a fixed rate using {@link ScheduledExecutorService}.
