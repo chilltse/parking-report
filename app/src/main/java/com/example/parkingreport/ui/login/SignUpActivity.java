@@ -111,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onResult(boolean exists) {
                         if (exists) {
                             Toast.makeText(getApplicationContext(), "Username or email already exists", Toast.LENGTH_SHORT).show();
-                            editTextUsername.setError("Already registered");
+                            editTextUsername.setError("Username or Email Already registered");
                         } else {
                             sendVerificationCode(); // Send code if not exists
                         }
