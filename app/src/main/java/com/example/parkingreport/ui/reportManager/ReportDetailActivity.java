@@ -31,7 +31,7 @@ import java.util.Objects;
 import static com.example.parkingreport.utils.FileLoader.readPlatePhone;
 
 /**
- * @author Nanxuan Xie
+ * @author Nanxuan Xie u8016457
  */
 public class ReportDetailActivity extends AppCompatActivity {
     private ReportViewModel reportViewModel;

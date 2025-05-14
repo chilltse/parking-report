@@ -10,8 +10,10 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 /**
- * 静态工具类：根据车牌号获取手机号
- * 外部只需调用静态方法，输入车牌即可获取对应手机号
+ * @author Nanxuan Xie u8016457
+ * - PlatePhoneUtil is a utility class for retrieving phone numbers by license plate.
+ * - Loads plate-phone mapping from a CSV file in assets and caches it in memory.
+ * - Provides static lookup method to fetch phone numbers based on plate input.
  */
 public class PlatePhoneUtil {
     private static final String TAG = "PlatePhoneUtil";
@@ -20,7 +22,8 @@ public class PlatePhoneUtil {
     private static boolean initialized = false;
 
     /**
-     * 初始化：从 assets 加载 CSV 数据到缓存
+     * Initialize: Load CSV data from assets into memory cache.
+     * Called once on first lookup.
      */
     private static void init(Context context) {
         try (InputStream is = context.getAssets().open(CSV_FILE);
@@ -42,10 +45,10 @@ public class PlatePhoneUtil {
     }
 
     /**
-     * 根据车牌号获取手机号，未找到返回 null
-     * @param context 用于加载 assets
-     * @param plate 车牌号，忽略大小写
-     * @return 手机号字符串或 null
+     * Get phone number by license plate. Returns null if not found.
+     * @param context Context used to access assets
+     * @param plate License plate (case-insensitive)
+     * @return Phone number string, or null if not found
      */
     public static String getPhoneForPlate(Context context, String plate) {
         if (!initialized) {

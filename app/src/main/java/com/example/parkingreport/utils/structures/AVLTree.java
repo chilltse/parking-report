@@ -10,7 +10,7 @@ import com.example.parkingreport.data.local.api.HasID;
 /**
  * A generic AVL tree that only requires the stored elements to implement the Comparable interface.
  * @param <T>
- * @author Nanxuan Xie
+ * @author Nanxuan Xie u8016457
  */
 public class AVLTree<T extends Comparable<T> & HasID> {
 

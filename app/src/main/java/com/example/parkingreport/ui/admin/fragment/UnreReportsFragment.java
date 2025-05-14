@@ -24,8 +24,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 /**
- * The admin unreviewed reports page
- * @author Yudong Qiu
+ * @author Yudong Qiu u7937030
+ * - UnreReportsFragment displays the admin's list of unreviewed reports.
+ * - Allows searching through pending reports using keywords.
+ * - Loads report data via ReportViewModel and UserViewModel.
+ * - Displays search results in a RecyclerView using ReportAdapter.
+ * - Refreshes data when fragment is resumed for up-to-date results.
  */
 public class UnreReportsFragment extends Fragment {
 

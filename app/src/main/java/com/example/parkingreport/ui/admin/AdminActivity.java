@@ -17,8 +17,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 /**
- * The admin page
- * @author Yudong Qiu
+ * @author Yudong Qiu u7937030
+ * - AdminActivity manages the admin dashboard with bottom navigation.
+ * - Initializes user data and sets up navigation components.
  */
 public class AdminActivity extends AppCompatActivity {
 

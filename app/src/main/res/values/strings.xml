@@ -65,5 +65,12 @@
     <string name="ai_generated_content_is_for_reference_only_please_verify_with_official_sources">⚠️ AI-generated content is for reference only. Please verify with official sources.</string>
     <string name="user_info">User Info</string>
     <string name="user_joe">User Joe</string>
+    <string name="my">My</string>
+    <string name="all_report">All Report</string>
+    <string name="unreview">Unreview</string>
+    <string name="home">Home</string>
+    <string name="map">Map</string>
+    <string name="myreport">MyReport</string>
+    <string name="chat">Chat</string>
 
 </resources>

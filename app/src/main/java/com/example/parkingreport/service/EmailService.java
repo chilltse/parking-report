@@ -22,7 +22,7 @@ import jakarta.mail.internet.MimeMessage;
 /**
  * EmailService implements INotificationService to send email notifications.
  * It loads an HTML template, replaces placeholders, and sends emails asynchronously.
- * @author Nanxaun Xie
+ * @author Nanxaun Xie u8016457
  */
 public class EmailService implements INotificationService {
     private static final String TAG = "EmailService";

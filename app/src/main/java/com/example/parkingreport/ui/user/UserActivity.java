@@ -16,7 +16,7 @@ import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 /**
  * User(reporter) activity
- * @author Nanxuan Xie
+ * @author Nanxuan Xie u8016457
  */
 public class UserActivity extends AppCompatActivity {
 

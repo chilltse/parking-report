@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @author Nanxuan Xie u8016457
  * Utility class for loading files and templates from the assets directory.
  */
 public class FileLoader {
