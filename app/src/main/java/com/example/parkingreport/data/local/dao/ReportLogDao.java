@@ -18,7 +18,20 @@ import java.util.List;
  */
 
 public interface ReportLogDao {
+    /**
+     * Inserts a new ReportLog entry into the list and persists it to file.
+     * @param reportLog the ReportLog object to insert and save
+     */
     void insertLog(ReportLog reportLog);
+
+    /**
+     * Clears all ReportLog entries by saving an empty list and updating LiveData.
+     */
     void clearLog();
+
+    /**
+     * Returns the LiveData object containing the list of all ReportLog entries.
+     * @return LiveData<List<ReportLog>> that observers can subscribe to for data updates
+     */
     LiveData<List<ReportLog>> getAllReportLogsLive();
 }

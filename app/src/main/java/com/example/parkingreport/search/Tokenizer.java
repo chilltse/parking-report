@@ -11,18 +11,24 @@ import java.util.*;
 public class Tokenizer {
     /**
      * @author @u7807744 Larry Wang
-     * A helper class representing two sets of tokens split by an operator (e.g., 'NOT' or 'OR').
-     * Typically used to distinguish left-hand side and right-hand side of a query expression.
+     * A helper class representing one sets of tokens split by an operator ("+").
      */
     public static class Tokens {
         public List<Token> tokens = new ArrayList<>();
     }
 
-
     /**
-     * Tokenizes an input query string into a TokenPair.
-     * The input is split into two parts at the first whitespace (likely representing a binary operation).
-     * Each part is parsed into a list of Token objects.
+     * Splits the input string on "+" and produces a unique list of Tokens for query processing.
+     *
+     * Trims leading and trailing whitespace from the input.
+     * Splits the input by "+" into segments and processes each non-empty segment.
+     * Uses prefixHandle(part, role) to generate a Token; throws IllegalArgumentException for invalid prefixes.
+     * Checks for duplicates before adding, ensuring each Token in the returned list has a unique type and value.
+     *
+     * @param input  the raw input string to tokenize
+     * @param role  the user role used for prefix handling and authorization
+     * @return Tokens  a Tokens object containing all unique Tokens
+     * @throws IllegalArgumentException if any segment has an invalid prefix
      */
     public static Tokens tokenize(String input, String role) {
         Tokens tokens = new Tokens();
@@ -52,9 +58,17 @@ public class Tokenizer {
     }
 
     /**
-     * Parses a single part of a query string into a list of Tokens.
-     * Supports optional negation using a leading 'U:' or 'P:' character.
-     * Throws an exception for invalid token values.
+     * Generates a Token based on the input string prefix and user role.
+     *
+     * Returns null if the input value is empty.
+     * Calls classify(value, role) to determine the token type and logs it for debugging.
+     * Throws IllegalArgumentException if the classification result is "invalid", indicating an illegal prefix.
+     * For Token.USERNAME or Token.CARPLATE types, strips the first two characters (the prefix), trims whitespace, and constructs the Token.
+     *
+     * @param value the raw input string with prefix (e.g., "u:alice" or "p:ABC123")
+     * @param role  the user role used for classification and permission logic
+     * @return Token  the constructed Token, or null if the input is empty
+     * @throws IllegalArgumentException if classification yields "invalid"
      */
     private static Token prefixHandle(String value, String role) {
         Token token = null;
@@ -81,12 +95,17 @@ public class Tokenizer {
         return token;
 
     }
+
     /**
-     * Classifies a string into a token type: "plate", "name", or "invalid".
-     * Rules:
-     * - contains digits → "plate"
-     * - only letters → "name"
-     * - otherwise → "invalid"
+     * Determines and returns the token type based on the input string’s prefix and the user’s role.
+     *
+     * Converts the input to uppercase and checks if it starts with "U:"; only valid for User.ADMIN roles.
+     * If not a valid username prefix, checks for a "P:" prefix to identify car plate tokens.
+     * Returns the corresponding Token type (Token.USERNAME or Token.CARPLATE) when matched, or "invalid" otherwise.
+     *
+     * @param value  the raw input string with prefix (e.g., "u:alice" or "p:ABC123")
+     * @param role  the user’s role for permission validation on username prefix
+     * @return String  Token.USERNAME, Token.CARPLATE, or "invalid" if the prefix is not recognized
      */
     private static String classify(String value, String role) {
         String prefix = null;
@@ -106,12 +125,9 @@ public class Tokenizer {
                 checkFlag = true;
             }
         }
-
-        // debug
         if(prefix != null){
             Log.d("Prefix",prefix);
         }
-
         if (prefix == null || checkFlag == false) return "invalid";
         if (prefix.equals("U")) return Token.USERNAME;
         if (prefix.equals("P")) return Token.CARPLATE;

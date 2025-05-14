@@ -16,7 +16,20 @@ import com.example.parkingreport.data.local.entities.UserLog;
 import java.util.List;
 
 public interface UserLogDao {
+    /**
+     * Inserts a new UserLog entry into the list and persists it to the local file.
+     * @param userLog the UserLog object to insert and save
+     */
     void insertLog(UserLog userLog);
+
+    /**
+     * Clears all UserLog entries and updates the local file and LiveData.
+     */
     void clearLog();
+
+    /**
+     * Returns the LiveData object containing the list of all UserLog entries.
+     * @return LiveData<List<UserLog>> that observers can subscribe to for updates
+     */
     LiveData<List<UserLog>> getAllUserLogsLive();
 }

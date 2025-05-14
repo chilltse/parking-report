@@ -34,6 +34,10 @@ public class ReportLogRepository {
     private ReportLogDao reportLogDao;
     private LiveData<List<ReportLog>> allReportLogLive;
 
+    /**
+     * Constructor
+     * @param context
+     */
     public ReportLogRepository(Context context) {
         File dir = context.getApplicationContext().getFilesDir();
         File jsonFile = new File(dir, "report_logs.json");
@@ -41,6 +45,11 @@ public class ReportLogRepository {
         this.allReportLogLive = reportLogDao.getAllReportLogsLive();
     }
 
+    /**
+     * For Singleton
+     * @param context
+     * @return Instance of Repository
+     */
     public static synchronized ReportLogRepository getInstance(Context context){
         if(Instance == null){
             Instance = new ReportLogRepository(context.getApplicationContext());
@@ -48,16 +57,30 @@ public class ReportLogRepository {
         return Instance;
     }
 
+    /**
+     * Returns the LiveData object containing the list of all ReportLog entries.
+     *
+     * @return LiveData<List<ReportLog>> that observers can subscribe to for report log updates
+     */
     public LiveData<List<ReportLog>> getAllUserLogLive() {
         return allReportLogLive;
     }
+
+    /**
+     * Clears all report logs.
+     */
     public void clearLog(){
         reportLogDao.clearLog();
     }
 
     /**
-     *  generated id | insert log
-     * @param reportLog
+     * Generates a unique logId for the provided ReportLog and inserts it into the data source.
+     *
+     * Retrieves the current list of logs from allReportLogLive; initializes to an empty list if null.
+     * Calls generateNextAvailableID to compute a new ID and assigns it to the reportLog instance.
+     * Invokes reportLogDao.insertLog to persist the reportLog with its new ID.
+     *
+     * @param reportLog the ReportLog object to insert
      */
     public void insertLog(ReportLog reportLog) {
         //generated id
@@ -71,7 +94,7 @@ public class ReportLogRepository {
     }
 
     /**
-     * @param currentReportLog
+     * @param currentReportLog List of current ReportLogs.
      * @return find the smallest id number that has not been used, and return
      */
     private int generateNextAvailableID(List<ReportLog> currentReportLog){

@@ -47,7 +47,13 @@ public class JsonReportLogDao implements ReportLogDao{
     }
 
     /**
-     * load reportLog info from Files
+     * Loads a list of ReportLog entries from a local JSON file and updates LiveData.
+     *
+     * Synchronized to ensure thread safety and prevent concurrent access issues.
+     * If the file exists, creates a Gson instance with ISO 8601 date format
+     * and deserializes the JSON via JsonReader into a List<ReportLog>.
+     * Catches FileNotFoundException; if the file is missing or cannot be read, retains an empty list.
+     * Finally, calls LiveData.setValue to push the loaded data to observers.
      */
     private synchronized void loadFromFile() {
         List<ReportLog> list = new ArrayList<>();
@@ -70,14 +76,19 @@ public class JsonReportLogDao implements ReportLogDao{
 
         }
         final List<ReportLog> initial = list;
-//        mainHandler.post(() -> liveData.setValue(snapshot));
         liveData.setValue(initial); // When starting up, load the file for the first time
-        // and it cannot be executed asynchronously.
     }
 
     /**
-     * Save user info to files
-     * @param list
+     * Serializes the given list of ReportLog entries to a local JSON file,
+     * then updates LiveData on the main thread.
+     *
+     * Synchronized to ensure thread safety.
+     * Uses ISO 8601 date format and pretty printing for JSON output.
+     * Catches and logs any exceptions during file writing.
+     * After saving, posts the updated list to LiveData via the main thread Handler to notify observers.
+     *
+     *  @param list
      */
     private synchronized void saveToFile(List<ReportLog> list) {
         // Gson version
@@ -93,9 +104,17 @@ public class JsonReportLogDao implements ReportLogDao{
 
         final List<ReportLog> insertList = list;
         mainHandler.post(() -> liveData.setValue(insertList));
-//        liveData.setValue(insertList);
     }
 
+    /**
+     * Inserts a new ReportLog entry into the list and persists it to file.
+     *
+     * Executes in a synchronized block to ensure thread safety.
+     * Retrieves the current list from LiveData; initializes to an empty list if null.
+     * Adds the provided ReportLog to the list and calls saveToFile to save changes.
+     *
+     * @param reportLog the ReportLog object to insert and save
+     */
     @Override
     public void insertLog(ReportLog reportLog) {
         synchronized (this) {
@@ -106,14 +125,21 @@ public class JsonReportLogDao implements ReportLogDao{
         }
     }
 
+    /**
+     * Clears all ReportLog entries by saving an empty list and updating LiveData.
+     */
     @Override
     public void clearLog() {
         List<ReportLog> empty = new ArrayList<>();
         saveToFile(empty);
         mainHandler.post(() -> liveData.setValue(empty));
-//        liveData.setValue(empty);
     }
 
+    /**
+     * Returns the LiveData object containing the list of all ReportLog entries.
+     *
+     * @return LiveData<List<ReportLog>> that observers can subscribe to for data updates
+     */
     @Override
     public LiveData<List<ReportLog>> getAllReportLogsLive() {
         return liveData;

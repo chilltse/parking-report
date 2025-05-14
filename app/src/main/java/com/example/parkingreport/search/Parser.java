@@ -12,9 +12,21 @@ public class Parser {
 
     /**
      * @author @u7807744 Larry Wang
-     * Converts a TokenPair into a QueryResult.
-     * This is essentially a wrapper that assigns parsed tokens
-     * into a structured result object.
+     *
+     * Searches for reports based on the provided list of tokens, review status, user role, and user ID.
+     *
+     * Iterates over tokens to collect userNameResult and carPlateResult by matching tokens of type USERNAME and CARPLATE.
+     * If role is User.USER, automatically includes reports belonging to that user; if role is User.ADMIN and tokens are empty, returns all (or all waiting) reports.
+     * If only one search type is used (username or carplate), returns the corresponding result list.
+     * If both types are searched, intersects the two result lists (AND logic); within the same type, uses OR logic.
+     *
+     * @param tokens  the list of tokenized search terms defining types and values
+     * @param isWaitStatus  whether to restrict the search to waiting-for-review reports
+     * @param role  the user role (User.USER or User.ADMIN) determining data scope and permissions
+     * @param userID  the current user’s ID, used for restricting queries in user role
+     * @param reportRepository  the report repository for lookups and list retrieval
+     * @param userRepository   the user repository for resolving user IDs by name
+     * @return List<Report>   a List of Report objects matching the criteria, or null if tokenization failed
      */
     public static List<Report> evaluateTokens(List<Token> tokens, boolean isWaitStatus, String role, int userID, ReportRepository reportRepository, UserRepository userRepository) {
         List<Report> userNameResult = new ArrayList<>();
