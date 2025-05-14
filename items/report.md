@@ -161,7 +161,11 @@ To bridge this enforcement gap, ParkReport empowers everyday citizens to partici
 
 ### Application UML
 
-![UML Diagram](media/uml/ParkingReportUML-1.0.png)
+![UML Diagram 1](media/uml/uml_data.png)
+![UML Diagram 2](media/uml/uml_llm.png)
+![UML Diagram 3](media/uml/uml_search.png)
+![UML Diagram 4](media/uml/uml_service.png)
+![UML Diagram 5](media/uml/uml_utils.png)
 
 <hr>
 
@@ -529,6 +533,9 @@ A key ethical concern is the **risk of misinformation** from LLM-generated answe
     - The current colour scheme (particularly the orange accent colour used for highlights and buttons) does not meet WCAG contrast recommendations for accessibility.
     - There is no high-contrast mode or screen reader optimization. This makes the app difficult or impossible to use for visually impaired users or colour-blind individuals.
 
+4. **Bug 4: Imprecise detection near the border of no-parking zones:**
+    - When the GPS location is near the edge of a red violation zone, the system may inconsistently allow or block reporting.
+    - Consequence: May confuse users who appear to be “inside” the zone visually but are rejected by logic.
 > These known issues do not directly affect core functionality but highlight the need for improved adaptive design, accessibility compliance, and UX scalability across a wider range of devices.
 
 
