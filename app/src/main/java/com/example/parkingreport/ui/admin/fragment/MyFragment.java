@@ -16,8 +16,12 @@ import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 /**
- * The admin profile
- * @author Yudong Qiu
+ * @author Yudong Qiu u7937030
+ * - MyFragment displays the admin user's profile information.
+ * - Shows current user's name and email retrieved from UserViewModel.
+ * - Provides a logout button to close the current activity.
+ * - Uses shared ViewModel to access user data across fragments.
+ * - Designed as a simple profile fragment for admin interface.
  */
 public class MyFragment extends Fragment {
     private User user;

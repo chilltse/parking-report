@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * @author Nanxuan Xie
+ * @author Nanxuan Xie u8016457
  * Activity for user(reporter) sign-up:
  * - Displays form for username, email, password, and verification code
  * - Generates and validates email verification code

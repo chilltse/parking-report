@@ -23,7 +23,7 @@ import com.example.parkingreport.LLM.LLMClientFactory;
 import com.example.parkingreport.R;
 /**
  * The AI bot fragment
- * @author Yudong Qiu
+ * @author Yudong Qiu u7937030
  */
 public class ChatFragment extends Fragment {
 

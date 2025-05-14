@@ -24,8 +24,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 /**
- * The admin all reports page
- * @author Yudong Qiu
+ * @author Yudong Qiu u7937030
+
+ * - AllReportsFragment displays a list of all user reports for admin management.
+ * - Supports searching reports by keywords and refreshing search results.
+ * - Utilizes RecyclerView with ReportAdapter to display report items.
+ * - Interacts with ReportViewModel and UserViewModel for data retrieval.
+ * - Automatically updates search results when the fragment is resumed.
  */
 public class AllReportsFragment extends Fragment {
 

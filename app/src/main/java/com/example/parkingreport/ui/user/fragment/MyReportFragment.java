@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.List;
 /**
  * Personal reports page
- * @author Yudong Qiu
+ * @author Yudong Qiu u7937030
  */
 public class MyReportFragment extends Fragment {
 

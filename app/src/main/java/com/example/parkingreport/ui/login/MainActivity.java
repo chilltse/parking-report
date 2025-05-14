@@ -30,8 +30,10 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 /**
- * @author Nanxuan Xie
- * The login page.
+ * @author Nanxuan Xie u8016457
+ * - MainActivity handles user/admin login and entry point of the app.
+ * - Supports user registration, account validation, and role switching.
+ * - Initializes default data (users, reports, images) on first load.
  */
 public class MainActivity extends AppCompatActivity {
     EditText editTextUsername, editTextPassword;

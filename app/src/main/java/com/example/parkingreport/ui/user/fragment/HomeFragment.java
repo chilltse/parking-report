@@ -23,7 +23,7 @@ import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 /**
  * The user profile
- * @author Yudong Qiu
+ * @author Yudong Qiu u7937030
  */
 public class HomeFragment extends Fragment {
 
@@ -63,14 +63,14 @@ public class HomeFragment extends Fragment {
         Log.d("Fragment","path:"+path);
         Log.d("Fragment","user.getEmail():"+user.getEmail());
         Uri uri = Uri.parse(path);
-        String resourceName = uri.getLastPathSegment();  // 提取 "panda"
+        String resourceName = uri.getLastPathSegment();
 
         int resId = getResources().getIdentifier(resourceName, "drawable", requireContext().getPackageName());
         if (resId != 0) {
             ViewTarget<ImageView, Drawable> into = Glide.with(requireContext())
                     .load(resId)
-                    .override(120, 120)      // 强制加载尺寸
-                    .centerCrop()            // 居中裁剪显示
+                    .override(120, 120)
+                    .centerCrop()
                     //.circleCrop()
                     .into(imageView);
         } else {
@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requireActivity().finish();   // ① 结束当前 Activity
+                requireActivity().finish();
             }
         });
 

@@ -54,7 +54,6 @@ import java.util.Arrays;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap gMap;
     private Marker currentMarker;
-    private Button button;
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
     private User user;
@@ -98,7 +97,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
 
-        button = view.findViewById(R.id.button);
+        Button button = view.findViewById(R.id.button);
         //Added logic to allow taking photos only in illegal parking areas
         button.setOnClickListener(v -> {
 
@@ -266,7 +265,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    /** 在地图上添加或移动 “你在这儿” 这个 marker，并把 camera 移过去 */
     private void placeOrMoveUserMarker(LatLng ll) {
         if (userMarker == null) {
             userMarker = gMap.addMarker(new MarkerOptions()
