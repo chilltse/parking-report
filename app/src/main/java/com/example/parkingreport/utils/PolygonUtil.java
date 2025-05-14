@@ -4,6 +4,12 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.List;
 
 
+/**
+ * Utility class to determine if a geographic point lies within a polygon.
+ * Implements ray-casting algorithm (even-odd rule) for polygon containment.
+ *
+ * Authored by Larry Wang u7807744
+ */
 public class PolygonUtil {
     public static boolean isPointInPolygon(LatLng point, List<LatLng> polygon) {
         int intersectCount = 0;
@@ -15,12 +21,12 @@ public class PolygonUtil {
                 intersectCount++;
             }
         }
-        // 封闭多边形，检查最后一条边
+        // Close the polygon and check the last edge
         if (rayCastIntersect(point, polygon.get(polygon.size() - 1), polygon.get(0))) {
             intersectCount++;
         }
 
-        return (intersectCount % 2) == 1; // 奇数表示在内部
+        return (intersectCount % 2) == 1; // odd = inside, even = outside
     }
 
     private static boolean rayCastIntersect(LatLng point, LatLng a, LatLng b) {

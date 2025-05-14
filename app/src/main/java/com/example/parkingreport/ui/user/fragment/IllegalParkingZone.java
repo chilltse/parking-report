@@ -1,7 +1,13 @@
 package com.example.parkingreport.ui.user.fragment;
 import com.google.android.gms.maps.model.LatLng;
 
-//Enum some illegal parking areas (only show the method, not practical significance)
+/**
+ * Enum representing pre-defined no-parking zones as polygon shapes.
+ * Each enum constant defines a zone by specifying GPS vertex coordinates.
+ * Useful for drawing and validating illegal zones on the map.
+ *
+ * Authored by Larry Wang u7807744
+ */
 public enum IllegalParkingZone {
     MARCUS_CLARK_St(new LatLng[]{
             new LatLng(-35.275707, 149.12666),
