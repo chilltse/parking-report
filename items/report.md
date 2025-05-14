@@ -15,11 +15,10 @@
 
 ## Administrative
 
-- Firebase Repository Link:I do not use Firebase
-   - Confirm: [ ] I have already added comp21006442@gmail.com as a Editor to the Firebase project prior to due date.
+- Firebase Repository Link: I do not use Firebase
 - Two user accounts for markers' access are usable on the app's APK (do not change the username and password unless there are exceptional circumstances. Note that they are not real e-mail addresses in use):
-   - Username: comp2100@anu.edu.au	Password: comp2100 [x] 
-   - Username: comp6442@anu.edu.au	Password: comp6442 [x] 
+  -[x] Username: comp2100@anu.edu.au	Password: comp2100 
+  -[x] Username: comp6442@anu.edu.au	Password: comp6442 
 
 ## Team Members and Roles
 
@@ -37,14 +36,14 @@
 1. **u7807670,EdenTian**  I have 20% contribution, as follows: <br>
 - **Code Contribution in the final App**
     - Basic Feature [UIUX] – [layout.xml](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/res/layout)
-    - Custom Feature [DataStream]- TODO:Link to be added
+    - Custom Feature [DataStream]- [DataStream,Entire File](app/src/main/java/com/example/parkingreport/dataStream)
 
 - **Code and App Design**
     - Designed all UI components with Canva- [Canva Design Link](https://www.canva.com/design/DAGkT1Vehbg/Flnu_jIR4qnpe40JJucXzg/edit?utm_content=DAGkT1Vehbg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
     - Designed App Logo and colour scheme
 
 - **Others**
-    - Execute tests for [Search] feature - [Test/Search.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/androidTest/java/com/example/parkingreport/search)
+    - Implement Android tests for [Search] feature - [Test/Search.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/androidTest/java/com/example/parkingreport/search)
     - Report writing and checkpoint admin files preparation- [Report.md](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/items/report.md)
     - Draft Manual - [Manual.pdf](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/items/Manual.pdf)
     - Slides preparation and MinuteMadness presentation - [MinuteMadness.pptx](https://anu365-my.sharepoint.com/:p:/r/personal/u3223587_anu_edu_au/Documents/Teaching/2025/COMP2100/Semester%201%202025/MM/MinuteMadness.S1.2025.pptx?d=w7bf8296bc94b4da6b311f118b9379b15&csf=1&web=1&e=LLSC2V)
@@ -60,7 +59,7 @@
     - Designed grammer of tokenizer and parser
 
 - **Others**
-    - Execute tests for data and map function - TODO
+    - Implement Android tests for[DataStream] and [Data-GPS] [test/DataStream.java](app/src/androidTest/java/com/example/parkingreport/dataStream),[Data-GPS](app/src/test/java/com/example/parkingreport/MapTest)
 
 
 3. **u7864325,Weimiao Sun**  I have 20% contribution, as follows: <br>
@@ -118,46 +117,33 @@ Illegal parking remains a persistent issue in urban environments, significantly 
 According to official data and media reports, Sydney councils issued 822,310 paperless parking fines in the 2023/24 fiscal year — a 49% increase from the previous year — generating over AUD $226 million in revenue, or approximately $25,798 per hour (9News, 2024; Yahoo News, 2024). Despite these figures, many illegal parking incidents remain unnoticed or unreported, particularly in residential or less-patrolled zones.
 
 To bridge this enforcement gap, ParkReport empowers everyday citizens to participate in urban traffic governance. By allowing users to report illegal parking through location-verified, photo-based submissions in designated no-parking zones, the app enhances enforcement efficiency while promoting civic engagement in maintaining public order.
-
 ### Application Use Cases and/or Examples
 
 **User Role**:
 
 - A citizen notices a car parked illegally in a designated no-parking zone.
-
 - The app checks their location via GPS. If valid, the user is allowed to submit a report.
-
 - The user takes a photo or uploads an image and enters the vehicle’s plate number.
-
 - The user can view past submissions and monitor their review status (approved/denied).
 
 **Admin Role**:
 
 - Admin logs in to review all incoming reports.
-
 - Reports are searchable by username and car plate.
-
 - Admin checks the attached photo and validates the car plate format.
-
 - Admin can approve or deny the report based on evidence.
-
 - Once actioned, the user receives a status update.
 
 **Target Users**:
 
 - Concerned residents and pedestrians who witness parking violations.
-
 - Local government or council administrators responsible for enforcing parking regulations.
 
 **Value Proposition**
 
 - Encourages public participation in maintaining traffic and pedestrian safety.
-
 - Supports councils in extending surveillance and evidence collection.
-
 - Leverages mobile systems and real-time location data for efficient reporting.
-
-
 
 ### Application UML
 
@@ -560,6 +546,7 @@ A key ethical concern is the **risk of misinformation** from LLM-generated answe
 - [Team Meeting 6 – 04 May 2025 (Week 10)](../items/media/2025-05-04-meeting.md)
 
 Each meeting focused on milestone planning, integration tasks, bug triage, and refining UI logic. Minutes include agenda, outcomes, action points, and deadlines for each team member.
+After Checkpoint 2, the whole team spent at least 2 whole day together integrating and debugging. 
 
 <hr>
 
@@ -568,17 +555,6 @@ Each meeting focused on milestone planning, integration tasks, bug triage, and r
 
 Our team recognises that effective collaboration and clear communication are essential for the success of this 6–8 week project. We have established the following protocol to handle potential conflicts and unforeseen events:
 
-### Early Project Phase – Shared Responsibility & Overlap
-
-In the early stages of the project, we encountered some overlapping contributions due to an unclear architectural direction. For example, 2–3 members occasionally worked on similar features (e.g.layout fragments), which led to Git merge conflicts and inconsistent code.
-
-To resolve this, we appointed **one dedicated Technical Lead** (Nanxuan Xie) who took responsibility for:
-
-- Defining and communicating module ownership
-- Approving and managing all GitLab merge requests
-- Coordinating codebase structure and avoiding conflict-prone commits
-
-This helped clarify responsibilities and streamline collaboration in the later weeks of the project.
 
 ---
 
@@ -609,6 +585,14 @@ In addition to major conflict cases, our team proactively addressed several recu
 - Overlapping contributions during early development (e.g., layout or DAO clashes) were resolved by assigning a module owner and enforcing GitLab merge reviews.
 - Unforeseen technical errors (e.g., rebase mistakes, device-specific layout bugs) were mitigated using version control recovery and temporary freezes on non-critical features.
 - Insufficient meeting frequency during frontend-backend integration phase was addressed by scheduling extended weekly co-working sessions (7–8 hours) in library study rooms, allowing real-time debugging, pair testing, and design clarification.
+
+To resolve this, we appointed **one dedicated Technical Lead** (Nanxuan Xie) who took responsibility for:
+
+- Defining and communicating module ownership
+- Approving and managing all GitLab merge requests
+- Coordinating codebase structure and avoiding conflict-prone commits
+
+This helped clarify responsibilities and streamline collaboration in the later weeks of the project.
 
 ---
 
