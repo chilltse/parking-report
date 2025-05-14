@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="User Info"
+                android:text="@string/user_info"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="30sp"
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="User Joe"
+                android:text="@string/user_joe"
                 android:textAlignment="center"
                 android:textColor="#444444"
                 android:textSize="20sp"
@@ -135,3 +135,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>
+

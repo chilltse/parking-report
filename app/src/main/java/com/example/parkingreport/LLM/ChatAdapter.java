@@ -13,10 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * RecyclerView Adapter for displaying chat messages between the user and AI.
+ * @author Yudong Qiu u7937030
+
+ * - RecyclerView Adapter for displaying chat messages between the user and AI.
+ * - Supports differentiating between user messages and AI responses.
+ * - Dynamically updates the chat interface as new messages are added.
+ * - Loads and binds message layouts for user and AI using ViewHolder pattern.
+ * - Designed for modular LLM integration in the ParkingReport application.
  */
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
-
     // A list to hold all chat messages
     private final List<ChatMessage> messages = new ArrayList<>();
 

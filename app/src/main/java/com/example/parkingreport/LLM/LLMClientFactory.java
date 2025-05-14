@@ -2,6 +2,15 @@ package com.example.parkingreport.LLM;
 
 import com.example.parkingreport.BuildConfig;
 
+/**
+ * @author Yudong Qiu u7937030
+
+ * - Provides a factory method to create LLMClient instances dynamically.
+ * - Supports selecting between different LLM types (e.g., Gemini, OpenAI).
+ * - Encapsulates API URL and Token management using BuildConfig.
+ * - Ensures the main application code is decoupled from specific LLM implementations.
+ * - Facilitates easy replacement or extension of LLM services following the Strategy pattern.
+ */
 public class LLMClientFactory {
 
     /**
