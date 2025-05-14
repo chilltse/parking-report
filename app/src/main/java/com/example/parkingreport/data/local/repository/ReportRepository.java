@@ -39,6 +39,10 @@ public class ReportRepository {
 
     private ReportLogRepository reportLogRepository;
 
+    /**
+     * Constructor
+     * @param context
+     */
     public ReportRepository(Context context) {
         File dir = context.getApplicationContext().getFilesDir();
         File jsonFile = new File(dir, "reports.json");
@@ -47,8 +51,12 @@ public class ReportRepository {
         // get the instance of userLog, when creating userRepository
         this.reportLogRepository= ReportLogRepository.getInstance(context);
     }
-    public List<Report> getAllReportsLive() { return reportDao.getAllReportsLive(); }
-    public List<Report> getAllWaitingReportsLive() { return reportDao.getAllWaitingReportsLive(); }
+
+    /**
+     * For Singleton
+     * @param context
+     * @return Instance of Repository
+     */
     public static synchronized  ReportRepository getInstance(Context context) {
         if (Instance == null) {
             Instance = new ReportRepository(context.getApplicationContext());
@@ -56,15 +64,48 @@ public class ReportRepository {
         return Instance;
     }
 
+    /**
+     * Retrieves the list of all Report objects.
+     * @return a List containing all Reports
+     */
+    public List<Report> getAllReportsLive() { return reportDao.getAllReportsLive(); }
 
+    /**
+     * Retrieves a list of Reports that are currently waiting for review.
+     * @return a List of Report objects in waiting-for-review status
+     */
+    public List<Report> getAllWaitingReportsLive() { return reportDao.getAllWaitingReportsLive(); }
+
+    /**
+     * Retrieves a list of report IDs associated with the specified user ID.
+     * @param userId  the unique identifier of the user
+     * @return List<Integer>  a List of report IDs for the user, or an empty list if none are found
+     */
     public List<Integer> getIdsByUser(int userId) {
         return reportDao.getIdsByUser(userId);
     }
 
+    /**
+     * Retrieves a list of report IDs associated with the given car plate.
+     * @param plate  the car plate number to query
+     * @return List<Integer>  a List of report IDs matching the plate, or an empty list if none are found
+     */
     public List<Integer> getIdsByPlate(String plate) {
         return reportDao.getIdsByPlate(plate);
     }
 
+    /**
+     * Inserts a new Report, assigns a unique ID, and logs the submission.
+     *
+     * Retrieves the current list of reports from allReportLive;
+     * initializes to an empty list if null.
+     * Generates a new ID as (list size + 1) and sets it on the report.
+     * Calls reportDao.insertReport to persist the report.
+     * Creates a ReportLog with status SUBMIT and invokes reportLogRepository.
+     * insertLog to record the submission.
+     *
+     * @param report the Report object to insert
+     */
     public void insertReport(Report report){
         // generated id
         List<Report> list = allReportLive;
@@ -81,23 +122,17 @@ public class ReportRepository {
     }
 
     /**
-     * @param currentReports
-     * @return find the smallest id number that has not been used, and return
+     * Reviews a report by updating its status and feedback, and logs the action.
+     *
+     * Finds the Report with the given ID in the waiting-for-review status; returns false if not found or status mismatch.
+     * Creates a copy of the Report, sets the new status (APPROVED or DECLINED) and feedback, and updates it via reportDao.
+     * Inserts a corresponding ReportLog (APPROVE or DECLINE) based on the review outcome.
+     *
+     * @param ID  the unique identifier of the Report to be reviewed
+     * @param isApproved  the review decision; true for approval, false for rejection
+     * @param feedBack  the feedback message for the review
+     * @return Boolean  true if the review and update succeed; false otherwise
      */
-    private int generateNextAvailableID(List<Report> currentReports) {
-        Set<Integer> ids = new HashSet<>();
-        for (Report r : currentReports) {
-            ids.add(r.getID());
-        }
-        int id = 1;
-        while (ids.contains(id)) {
-            id++;
-        }
-        return id;
-    }
-
-
-
     public boolean replyReport(int ID, boolean isApproved, String feedBack){
         Log.d("ReportRepository", "feedBack:"+feedBack);
         Report report = reportDao.findReport(ID, true);
@@ -119,6 +154,13 @@ public class ReportRepository {
         }
     }
 
+    /**
+     * Finds a Report by its ID, optionally limiting the search to waiting-for-review reports.
+     *
+     * @param ID  the unique identifier of the report
+     * @param isWaitStatus  if true, searches only in the waiting-for-review collection; otherwise searches all reports
+     * @return Report  the matching Report, or null if not found
+     */
     public Report findReport(int ID, boolean isWaitStatus) {
         return reportDao.findReport(ID,isWaitStatus);
     }

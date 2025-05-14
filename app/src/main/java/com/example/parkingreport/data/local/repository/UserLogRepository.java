@@ -33,6 +33,10 @@ public class UserLogRepository {
     private UserLogDao userLogDao;
     private LiveData<List<UserLog>> allUserLogLive;
 
+    /**
+     * Constructor
+     * @param context
+     */
     public UserLogRepository(Context context) {
         File dir = context.getApplicationContext().getFilesDir();
         File jsonFile = new File(dir, "user_logs.json");
@@ -40,6 +44,11 @@ public class UserLogRepository {
         this.allUserLogLive = userLogDao.getAllUserLogsLive();
     }
 
+    /**
+     * For Singleton
+     * @param context
+     * @return Instance of Repository
+     */
     public static synchronized UserLogRepository getInstance(Context context) {
         if (Instance == null) {
             Instance = new UserLogRepository(context.getApplicationContext());
@@ -47,16 +56,30 @@ public class UserLogRepository {
         return Instance;
     }
 
+    /**
+     * Returns the LiveData object containing the list of all UserLog entries.
+     *
+     * @return a LiveData<List<UserLog>> instance for observers to subscribe to updates
+     */
     public LiveData<List<UserLog>> getAllUserLogLive() {
         return allUserLogLive;
     }
+
+    /**
+     * Clears all user logs.
+     */
     public void clearLog(){
         userLogDao.clearLog();
     }
 
     /**
-     *  generated id | insert log
-     * @param userLog
+     * Generates a unique logId for the given UserLog and inserts it into the data source.
+     *
+     * Retrieves the current list of logs from allUserLogLive; initializes to an empty list if null.
+     * Calls generateNextAvailableID to compute a new logId and assigns it to the userLog instance.
+     * Invokes userLogDao.insertLog to persist the userLog with its new ID.
+     *
+     * @param userLog the UserLog object to insert, with its generated ID
      */
     public void insertLog(UserLog userLog) {
         //generated id
@@ -64,14 +87,15 @@ public class UserLogRepository {
         if (list == null) list = new ArrayList<>();
         int newId = generateNextAvailableID(list);
         userLog.setLogId(newId);
-
         //insert log
         userLogDao.insertLog(userLog);
     }
 
     /**
-     * @param currentUserlog
-     * @return find the smallest id number that has not been used, and return
+     * Generates the smallest positive integer ID not already used in the provided UserLog list.
+     *
+     * @param currentUserlog the current list of UserLog entries
+     * @return int the first available, unused logId
      */
     private int generateNextAvailableID(List<UserLog> currentUserlog){
         Set<Integer> ids = new HashSet<>();

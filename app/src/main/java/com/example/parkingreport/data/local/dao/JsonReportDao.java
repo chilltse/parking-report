@@ -30,41 +30,31 @@ import java.util.Map;
  * @author u7864325 Weimiao Sun
  *
  * DAO backed by a JSON file and two AVL trees.
- * <ul>
- *     <li>{@code reportTree}        — all reports</li>
- *     <li>{@code waitingReportTree} — reports with status {@link Report#WAIT_FOR_REVIEW}</li>
- * </ul>
- * <p>
- * Two additional maps provide O(1) reverse look‑ups:
- * <ul>
- *     <li>{@code userIdMap} — userId → list of report IDs</li>
- *     <li>{@code plateMap}  — plate  → list of report IDs</li>
- * </ul>
- * <p>
- * All mutating operations are {@code synchronized} to guard internal state.
  */
 public class JsonReportDao implements ReportDao {
 
-    /* ───────────────────────── fields ───────────────────────── */
     private final File file;
 
-    private final AVLTree<Report> reportTree        = new AVLTree<>();
+    private final AVLTree<Report> reportTree = new AVLTree<>();
     private final AVLTree<Report> waitingReportTree = new AVLTree<>();
-
     private final Map<Integer, List<Integer>> userIdMap = new HashMap<>();
     private final Map<String, List<Integer>> plateMap  = new HashMap<>();
-
     private final MutableLiveData<List<Report>> liveData = new MutableLiveData<>();
-    private final Handler                       mainHandler = new Handler(Looper.getMainLooper());
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    /* ───────────────────────── ctor ────────────────────────── */
     public JsonReportDao(File file) {
         this.file = file;
         loadFromFile();
         Log.d("JSON_PATH", "path=" + file.getAbsolutePath() + ", exists=" + file.exists());
     }
 
-    /* ───────────────── persistence helpers ────────────────── */
+    /**
+     * Loads a list of Report objects from a local JSON file and updates the LiveData.
+     *
+     * Synchronized to ensure only one thread can execute at a time.
+     * If the file exists, parses JSON using the specified date format; falls back to an empty list if the result is null.
+     * After parsing, inserts each Report into the index structure, then notifies observers via LiveData.
+     */
     private synchronized void loadFromFile() {
         List<Report> list = new ArrayList<>();
 
@@ -84,6 +74,17 @@ public class JsonReportDao implements ReportDao {
         liveData.setValue(list);
     }
 
+    /**
+     * Serializes the given list of Report objects to a local JSON file,
+     * then updates LiveData on the main thread.
+     *
+     *  Synchronized to ensure only one thread can execute at a time.
+     * Uses the specified date format and pretty printing for JSON output.
+     * Logs any IOException that occurs during file writing.
+     * After saving, creates a snapshot of the list and posts it to LiveData via the main thread Handler to notify observers.
+     *
+     * @param list  the list of all current report that we want to save.
+     */
     private synchronized void saveToFile(List<Report> list) {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
@@ -100,7 +101,15 @@ public class JsonReportDao implements ReportDao {
         mainHandler.post(() -> liveData.setValue(snapshot));
     }
 
-    /* ───────────────── index maintenance ──────────────────── */
+    /**
+     * Inserts the given Report into various index structures for quick lookup.
+     * Inserts into the main reportTree.
+     * If the report status equals WAIT_FOR_REVIEW, also inserts into waitingReportTree.
+     * Updates userIdMap by adding the report ID to the list associated with its userId.
+     * Updates plateMap by adding the report ID to the list associated with its carPlate.
+     *
+     * @author u8016457 Nanxuan Xie
+     */
     private void insertIntoIndexes(Report r) {
         reportTree.insert(r);
         if (r.getStatus().equals(Report.WAIT_FOR_REVIEW) ) {
@@ -111,7 +120,16 @@ public class JsonReportDao implements ReportDao {
         plateMap .computeIfAbsent(r.getCarPlate(), k -> new ArrayList<>()).add(r.getID());
     }
 
-    /* ─────────────────────── CRUD ─────────────────────────── */
+    /**
+     * Inserts a new Report into the list, sets its status, updates indexes, and persists to file.
+     * Synchronized to ensure only one thread can execute at a time.
+     * Initializes the list if LiveData currently holds null.
+     * Sets the report status to WAIT_FOR_REVIEW and appends it to the list.
+     * Calls insertIntoIndexes to update all index structures.
+     * Calls saveToFile to serialize the updated list to local storage and refresh LiveData.
+     *
+     * @param report the new Report to insert.
+     */
     @Override
     public synchronized void insertReport(Report report) {
         List<Report> list = liveData.getValue();
@@ -123,8 +141,17 @@ public class JsonReportDao implements ReportDao {
         saveToFile(list);
     }
 
-
-
+    /**
+     * Updates an existing Report, synchronizes index structures, and persists changes to file.
+     * Synchronized to ensure thread safety.
+     * Retrieves the current list from LiveData; initializes to empty if null.
+     * If the report ID is not found in waitingReportTree, logs a warning and aborts the update.
+     * Finds and replaces the old Report instance in the list.
+     * Deletes the old node from waitingReportTree and reportTree, then inserts the updated Report into reportTree.
+     * Calls saveToFile to write the modified list to the JSON file and refresh LiveData.
+     *
+     * @param report the report we want update.
+     */
     @Override
     public synchronized void updateReport(Report report) {
         List<Report> list = liveData.getValue();
@@ -156,37 +183,49 @@ public class JsonReportDao implements ReportDao {
         saveToFile(list);
     }
 
-    /* ─────────────────── query helpers ───────────────────── */
+    /**
+     * Retrieves the current list of Report objects held in LiveData.
+     *
+     * @return a List of all Reports, or null if LiveData has not been initialized
+     */
     @Override public List<Report> getAllReportsLive() { return liveData.getValue(); }
 
+    /**
+     * Retrieves the list of all Reports currently waiting for review.
+     *
+     * Logs the state of waitingReportTree for debugging purposes.
+     * Returns an in-order traversal of waitingReportTree containing all waiting Reports.
+     *
+     * @return a List of Reports that are waiting for review
+     */
     @Override public List<Report> getAllWaitingReportsLive() {
         Log.d("JsonReportDao", waitingReportTree.toString());
         return waitingReportTree.inorderList();
     }
 
-    @Override
-    public int checkReportExists(int id) {
-        List<Report> l = liveData.getValue();
-        return (l != null && l.stream().anyMatch(r -> r.getID() == id)) ? 1 : 0;
-    }
-
-    @Override
-    public String checkReportStatus(int reportId) {
-        List<Report> list = liveData.getValue();
-        if(list == null) return null;
-        for (Report r : list) {
-            if(reportId == r.getID())
-                return r.getStatus();
-        }
-        return null;
-    }
-
-
+    /**
+     * Finds a Report by its ID, either in the waiting-only index or in the full report index.
+     * Synchronized to ensure thread safety.
+     * If waitingOnly is true, searches and returns from waitingReportTree; otherwise, uses reportTree.
+     *
+     * @param id  the unique identifier of the Report to find
+     * @param waitingOnly  whether to search only in the waitingReportTree
+     * @return Report  the matching Report object, or null if not found
+     */
     @Override
     public synchronized Report findReport(int id, boolean waitingOnly) {
         return waitingOnly ? waitingReportTree.find(id) : reportTree.find(id);
     }
 
+    /**
+     * Creates a copy of the given Report, preserving all its properties.
+     *
+     * Constructs a new Report using src’s userId, userName, carPlate, location, reportPicUrl, and status.
+     * Sets the new Report’s ID to match the source, ensuring the copy shares the same identifier.
+     *
+     * @param src  the source Report to duplicate
+     * @return Report  a new Report instance with identical field values
+     */
     @Override
     public Report copyReport(Report src) {
         Report copy = new Report(src.getUserId(), src.getUserName(), src.getCarPlate(), src.getLocation(), src.getReportPicUrl(), src.getStatus());
@@ -194,11 +233,22 @@ public class JsonReportDao implements ReportDao {
         return copy;
     }
 
-    /* ─────────────────── reverse look‑ups ─────────────────── */
+    /**
+     * Retrieves a list of report IDs associated with the given user ID.
+     *
+     * @param userId the ID of the user to query
+     * @return List<Integer>  a List of report IDs for the user, or an empty list if none exist
+     */
     public List<Integer> getIdsByUser(int userId) {
         return userIdMap.getOrDefault(userId, List.of());
     }
 
+    /**
+     * Retrieves a list of report IDs associated with the given car plate.
+     *
+     * @param plate the car plate number to query
+     * @return List<Integer>  a List of report IDs matching the plate, or an empty list if none found
+     */
     public List<Integer> getIdsByPlate(String plate) {
         return plateMap.getOrDefault(plate, List.of());
     }

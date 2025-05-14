@@ -42,6 +42,7 @@ public class JsonUserLogDao implements UserLogDao{
     private final MutableLiveData<List<UserLog>> liveData = new MutableLiveData<>();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
+
     public JsonUserLogDao(File file) {
         this.file = file;
         loadFromFile();
@@ -52,7 +53,12 @@ public class JsonUserLogDao implements UserLogDao{
     }
 
     /**
-     * load user info from Files
+     * Loads a list of UserLog entries from a local JSON file and updates LiveData.
+     *
+     * Synchronized to ensure thread safety and prevent concurrent access issues.
+     * If the file exists, creates a Gson instance with ISO 8601 date format and deserializes via JsonReader into a List<UserLog>.
+     * Falls back to an empty list if the file does not exist or cannot be read.
+     * Calls LiveData.setValue to deliver the resulting list to observers.
      */
     private synchronized void loadFromFile() {
         List<UserLog> list = new ArrayList<>();
@@ -75,14 +81,19 @@ public class JsonUserLogDao implements UserLogDao{
 
         }
         final List<UserLog> initial = list;
-//        mainHandler.post(() -> liveData.setValue(snapshot));
         liveData.setValue(initial); // When starting up, load the file for the first time
         // and it cannot be executed asynchronously.
     }
 
     /**
-     * Save user info to files
-     * @param list
+     * Serializes the given list of UserLog entries to a local JSON file, then updates LiveData on the main thread.
+     *
+     * Synchronized to ensure thread safety and prevent concurrent write conflicts.
+     * Uses ISO 8601 date format and pretty printing for JSON serialization.
+     * Catches and logs any exceptions that occur during file writing.
+     * After saving, posts the updated list to LiveData via mainHandler on the main thread to notify observers.
+     *
+     * @param list the list of UserLog objects to save
      */
     private synchronized void saveToFile(List<UserLog> list) {
         // Gson version
@@ -98,9 +109,18 @@ public class JsonUserLogDao implements UserLogDao{
 
         final List<UserLog> insertList = list;
         mainHandler.post(() -> liveData.setValue(insertList));
-//        liveData.setValue(insertList);
     }
 
+    /**
+     * Inserts a new UserLog entry into the list and persists it to the local file.
+     *
+     * Synchronized to ensure thread safety and prevent concurrent access issues.
+     * Retrieves the current list from LiveData; initializes to an empty list if null.
+     * Adds the provided UserLog to the end of the list.
+     * Calls saveToFile to serialize the updated list to JSON and refresh LiveData.
+     *
+     * @param userLog the UserLog object to insert and save
+     */
     @Override
     public synchronized void insertLog(UserLog userLog) {
         synchronized (this) {
@@ -111,14 +131,21 @@ public class JsonUserLogDao implements UserLogDao{
         }
     }
 
+    /**
+     * Clears all UserLog entries and updates the local file and LiveData.
+     */
     @Override
     public void clearLog() {
         List<UserLog> empty = new ArrayList<>();
         saveToFile(empty);
         mainHandler.post(() -> liveData.setValue(empty));
-//        liveData.setValue(empty);
     }
 
+    /**
+     * Returns the LiveData object containing the list of all UserLog entries.
+     *
+     * @return LiveData<List<UserLog>> that observers can subscribe to for updates
+     */
     @Override
     public LiveData<List<UserLog>> getAllUserLogsLive() {
         return liveData;

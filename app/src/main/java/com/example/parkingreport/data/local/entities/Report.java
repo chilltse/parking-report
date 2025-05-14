@@ -9,6 +9,10 @@ package com.example.parkingreport.data.local.entities;
  * - Timestamp of submission
  * - Vehicle license plate and location of violation
  * - Optional picture URL, feedback from admin, and status
+ * - Report statuses include:
+ * - APPROVED
+ * - DECLINED
+ * - WAIT_FOR_REVIEW
  *
  * Implements {Comparable} to support sorting by report ID.
  * Also implements {HasID} to provide a consistent ID access pattern.

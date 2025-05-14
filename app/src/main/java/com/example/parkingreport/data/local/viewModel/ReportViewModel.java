@@ -45,31 +45,44 @@ import java.util.concurrent.Executors;
 public class ReportViewModel extends AndroidViewModel {
     private ReportRepository reportRepository;
     private UserRepository userRepository;
-//    List<Report> allReportLive;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
+    /**
+     * Constructor
+     * @param application
+     */
     public ReportViewModel(@NonNull Application application) {
         super(application);
         reportRepository = ReportRepository.getInstance(application.getApplicationContext());
         userRepository = UserRepository.getInstance(application.getApplicationContext());
-//        allReportLive = reportRepository.getAllReportLive();
     }
 
-//    public List<Report> getAllReportLive(){return allReportLive;}
-
+    /**
+     * Inserts a new Report, assigns a unique ID, and logs the submission.
+     * @param report the Report object to insert
+     */
     public void insertReport(Report report){
         executeAsync(() -> {
             reportRepository.insertReport(report);
         });
     }
 
+    /**
+     * Retrieves the list of all Report objects.
+     * @return a List containing all Reports (in reverse order)
+     */
     public List<Report> getAllReportsLive() {
         List<Report> originals =  reportRepository.getAllReportsLive();
         List<Report> sorted = new ArrayList<>(originals);
         Collections.sort(sorted, Collections.reverseOrder());
         return sorted;
     }
+
+    /**
+     * Retrieves a list of Reports that are currently waiting for review.
+     * @return a List of Report objects in waiting-for-review status(in reverse order)
+     */
     public List<Report> getAllWaitingReportsLive() {
         List<Report> originals =  reportRepository.getAllWaitingReportsLive();
         List<Report> sorted = new ArrayList<>(originals);
@@ -77,30 +90,62 @@ public class ReportViewModel extends AndroidViewModel {
         return sorted;
     }
 
-
-
+    /**
+     * Retrieves a list of report IDs associated with the specified user ID.
+     * @param userId  the unique identifier of the user
+     * @return List<Integer>  a List of report IDs for the user, or an empty list if none are found
+     */
     public List<Integer> getIdsByUser(int userId) {
         return reportRepository.getIdsByUser(userId);
     }
 
+    /**
+     * Retrieves a list of report IDs associated with the given car plate.
+     * @param plate  the car plate number to query
+     * @return List<Integer>  a List of report IDs matching the plate, or an empty list if none are found
+     */
     public List<Integer> getIdsByPlate(String plate) {
         return reportRepository.getIdsByPlate(plate);
     }
 
+    /**
+     * Reviews a report by updating its status and feedback, and logs the action.
+     *
+     * @param ID  the unique identifier of the Report to be reviewed
+     * @param isApproved  the review decision; true for approval, false for rejection
+     * @param feedBack  the feedback message for the review
+     * @return Boolean  true if the review and update succeed; false otherwise
+     */
     public boolean replyReport(int ID, boolean isApproved, String feedBack){
         return reportRepository.replyReport(ID, isApproved, feedBack);
     }
 
-//    public void findReport(int ID, boolean isWaitStatus, Callback<Report> callback) {
+    /**
+     * Finds a Report by its ID, optionally limiting the search to waiting-for-review reports.
+     *
+     * @param ID  the unique identifier of the report
+     * @param isWaitStatus  if true, searches only in the waiting-for-review collection; otherwise searches all reports
+     * @return Report  the matching Report, or null if not found
+     */
     public Report findReport(int ID, boolean isWaitStatus) {
-//        executeAsync(() -> {
-            Report report = reportRepository.findReport(ID, isWaitStatus);
-//            callback.onResult(report);
-//        });
+        Report report = reportRepository.findReport(ID, isWaitStatus);
         return report;
     }
 
-    // Add new search function, use token and parser here
+    /**
+     * Searches for reports based on input keywords, review status, user role, and user ID.
+     *
+     * Tokenizes the input string; returns null if tokenization throws IllegalArgumentException to prevent crashes.
+     * Logs all generated tokens for debugging purposes.
+     * Calls Parser.evaluateTokens with the tokens and filter parameters to perform the actual report lookup.
+     *
+     * @author u7807744 LarryWang
+     * @param input  the search input string
+     * @param isWaitStatus  whether to search only waiting-for-review reports
+     * @param role  the user role for tokenization and permission filtering
+     * @param userID  the user ID for filtering report ownership
+     * @return List<Report>  a List of matching Report objects, or null if tokenization fails
+     */
     public List<Report> searchReports(String input, boolean isWaitStatus, String role, int userID){
         List<Report> result = new ArrayList<>();
         Tokenizer.Tokens allToken = null;
@@ -112,7 +157,6 @@ public class ReportViewModel extends AndroidViewModel {
             return null;
         }
 
-        // debug
         if(allToken.tokens == null || allToken.tokens.size() == 0){
             Log.d("Token_Null", "No tokens");
         }
@@ -124,8 +168,12 @@ public class ReportViewModel extends AndroidViewModel {
         return result;
     }
 
-
-    // General asynchronous execution method
+    /**
+     * Executes the given task asynchronously on a background thread,
+     * and posts any exception to the main thread.
+     *
+     * @param task the Runnable task to execute asynchronously
+     */
     private void executeAsync(Runnable task) {
         executor.execute(() -> {
             try {
@@ -136,19 +184,5 @@ public class ReportViewModel extends AndroidViewModel {
             }
         });
     }
-
-    // User
-    private final MutableLiveData<Report> reportLive = new MutableLiveData<>();
-    // Main thread
-    public void setReport(Report report) {
-        reportLive.setValue(report);
-    }
-    // Any thread
-    public void postReport(Report report) {
-        reportLive.postValue(report);
-    }
-    public LiveData<Report> getReportLive() { return reportLive; }
-    public Report getReport() { return reportLive.getValue(); }
-
 }
 

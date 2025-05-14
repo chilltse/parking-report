@@ -21,17 +21,56 @@ import java.util.List;
  */
 
 public interface UserDao {
+    /**
+     * Inserts a new User into the list, updates indexes, mappings, and persists changes.
+     * @param user the User object to insert
+     */
     void insertUser(User user);
+
+    /**
+     * Updates an existing User, synchronizes index structures, and persists changes.
+     * @param user the User object to update; must have a valid ID
+     */
     void updateUser(User user);
+
+    /**
+     * Tree find
+     * @param ID the id of User
+     * @return The user object corresponding to the id
+     */
     User findUser(int ID);
+
+    /**
+     * Creates a copy of the given User, preserving all its properties.
+     * @param user  the source User to duplicate
+     * @return User  a new User instance with identical field values
+     */
     User copyUser(User user);
+
+    /**
+     * Clears all user data by saving an empty list to the local file.
+     */
     void clearUser();
-    void deleteUser(User user);
+
+    /**
+     * Finds the user ID associated with the given username.
+     * @param name  the username to look up
+     * @return int  the corresponding user ID, or -1 if no such user exists
+     */
     int findIdByName(String name);
-    void modifyUserName(int userId, String name);
-    void modifyUserPassword(int userId, String password);
+
+    /**
+     * Returns the LiveData object containing the list of all Users.
+     * @return LiveData<List<User>> that observers can subscribe to for updates
+     */
     LiveData<List<User>> getAllUsersLive();
-    int checkIdExists(int userId);
+
+    /**
+     * Checks for users matching the specified name or email and returns the count.
+     * @param username  the username to check
+     * @param email  the email address to check
+     * @return int  the number of matching users, or 0 if none found or list is null
+     */
     int checkUserExists(String username, String email);
 
 }
