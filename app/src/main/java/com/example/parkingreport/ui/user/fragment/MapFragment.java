@@ -66,7 +66,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         attemptLocate(); // check GPS permission and attempt to locate user's location
         setUpIllegalZone();// Draw all illegal parking areas and instantiate them.
         setUpZoneClickable();//make illegal parking areas clickable.
-        setupMapListeners();//Wherever you click, the marker will follow and display the coordinate information
+        //setupMapListeners();//Wherever you click, the marker will follow and display the coordinate information
 
     }
 
@@ -112,6 +112,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                     boolean isInIllegalZone = false;
                     for (IllegalParkingZone zone : IllegalParkingZone.values()) {
+                       //check if location is in illegal polygon
                         if (isPointInPolygon(userLocation, Arrays.asList(zone.getVertices()))) {
                             isInIllegalZone = true;
                             break;
@@ -157,25 +158,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    private void setupMapListeners() {
-        // Allows user to tap on the map and see a marker with lat/lng info
-        gMap.setOnMapClickListener(latLng -> {
-            if (currentMarker != null) {
-                currentMarker.remove();
-            }
 
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(latLng)
-                    .title("Location: " + latLng.latitude + ", " + latLng.longitude);
-
-            currentMarker = gMap.addMarker(markerOptions);
-
-            if (currentMarker != null) {
-                currentMarker.showInfoWindow();
-            }
-        });
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
