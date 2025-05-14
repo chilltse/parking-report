@@ -1,11 +1,13 @@
 package com.example.parkingreport.ui.user.fragment;
 
+import static com.example.parkingreport.utils.GPS.requestFreshLocation;
 import static com.example.parkingreport.utils.PolygonUtil.isPointInPolygon;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import android.os.Looper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +27,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.User;
+import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.reportManager.ReportPageActivity;
 import com.example.parkingreport.utils.GPS;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,14 +50,14 @@ import android.Manifest;
 
 import java.util.Arrays;
 
-/**
- * Map fragment
- * @author Larry Wang
- */
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap gMap;
     private Marker currentMarker;
+    private Button button;
     private UserViewModel viewModel;
+    private ReportViewModel reportViewModel;
+    private User user;
     private static final int REQUEST_LOCATION = 1;
     private Marker userMarker;  // GPS marker
 
@@ -88,7 +98,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
 
-        Button button = view.findViewById(R.id.button);
+        button = view.findViewById(R.id.button);
         //Added logic to allow taking photos only in illegal parking areas
         button.setOnClickListener(v -> {
 
