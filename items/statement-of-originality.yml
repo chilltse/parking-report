@@ -21,21 +21,19 @@ and I am aware of the relevant
 declaration: >-
   I declare that everything I have submitted in this assignment is entirely our
   own work, with the following exceptions:
-  
 
-# add as many "url+licence+comment" entries as necessary
-# (or remove it altogether if you haven't used any external assets)
 assets:
-  # NOTE: "Bliss" is just here as an example, you SHOULD REMOVE IT
-  - comment: "_Bliss_ by Charles O'Rear"
-    url: https://en.wikipedia.org/wiki/Bliss_(image)
-    licence: fair use
+  # Material Symbols Outlined “files” icon from Google Fonts
+  - comment: "Material Symbols Outlined “files” icon"
+    url: https://fonts.google.com/icons?selected=Material+Symbols+Outlined:files:FILL@0;wght@400;GRAD@0;opsz@48
+    licence: "Apache License 2.0"
+
 
 
 ### Questions (answer before final submission):
 1. You (as a group) completed this work (tick the most appropriate option):
-  - [x] by yourself (as a group) without the help of others;
-      [ ] with Gen AI tools (e.g., ChatGPT, Co-Pilot).
+  - [ ] by yourself (as a group) without the help of others;
+      [x] with Gen AI tools (e.g., ChatGPT, Co-Pilot).
       [ ] using online resources (e.g., Stackoverflow, blogs)
 
 2. If not completed by yourself only, how did the use of Gen AI tools (and which ones), contribute to completing this assignment?
@@ -43,7 +41,9 @@ assets:
   <ChatGPT>
   
 3. How did they contribute to the completion of this assignment?
-  - <ChatGPT used for class comments wording.>
+  - <ChatGPT is used for class comments wording.>
+  - <ChatGPT is used for photo generation (for parking report detail).>
+
 
 4. How long did it take to complete this assignment (approximately, in hours)?
   - <280> hours
