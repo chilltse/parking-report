@@ -23,89 +23,88 @@ import com.example.parkingreport.ui.reportManager.ReportAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+/**
+ * The admin unreviewed reports page
+ * @author Yudong Qiu
+ */
+public class UnreReportsFragment extends Fragment {
 
-public class ReviewListFragment extends Fragment {
-
-    private ReportViewModel reportViewModel;
     private UserViewModel viewModel;
+    private ReportViewModel reportViewModel;
 
     private RecyclerView recyclerView;
     private EditText searchInput;
-    private Button searchBtn;
 
-    public ReviewListFragment() {
+    public UnreReportsFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Initialize ViewModels (shared with Activity)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Initialize ViewModels shared with the hosting Activity
         reportViewModel = new ViewModelProvider(requireActivity()).get(ReportViewModel.class);
         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-        // Inflate fragment layout
-        return inflater.inflate(R.layout.fragment_review_list, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_unreview_list, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize UI components
-        recyclerView = view.findViewById(R.id.recycle);
+        // Bind UI components
+        recyclerView = view.findViewById(R.id.recycle2);
         searchInput = view.findViewById(R.id.searchEditText);
-        searchBtn = view.findViewById(R.id.searchButton);
+        Button searchBtn = view.findViewById(R.id.searchButton);
 
-        // Display all reports initially
+        // Load all unreviewed reports initially
         updateReports();
 
-        // Set up search button click listener
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateSearchResult();
-            }
-        });
+        // Set search button click listener to update search results
+        searchBtn.setOnClickListener(view1 -> updateSearchResult());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // Refresh search results when fragment is resumed
+        // Refresh search results when fragment becomes active again
         updateSearchResult();
     }
 
     /**
-     * Load and display all reports in the RecyclerView.
+     * Load and display all unreviewed reports.
      */
     private void updateReports() {
-        List<Report> allReports = reportViewModel.getAllReportsLive();
+        List<Report> allReports = reportViewModel.getAllWaitingReportsLive();
         ReportAdapter adapter = new ReportAdapter(allReports, getContext(), viewModel.getUser().getRole());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
 
     /**
-     * Search reports based on user input and update RecyclerView.
-     * If input is invalid, display an error.
-     * Sort results in reverse order before displaying.
+     * Search unreviewed reports based on user input and update RecyclerView.
+     * If no valid result is found, display an input error.
+     * Sort results in descending order before displaying.
      */
     private void updateSearchResult() {
         String searchContent = searchInput.getText().toString();
 
+        // Search for reports matching input, filter: waiting review (true)
         List<Report> searchResult = reportViewModel.searchReports(
-                searchContent, false,
+                searchContent,
+                true,  // true indicates searching for unreviewed reports
                 viewModel.getUser().getRole(),
                 viewModel.getUser().getID()
         );
 
+        // Handle invalid search result
         if (searchResult == null) {
-            searchInput.setError("Invalid Input!!!");
+            searchInput.setError("Invalid Input!");
             searchResult = new ArrayList<>();
         } else {
-            // Sort search results in descending order
-            Collections.sort(searchResult, Collections.reverseOrder());
+            // Sort search results in reverse chronological order
+            searchResult.sort(Collections.reverseOrder());
         }
 
         // Display search results

@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkingreport.R;
 import com.example.parkingreport.data.local.entities.Report;
-import com.example.parkingreport.data.local.entities.User;
 import com.example.parkingreport.data.local.viewModel.ReportViewModel;
 import com.example.parkingreport.data.local.viewModel.UserViewModel;
 import com.example.parkingreport.ui.reportManager.ReportAdapter;
@@ -25,18 +24,16 @@ import com.example.parkingreport.ui.reportManager.ReportAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+/**
+ * Personal reports page
+ * @author Yudong Qiu
+ */
 public class MyReportFragment extends Fragment {
 
     private UserViewModel viewModel;
     private ReportViewModel reportViewModel;
-    private User user;
-
     private RecyclerView recyclerView;
-    private ReportAdapter adapter;
-
     private EditText searchInput;
-    private Button searchBtn;
 
     public MyReportFragment() {
         // Required empty public constructor
@@ -58,7 +55,7 @@ public class MyReportFragment extends Fragment {
 
         // Bind UI components
         searchInput = view.findViewById(R.id.searchEditText);
-        searchBtn = view.findViewById(R.id.searchButton);
+        Button searchBtn = view.findViewById(R.id.searchButton);
         recyclerView = view.findViewById(R.id.recycle);
 
         // Setup RecyclerView with linear layout
@@ -95,10 +92,10 @@ public class MyReportFragment extends Fragment {
         }
 
         // Sort reports in reverse chronological order
-        Collections.sort(reportList, Collections.reverseOrder());
+        reportList.sort(Collections.reverseOrder());
 
         // Bind data to adapter and set to RecyclerView
-        adapter = new ReportAdapter(reportList, getContext(), viewModel.getUser().getRole());
+        ReportAdapter adapter = new ReportAdapter(reportList, getContext(), viewModel.getUser().getRole());
         recyclerView.setAdapter(adapter);
     }
 
@@ -122,7 +119,7 @@ public class MyReportFragment extends Fragment {
             searchResult = new ArrayList<>();
         } else {
             // Sort search results in reverse chronological order
-            Collections.sort(searchResult, Collections.reverseOrder());
+            searchResult.sort(Collections.reverseOrder());
         }
 
         // Update adapter with search results

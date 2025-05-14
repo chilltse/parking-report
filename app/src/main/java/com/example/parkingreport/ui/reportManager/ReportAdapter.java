@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ * @author Yudong Qiu
  * Adapter class for displaying a list of Reports in a RecyclerView.
  */
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder> {
