@@ -24,10 +24,20 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Instrumented tests for the Parser component in the admin search feature.
+ * <p>This test class verifies that tokenized admin search queries
+ * return correct results based on username, car plate, or their combination.
+ * It runs on an Android device/emulator using Instrumentation and accesses
+ * the real database via ReportRepository and UserRepository.
+ * <p>Test cases include:
+ * - Search by username only
+ * - Search by car plate only
+ * - Search by username and non-existent plate
+ * - Search by both username and plate with strict match
+ * Authored by Eden Tian u7807670
  */
+
+
 
 @RunWith(AndroidJUnit4.class)
 public class ParserTest {
@@ -36,6 +46,11 @@ public class ParserTest {
     private ReportRepository reportRepository;
     private UserRepository userRepository;
 
+    /**
+     * Test T1: Admin search by username only.
+     * <p>Sets up one admin user "Alice" and inserts two reports under her name.
+     * Tokenizes the input "U:Alice" and asserts that both reports are returned.
+     */
     @Test
     public void testT1_AdminSearchOnlyUsername() {
         context = ApplicationProvider.getApplicationContext();
@@ -59,6 +74,12 @@ public class ParserTest {
         assertEquals(2, results.size());
     }
 
+
+    /**
+     * Test T2: Admin search by car plate only.
+     * <p>Sets up one admin user "Alice" and inserts a report with car plate "ZZZ999".
+     * Tokenizes the input "P:ZZZ999" and asserts that one matching report is returned.
+     */
     @Test
     public void testT2_AdminSearchOnlyPlate() {
         context = ApplicationProvider.getApplicationContext();
@@ -81,6 +102,11 @@ public class ParserTest {
         assertEquals(1, results.size());
     }
 
+    /**
+     * Test T3: Admin search using a username that exists and a plate that doesn't.
+     * <p>Sets up one admin user "Bob", then attempts a search with "U:CAT" which
+     * does not match any user or report. Asserts that zero results are returned.
+     */
     @Test
     public void testT3_AdminSearchUsernameAndNonexistentPlate() {
         context = ApplicationProvider.getApplicationContext();
@@ -101,6 +127,12 @@ public class ParserTest {
         assertEquals(0, results.size());
     }
 
+    /**
+     * Test T4: Admin search with both username and plate, where only one report matches both.
+     * <p>Sets up two users, "Alice" and "Bob", and adds multiple reports.
+     * Only one report matches both "U:Alice" and "P:ABC123".
+     * Asserts that exactly one result is returned with correct car plate.
+     */
     @Test
     public void testT4_EvaluateTokens_AdminSearchUAndP_MatchOnlyCorrect() {
         context = ApplicationProvider.getApplicationContext();
