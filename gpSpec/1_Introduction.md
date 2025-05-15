@@ -5,7 +5,7 @@ v.01 - Project Description released (2024-08-29)
 > Assessment weight: This project is worth 30% of your overall mark.
 >
 > Due dates:
-> - `Code`: <span style="color:#4a86e8">Thursday, Week 11</span> at 11h59 pm (last commit for the code)
+> - `Code`: <span style="color:#4a86e8">~~Thursday~~Friday, Week 11</span> at 11h59 pm (last commit for the code)
 > - `Report` and `individual reflection`: <span style="color:#4a86e8">Friday, Week 11</span> at 11h59 pm (last commit for report.md, Wattle for individual reflection)
 > - `Presentation slides`: <span style="color:#4a86e8">Friday, Week 11 at 11h59 pm</span> (slides must be uploaded to Office365)
 > - Group Presentation (Minute Madness): <span style="color:#4a86e8">Monday, Week 12</span> (during lecture time)
