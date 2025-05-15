@@ -35,7 +35,7 @@ in the templates for both report and meeting minutes before submitting.
 
 ## Individual Reflections
 Please note that each member must complete their individual submissions for the following items on Wattle (same due date as the project submission).
-- [ ] All members have submitted their peer- and self-evaluation and individual reflection as instructed on Wattle.
+- [x] All members have submitted their peer- and self-evaluation and individual reflection as instructed on Wattle.
 
 ## Helpful (Optional)
 The following are some optional items that are conducive to your final marks. These are not necessary for your final submission but will assist in achieving a higher overall mark. Feel free to add additional items here for your own team to keep track of!
