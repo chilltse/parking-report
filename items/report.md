@@ -133,6 +133,13 @@ To bridge this enforcement gap, ParkReport empowers everyday citizens to partici
 - Admin checks the attached photo and validates the car plate format.
 - Admin can approve or deny the report based on evidence.
 - Once actioned, the user receives a status update.
+- If the report is approved and the reported plate is linked to a phone number in the system, the vehicle owner will receive an SMS notification.
+
+**Full Manual Reference**
+
+For detailed setup instructions, testing guides, and feature descriptions, please refer to the complete user and admin manual:
+
+[View Full Manual](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/items/Manual.md?ref_type=heads)
 
 **Target Users**:
 
