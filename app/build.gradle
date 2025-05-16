@@ -96,7 +96,7 @@ dependencies {
     implementation 'com.sun.mail:jakarta.mail:2.0.1'
 
     // For sms notification
-    implementation 'com.twilio.sdk:twilio:10.6.0'  // 可检查是否有更新版本
+    implementation 'com.twilio.sdk:twilio:10.6.0'
 
     // Others
     implementation 'com.sun.activation:jakarta.activation:1.2.2'

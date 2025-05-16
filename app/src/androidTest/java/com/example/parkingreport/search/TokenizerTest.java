@@ -17,12 +17,24 @@ import com.example.parkingreport.search.Tokenizer;
 import java.util.List;
 
 /**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Instrumented unit tests for the Tokenizer class.
+ * <p>This test class verifies that the Tokenizer correctly parses search input
+ * strings for admin users into appropriate Token types (e.g., USERNAME, CARPLATE),
+ * and handles edge cases such as duplicates, invalid prefixes, and empty input.
+ * <p>Test coverage includes:
+ * - Tokenizing valid input strings into Token objects
+ * - Preventing duplicate tokens
+ * - Handling invalid prefixes and throwing exceptions
+ * - Returning empty lists for empty inputs
+ * Authored by Eden Tian u7807670
  */
 @RunWith(AndroidJUnit4.class)
 public class TokenizerTest {
+    /**
+     * Test T1: Valid input with both username and car plate should produce two tokens.
+     * <p>Verifies that the tokenizer correctly splits a combined input
+     * into a USERNAME token and a CARPLATE token.
+     */
     @Test
     public void testAdminValidInput_UAndP() {
         String input = "U:comp2100@anu.edu.au + P:T9988Y";
@@ -38,6 +50,10 @@ public class TokenizerTest {
         assertEquals("T9988Y", list.get(1).getValue());
     }
 
+
+    /**
+     * Test T2: Input with only car plate should produce a single CARPLATE token.
+     */
     @Test
     public void testCarPlateTokenShouldBeParsedCorrectly() {
         String input = "P:T9988Y";
@@ -50,6 +66,10 @@ public class TokenizerTest {
         assertEquals(expected, tokens.tokens.get(0));
     }
 
+    /**
+     * Test T3: Duplicate tokens should not be added more than once.
+     * <p>Verifies that repeated tokens in the input result in only one token in the final list.
+     */
     @Test
     public void testDuplicateTokensShouldNotBeAdded() {
         String input = "U:alice + U:alice";
@@ -62,6 +82,10 @@ public class TokenizerTest {
         assertTrue(tokens.tokens.contains(expected));
     }
 
+    /**
+     * Test T4: Invalid token prefix should throw IllegalArgumentException.
+     * <p>Checks the tokenizer’s validation mechanism by passing an unknown prefix (e.g., 'X:').
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidPrefixShouldThrowException() {
         String input = "X:112233";
@@ -70,6 +94,10 @@ public class TokenizerTest {
         Tokenizer.tokenize(input, role);  // Should throw IllegalArgumentException
     }
 
+
+    /**
+     * Test T5: Empty input string should return an empty token list.
+     */
     @Test
     public void testEmptyInputShouldReturnEmptyList() {
         String input = "   ";
