@@ -340,15 +340,15 @@ The grammar allows admin users to search reports based on `username` and `car pl
     * Description of feature: Our app allows admin users to locate specific report records efficiently from thousands of entries using flexible keyword rules.Enables token-based search and multi-field query support as admin role (e.g. "u:john@example.com + p:XYZ789").
     * Description of your implementation:Implemented a custom `Tokenizer` and `Parser` pipeline that processes queries according to a defined grammar. Tokens are classified with prefixes (`U:` for username, `P:` for plate), deduplicated, and evaluated using a two-phase logic:Same-type tokens (e.g. `U:Alice + U:Bob`) → 'OR' logic; different-type tokens** (e.g. `U:Alice + P:ABC123`) → 'AND logic' The `Parser` matches the token sets to stored reports using `UserRepository` and `ReportRepository`. All results are dynamically fetched and displayed within the admin's UI view. The search functionality is fully tested with Android instrumented tests to verify correctness and integration with the local database.
 
-6. [UXUI]. The app must maintain a consistent design language throughout, including colors, fonts, and UI element styles, to provide a cohesive user experience. The app must also handle orientation changes (portrait to landscape and vice versa) gracefully, ensuring that the layout adjusts appropriately. (easy)
-    * Code: [canva file](https://www.canva.com/design/DAGkT1Vehbg/Flnu_jIR4qnpe40JJucXzg/edit?utm_content=DAGkT1Vehbg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton),[res, Entire File](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/res?ref_type=heads)
-    * Description of feature: Our app ensures all fragments and screens align with the same UI style guide, making transitions between user and admin views smooth and visually intuitive.We applied light orange, clean modern style for our app. Res file including file [color],[drawable],[layout] which contains elements fullfilling the initial canva design.Maintains visual consistency across screens, including layout, padding, and color scheme.
-    * Description of your implementation: Designed in Canva with clear wireframe flow; colors, margins, font size and button radius kept consistent; enhanced spacing and hierarchy using CardView and ConstraintLayout.
-
-7. [UIFeedback]. The UI must provide clear and informative feedback for user actions, including error messages to guide users effectively. (easy)
+6. [UIFeedback]. The UI must provide clear and informative feedback for user actions, including error messages to guide users effectively. (easy)
     * Code: [ReportAdapter.java](../app/src/main/java/com/example/parkingreport/ui/adapter/ReportAdapter.java), [fragment,Entire File](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/java/com/example/parkingreport/ui/user/fragment?ref_type=heads)
     * Description of feature: Our app displays appropriate success/failure prompts to guide user decisions across multiple flows. Guides users/admins with toasts or visual cues.
     * Description of your implementation: Toasts are triggered when invalid inputs or illegal actions occur (e.g., report outside no-parking zone). Button colors, toggle states, and submission results provide additional confirmation.
+
+7. [UXUI]. The app must maintain a consistent design language throughout, including colors, fonts, and UI element styles, to provide a cohesive user experience. The app must also handle orientation changes (portrait to landscape and vice versa) gracefully, ensuring that the layout adjusts appropriately. (easy)
+    * Code: [canva file](https://www.canva.com/design/DAGkT1Vehbg/Flnu_jIR4qnpe40JJucXzg/edit?utm_content=DAGkT1Vehbg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton),[res, Entire File](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/tree/main/app/src/main/res?ref_type=heads)
+    * Description of feature: Our app ensures all fragments and screens align with the same UI style guide, making transitions between user and admin views smooth and visually intuitive.We applied light orange, clean modern style for our app. Res file including file [color],[drawable],[layout] which contains elements fullfilling the initial canva design.Maintains visual consistency across screens, including layout, padding, and color scheme.
+    * Description of your implementation: Designed in Canva with clear wireframe flow; colors, margins, font size and button radius kept consistent; enhanced spacing and hierarchy using CardView and ConstraintLayout.
 
 ---
 
@@ -356,15 +356,15 @@ The grammar allows admin users to search reports based on `username` and `car pl
 
 **Feature Category: Location Awareness**
 
-1. [Data-GPS]. The app must utilize GPS information based on location data. (easy)
-    * Code: [MapFragment.java](../app/src/main/java/com/example/parkingreport/ui/map/MapFragment.java),[GPS.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/utils/GPS.java?ref_type=heads)
-    * Description of our feature: Our app disables report submission unless the user is currently standing inside a no-parking zone according to users' real location (real virtual machine location).
-    * Description of your implementation: The `GPS` utility wraps Google’s `FusedLocationProviderClient`. It first calls `getLastLocation()` and validates the result; if it’s missing or stale, it issues a one-time high-accuracy `LocationRequest` (via `requestLocationUpdates`) to fetch a fresh fix. All calls honor runtime permission checks and deliver latitude/longitude through a simple `GpsCallback.onLocationReady(lat, lng)` interface.
-
-2. [Data-Profile]. Allows users to view/update avatar image in their profile. (easy)
+1. [Data-Profile]. Allows users to view/update avatar image in their profile. (easy)
     * Code: [UserProfileFragment.java](../app/src/main/java/com/example/parkingreport/ui/user/UserProfileFragment.java), [JsonUserDao.java](../app/src/main/java/com/example/parkingreport/data/local/dao/JsonUserDao.java)
     * Description of our feature:Our app enhances user personalization by displaying chosen avatars immediately after signup.
     * Description of your implementation: On registration, user can pick an image using built-in ImagePicker; avatar is stored in profile and displayed after login; Glide handles rendering and path caching.
+
+2. [Data-GPS]. The app must utilize GPS information based on location data. (easy)
+    * Code: [MapFragment.java](../app/src/main/java/com/example/parkingreport/ui/map/MapFragment.java),[GPS.java](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/java/com/example/parkingreport/utils/GPS.java?ref_type=heads)
+    * Description of our feature: Our app disables report submission unless the user is currently standing inside a no-parking zone according to users' real location (real virtual machine location).
+    * Description of your implementation: The `GPS` utility wraps Google’s `FusedLocationProviderClient`. It first calls `getLastLocation()` and validates the result; if it’s missing or stale, it issues a one-time high-accuracy `LocationRequest` (via `requestLocationUpdates`) to fetch a fresh fix. All calls honor runtime permission checks and deliver latitude/longitude through a simple `GpsCallback.onLocationReady(lat, lng)` interface.
 
 ---
 
