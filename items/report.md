@@ -363,9 +363,9 @@ The grammar allows admin users to search reports based on `username` and `car pl
 
 **Feature Category: Location Awareness**
 
-1. [Data-Profile]. Allows users to view/update avatar image in their profile. (easy)
+1. [Data-Profile]. Allows users to view/select avatar image in their profile. (easy)
     * Code: [UserProfileFragment.java](../app/src/main/java/com/example/parkingreport/ui/user/UserProfileFragment.java), [JsonUserDao.java](../app/src/main/java/com/example/parkingreport/data/local/dao/JsonUserDao.java)
-    * Description of our feature:Our app enhances user personalization by displaying chosen avatars immediately after signup.
+    * Description of our feature:Our app enhances user personalization by displaying chosen avatars immediately within signup.
     * Description of your implementation: On registration, user can pick an image using built-in ImagePicker; avatar is stored in profile and displayed after login; Glide handles rendering and path caching.
 
 2. [Data-GPS]. The app must utilize GPS information based on location data. (easy)
