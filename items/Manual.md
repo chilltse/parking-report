@@ -192,4 +192,44 @@ Admins can filter through 2,500+ reports using a search bar in the Review Tab.
 | Admin rejects `T9988Y`  | Status becomes `DECLINED`                  |
 | User refreshes app      | Sees final status in their submission card |
 
+# Admin Manual – SMS Notification on Approval
+
+When a report is **approved** by an administrator, the system sends an **SMS notification** to the owner of the reported vehicle.
+
+## SMS Content
+
+```
+Dear owner of ${plate},
+
+Your vehicle has been reported for illegal parking. Please take immediate action to resolve this issue to avoid penalties or towing.
+
+If you did not initiate this request, please disregard this message.
+
+Thank you for your attention.
+
+— Parking Report System
+```
+
+## How to Test This Feature
+
+To test the SMS notification functionality:
+
+1. Open the `plate_phone_2500.csv` file located in:
+
+   ```
+   app/src/main/assets/plate_phone_2500.csv
+   ```
+
+   Or access it via GitLab:  
+   [plate_phone_2500.csv](https://gitlab.cecs.anu.edu.au/u7937030/gp-25s1/-/blob/main/app/src/main/assets/plate_phone_2500.csv?ref_type=heads)
+
+2. Add your **own phone number** to one of the vehicle plate entries.
+
+3. Use the **User account** to report that specific plate number.
+
+4. Log in as **Admin**, review the report, and tap **APPROVE**.
+
+5. Once approved, you should receive the SMS notification on the phone number associated with the plate.
+
+![SMSnotification](media/manual/SMSnotification.jpg)
 
