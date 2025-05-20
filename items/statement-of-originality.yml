@@ -52,13 +52,5 @@ assets:
 
 # for each member, sign by inputting your name and uid here (remove any empty "name+uid" entries)
 members:
-  - name: Larry Wang
-    uid: u7807744
-  - name: Eden Tian
-    uid: u7807670
-  - name: Weimiao Sun
-    uid: u7864325
-  - name: Yudong Qiu
-    uid: u7937030
   - name: Nanxuan Xie
     uid: u8016457
