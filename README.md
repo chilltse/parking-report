@@ -11,7 +11,7 @@ When the app launches for the first time, it will request location permission fr
 
   `Phone Settings → Apps → ParkReport → Permissions → Enable Location manually`
 
-![GPSSetting](media/manual/gpsSetting.jpg)
+![GPSSetting](items/media/manual/gpsSetting.jpg)
 
 ## 2. GPS Setup in Emulator (for Testing)
 
@@ -231,5 +231,5 @@ To test the SMS notification functionality:
 
 5. Once approved, you should receive the SMS notification on the phone number associated with the plate.
 
-![SMSnotification](media/manual/SMSnotification.jpg)
+![SMSnotification](items/media/manual/SMSnotification.jpg)
 
